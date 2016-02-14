@@ -1,0 +1,4 @@
+#!/bin/bash
+cd build
+shopt -s extglob
+rm -rf !(.gitignore)

@@ -1,0 +1,4 @@
+#!/bin/bash
+./clean_cmake
+cd ./bin
+rm -rf *
