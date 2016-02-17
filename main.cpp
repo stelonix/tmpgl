@@ -6,13 +6,121 @@
 #include <X11/Xutil.h>
 #include <GL/gl.h>
 #include <GL/glx.h>
-
+#include <dirent.h>
+#include <string>
+#include <vector>
+#include <iostream>
+//#include <execinfo.h>
+#include <signal.h>
+#define UNW_LOCAL_ONLY
+#include <libunwind.h>
 #define GLX_CONTEXT_MAJOR_VERSION_ARB 0x2091
 #define GLX_CONTEXT_MINOR_VERSION_ARB 0x2092
-typedef GLXContext (*glXCreateContextAttribsARBProc)(Display *, GLXFBConfig,
-																										 GLXContext, Bool,
-																										 const int *);
 
+typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
+int getFileAndLine (unw_word_t addr, char *file, size_t flen, int *line)
+{
+	static char buf[256];
+	char *p;
+
+	// prepare command to be executed
+	// our program need to be passed after the -e parameter
+	sprintf (buf, "/usr/bin/addr2line -C -e ./bin/gl3 -f -i %lx", addr);
+	FILE* f = popen (buf, "r");
+
+	if (f == NULL)
+	{
+		perror (buf);
+		return 0;
+	}
+
+	// get function name
+	fgets (buf, 256, f);
+
+	// get file and line
+	fgets (buf, 256, f);
+
+	if (buf[0] != '?')
+	{
+		int l;
+		char *p = buf;
+
+		// file name is until ':'
+		while (*p != ':')
+		{
+			p++;
+		}
+
+		*p++ = 0;
+		// after file name follows line number
+		strcpy (file , buf);
+		sscanf (p,"%d", line);
+	}
+	else
+	{
+		strcpy (file,"unkown");
+		*line = 0;
+	}
+
+	pclose(f);
+}
+void show_backtrace(void) {
+	char name[256];
+	unw_cursor_t cursor; unw_context_t uc;
+	unw_word_t ip, sp, offp;
+
+	unw_getcontext(&uc);
+	unw_init_local(&cursor, &uc);
+
+	while (unw_step(&cursor) > 0)
+	{
+		char file[256];
+		int line = 0;
+
+		name[0] = '\0';
+		unw_get_proc_name(&cursor, name, 256, &offp);
+		unw_get_reg(&cursor, UNW_REG_IP, &ip);
+		unw_get_reg(&cursor, UNW_REG_SP, &sp);
+
+		//printf ("%s ip = %lx, sp = %lx\n", name, (long) ip, (long) sp);
+		getFileAndLine((long)ip, file, 256, &line);
+		printf("%s in file %s line %d\n", name, file, line);
+	}
+}
+void handler(int sig) {
+	show_backtrace();
+	exit(1);
+}
+
+std::vector<std::string> list_files(std::string dir) {
+	auto dirp = opendir(dir.c_str());
+	auto ret_val = std::vector<std::string>();
+	dirent* dp;
+	while ((dp = readdir(dirp)) != NULL) {
+		auto name = std::string(dp->d_name);
+		if (name != "." && name != "..")
+			ret_val.push_back(dp->d_name);
+	}
+	closedir(dirp);
+	return ret_val;
+}
+
+std::string read_file(std::string filename) {
+	std::cout << filename << std::endl;
+	FILE* f = fopen(filename.c_str(), "r");
+	fseek(f, 0, SEEK_END);
+	size_t size = ftell(f);
+
+	char* contents = new char[size];
+
+	rewind(f);
+	fread(contents, sizeof(char), size, f);
+	auto retval = std::string(contents);
+	delete[] contents;
+	return retval;
+}
+
+extern GLuint png_texture_load(const char* file_name, int* width, int* height);
 // Helper to check for extension string presence.	Adapted from:
 //	 http://www.opengl.org/resources/features/OGLextensions/
 static bool isExtensionSupported(const char *extList, const char *extension) {
@@ -50,8 +158,35 @@ static int ctxErrorHandler(Display *dpy, XErrorEvent *ev) {
 	ctxErrorOccurred = true;
 	return 0;
 }
+void orthogonalStart (int w, int h) {
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glOrtho(0, 800, 600, 0, -1, 1);
+	//glScalef(1, -1, 1);
+	//glTranslatef(0, (GLfloat)-h, 0);
+}
+
+void orthogonalEnd (void) {
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+}
+std::string operator "" s (const char* p, size_t) {
+	return std::string(p);
+}
+#define SHADER_DIR "./shaders"s
 
 int main(int argc, char *argv[]) {
+	signal(SIGSEGV, handler);
+	setvbuf(stdout, NULL, _IONBF, 0);
+	auto shaders = std::vector<std::string>();
+	auto d = list_files(SHADER_DIR);
+	printf("shd: %d\n", d.size());
+	for (std::string s : d) {
+		shaders.push_back(read_file(SHADER_DIR+"/"+s));
+		printf("%s\n---\n%s\n---\n", s.c_str(), shaders.back().c_str());
+	}
 	Display *display = XOpenDisplay(NULL);
 
 	if (!display) {
@@ -132,11 +267,14 @@ int main(int argc, char *argv[]) {
 	swa.background_pixmap = None;
 	swa.border_pixel = 0;
 	swa.event_mask = StructureNotifyMask;
+	Atom WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", False); 
+	
 
 	printf("Creating window\n");
 	Window win = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
-														 100, 100, 0, vi->depth, InputOutput, vi->visual,
+														 800, 600, 0, vi->depth, InputOutput, vi->visual,
 														 CWBorderPixel | CWColormap | CWEventMask, &swa);
+	XSetWMProtocols(display, win, &WM_DELETE_WINDOW, 1);
 	if (!win) {
 		printf("Failed to create window.\n");
 		exit(1);
@@ -149,7 +287,7 @@ int main(int argc, char *argv[]) {
 
 	printf("Mapping window\n");
 	XMapWindow(display, win);
-
+	XSelectInput(display, win, ExposureMask | KeyPressMask);
 	// Get the default screen's GLX extension list
 	const char *glxExts =
 			glXQueryExtensionsString(display, DefaultScreen(display));
@@ -234,21 +372,50 @@ int main(int argc, char *argv[]) {
 	} else {
 		printf("Direct GLX rendering context obtained\n");
 	}
-
 	printf("Making context current\n");
 	glXMakeCurrent(display, win, ctx);
+		int ww,hh;
+	//int texture = png_texture_load("indoor_free_tileset__by_thegreatblaid-d5x95zt.png",&ww,&hh);
+	//printf("Texture 1: %d\n", texture);
+	//int texture2 = png_texture_load("indoor_free_tileset__by_thegreatblaid-d5x95zt.png",&ww,&hh);
+	XEvent xev;
+	while (1) {
+		XNextEvent(display, &xev);
+		if (xev.type == Expose) {
+			//XGetWindowAttributes(dpy, win, &gwa);
+				//glViewport(0, 0, gwa.width, gwa.height);
+			//DrawAQuad(); 
+				//glXSwapBuffers(dpy, win);
+		} else if (xev.type == KeyPress||xev.type == ClientMessage) {
+			glXMakeCurrent(display, None, NULL);
+			glXDestroyContext(display, ctx);
+			XDestroyWindow(display, win);
+			XFreeColormap(display, cmap);
+			XCloseDisplay(display);
+			return 0;
+		}
+		// ** //
+		glViewport(0,0,800,600);
+		orthogonalStart(800,600);
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+			glTranslatef(0, 0, 0);
+			glClearColor(1, 1, 0, 1);
+			glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glColor3f(0, 1, 1);
+			glBegin(GL_LINE_LOOP);
+				glVertex2i(0, 0+1);
+				glVertex2i(0+32, 0+1);
+				glVertex2i(0+31, 0+32);
+				glVertex2i(0, 0+32);
+			glEnd();
+			glFlush();
+		//orthogonalEnd();
+		glXSwapBuffers(display, win);
+	}
+	
 
-	glClearColor(0, 0.5, 1, 1);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glXSwapBuffers(display, win);
-
-	sleep(1);
-
-	glClearColor(1, 0.5, 0, 1);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glXSwapBuffers(display, win);
-
-	sleep(1);
+	
 
 	glXMakeCurrent(display, 0, 0);
 	glXDestroyContext(display, ctx);
