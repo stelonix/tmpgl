@@ -1,9 +1,7 @@
-uniform float scale;
-attribute vec4 color;
-attribute vec2 position;
-varying vec4 v_color;
+#version 300 core                           //lower your version if GLSL 4.5 is not supported by your GPU
+layout(location = 0) in vec3 in_position;  //set the frist input on location (index) 0 ; in_position is our attribute 
+ 
 void main()
 {
-	gl_Position = vec4(scale*position, 0.0, 1.0);
-	v_color = color;
+  gl_Position = vec4(in_position, 1.0);//w is 1.0, also notice cast to a vec4
 }

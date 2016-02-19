@@ -4,91 +4,27 @@
 #include <unistd.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <dirent.h>
 #include <string>
 #include <vector>
+#include <map>
 #include <iostream>
 //#include <execinfo.h>
 #include <signal.h>
-#define UNW_LOCAL_ONLY
-#include <libunwind.h>
+#define BUFFER_OFFSET(i) ((void*)(i))
+
 #define GLX_CONTEXT_MAJOR_VERSION_ARB 0x2091
 #define GLX_CONTEXT_MINOR_VERSION_ARB 0x2092
 
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
-int getFileAndLine (unw_word_t addr, char *file, size_t flen, int *line)
-{
-	static char buf[256];
-	char *p;
+extern void show_backtrace(void);
+extern void backtrace(void);
 
-	// prepare command to be executed
-	// our program need to be passed after the -e parameter
-	sprintf (buf, "/usr/bin/addr2line -C -e ./bin/gl3 -f -i %lx", addr);
-	FILE* f = popen (buf, "r");
-
-	if (f == NULL)
-	{
-		perror (buf);
-		return 0;
-	}
-
-	// get function name
-	fgets (buf, 256, f);
-
-	// get file and line
-	fgets (buf, 256, f);
-
-	if (buf[0] != '?')
-	{
-		int l;
-		char *p = buf;
-
-		// file name is until ':'
-		while (*p != ':')
-		{
-			p++;
-		}
-
-		*p++ = 0;
-		// after file name follows line number
-		strcpy (file , buf);
-		sscanf (p,"%d", line);
-	}
-	else
-	{
-		strcpy (file,"unkown");
-		*line = 0;
-	}
-
-	pclose(f);
-}
-void show_backtrace(void) {
-	char name[256];
-	unw_cursor_t cursor; unw_context_t uc;
-	unw_word_t ip, sp, offp;
-
-	unw_getcontext(&uc);
-	unw_init_local(&cursor, &uc);
-
-	while (unw_step(&cursor) > 0)
-	{
-		char file[256];
-		int line = 0;
-
-		name[0] = '\0';
-		unw_get_proc_name(&cursor, name, 256, &offp);
-		unw_get_reg(&cursor, UNW_REG_IP, &ip);
-		unw_get_reg(&cursor, UNW_REG_SP, &sp);
-
-		//printf ("%s ip = %lx, sp = %lx\n", name, (long) ip, (long) sp);
-		getFileAndLine((long)ip, file, 256, &line);
-		printf("%s in file %s line %d\n", name, file, line);
-	}
-}
 void handler(int sig) {
-	show_backtrace();
+	backtrace();
 	exit(1);
 }
 
@@ -106,7 +42,7 @@ std::vector<std::string> list_files(std::string dir) {
 }
 
 std::string read_file(std::string filename) {
-	std::cout << filename << std::endl;
+	//std::cout << filename << std::endl;
 	FILE* f = fopen(filename.c_str(), "r");
 	fseek(f, 0, SEEK_END);
 	size_t size = ftell(f);
@@ -176,18 +112,58 @@ std::string operator "" s (const char* p, size_t) {
 	return std::string(p);
 }
 #define SHADER_DIR "./shaders"s
+namespace ns {
 
+template <typename T, typename U>
+void foo(T t, U u) {
+  backtrace(); // <-------- backtrace here!
+}
+
+}  // namespace ns
+
+template <typename T>
+struct Klass {
+  T t;
+  void bar() {
+    ns::foo(t, true);
+  }
+};
+Display *display;
+void poll () {
+	XEvent event;
+	while ( XPending(display) > 0 ){
+		XNextEvent(display, &event);
+		switch (event.type){
+		case KeyPress:
+		{
+			char buf[2];
+			int len;
+			KeySym keysym_return;
+			len = XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
+
+			if ( len != 0 ){
+				printf("Char: %c",buf[0]);
+			}
+		}
+		break;
+
+		default:
+			printf("Unhandled event: %d\n",event.type);
+			break;
+		}
+	}
+}
 int main(int argc, char *argv[]) {
 	signal(SIGSEGV, handler);
 	setvbuf(stdout, NULL, _IONBF, 0);
-	auto shaders = std::vector<std::string>();
+	auto shaders = std::map<std::string, std::string>();
 	auto d = list_files(SHADER_DIR);
-	printf("shd: %d\n", d.size());
+	//printf("shd: %d\n", d.size());
 	for (std::string s : d) {
-		shaders.push_back(read_file(SHADER_DIR+"/"+s));
-		printf("%s\n---\n%s\n---\n", s.c_str(), shaders.back().c_str());
+		shaders[s] = (read_file(SHADER_DIR+"/"+s));
+		printf("%s\n---\n%s\n---\n", s.c_str(), shaders[s].c_str());
 	}
-	Display *display = XOpenDisplay(NULL);
+	display = XOpenDisplay(NULL);
 
 	if (!display) {
 		printf("Failed to open X display\n");
@@ -216,7 +192,7 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 
-	printf("Getting matching framebuffer configs\n");
+	//printf("Getting matching framebuffer configs\n");
 	int fbcount;
 	GLXFBConfig *fbc = glXChooseFBConfig(display, DefaultScreen(display),
 																			 visual_attribs, &fbcount);
@@ -227,7 +203,7 @@ int main(int argc, char *argv[]) {
 	printf("Found %d matching FB configs.\n", fbcount);
 
 	// Pick the FB config/visual with the most samples per pixel
-	printf("Getting XVisualInfos\n");
+	//printf("Getting XVisualInfos\n");
 	int best_fbc = -1, worst_fbc = -1, best_num_samp = -1, worst_num_samp = 999;
 
 	int i;
@@ -238,9 +214,9 @@ int main(int argc, char *argv[]) {
 			glXGetFBConfigAttrib(display, fbc[i], GLX_SAMPLE_BUFFERS, &samp_buf);
 			glXGetFBConfigAttrib(display, fbc[i], GLX_SAMPLES, &samples);
 
-			printf("	Matching fbconfig %d, visual ID 0x%2x: SAMPLE_BUFFERS = %d,"
+			/*printf("	Matching fbconfig %d, visual ID 0x%2x: SAMPLE_BUFFERS = %d,"
 						 " SAMPLES = %d\n",
-						 i, vi->visualid, samp_buf, samples);
+						 i, vi->visualid, samp_buf, samples);*/
 
 			if (best_fbc < 0 || samp_buf && samples > best_num_samp)
 				best_fbc = i, best_num_samp = samples;
@@ -257,9 +233,9 @@ int main(int argc, char *argv[]) {
 
 	// Get a visual
 	XVisualInfo *vi = glXGetVisualFromFBConfig(display, bestFbc);
-	printf("Chosen visual ID = 0x%x\n", vi->visualid);
+	//printf("Chosen visual ID = 0x%x\n", vi->visualid);
 
-	printf("Creating colormap\n");
+	//printf("Creating colormap\n");
 	XSetWindowAttributes swa;
 	Colormap cmap;
 	swa.colormap = cmap = XCreateColormap(
@@ -270,7 +246,7 @@ int main(int argc, char *argv[]) {
 	Atom WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", False); 
 	
 
-	printf("Creating window\n");
+	//printf("Creating window\n");
 	Window win = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
 														 800, 600, 0, vi->depth, InputOutput, vi->visual,
 														 CWBorderPixel | CWColormap | CWEventMask, &swa);
@@ -285,7 +261,7 @@ int main(int argc, char *argv[]) {
 
 	XStoreName(display, win, "GL 3.0 Window");
 
-	printf("Mapping window\n");
+	//printf("Mapping window\n");
 	XMapWindow(display, win);
 	XSelectInput(display, win, ExposureMask | KeyPressMask);
 	// Get the default screen's GLX extension list
@@ -328,7 +304,7 @@ int main(int argc, char *argv[]) {
 			None
 		};
 
-		printf("Creating context\n");
+		//printf("Creating context\n");
 		ctx =
 				glXCreateContextAttribsARB(display, bestFbc, 0, True, context_attribs);
 
@@ -372,15 +348,62 @@ int main(int argc, char *argv[]) {
 	} else {
 		printf("Direct GLX rendering context obtained\n");
 	}
-	printf("Making context current\n");
+	//printf("Making context current\n");
 	glXMakeCurrent(display, win, ctx);
 		int ww,hh;
 	//int texture = png_texture_load("indoor_free_tileset__by_thegreatblaid-d5x95zt.png",&ww,&hh);
 	//printf("Texture 1: %d\n", texture);
 	//int texture2 = png_texture_load("indoor_free_tileset__by_thegreatblaid-d5x95zt.png",&ww,&hh);
 	XEvent xev;
+	glewExperimental = GL_TRUE;
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+	{
+	  /* Problem: glewInit failed, something is seriously wrong. */
+	  fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+	  
+	}
+	
+
+	glEnable(GL_DEPTH_TEST);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	
+	auto program = glCreateProgram();
+	auto asdf = shaders["basic.glsl"].c_str();
+	auto fdsa = shaders["fragment.glsl"].c_str();
+	GLuint vs = glCreateShader (GL_VERTEX_SHADER);
+		glShaderSource(vs, 1, &asdf, NULL);
+		glAttachShader(program, vs);
+	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fs, 1, &fdsa, NULL);
+		//glAttachShader(program, fs);
+	
+		//glLinkProgram(program);
+	glDetachShader(program,vs);
+	//glDetachShader(program,fs);
+	glUseProgram(program);
+	
+	unsigned int vao;
+	unsigned int vbo;
+
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	float vertices[][3] ={
+		{0.25f, -0.25f, 0.0f}, {-0.25f, -0.25f, 0.0f}, {0.25f, 0.25f, 0.0f}
+	};
+
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+	
 	while (1) {
-		XNextEvent(display, &xev);
+		poll();
+		
+   		printf("display\n");
+   		//XNextEvent(display, &xev);
 		if (xev.type == Expose) {
 			//XGetWindowAttributes(dpy, win, &gwa);
 				//glViewport(0, 0, gwa.width, gwa.height);
@@ -394,24 +417,13 @@ int main(int argc, char *argv[]) {
 			XCloseDisplay(display);
 			return 0;
 		}
-		// ** //
-		glViewport(0,0,800,600);
-		orthogonalStart(800,600);
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
-			glTranslatef(0, 0, 0);
-			glClearColor(1, 1, 0, 1);
-			glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			glColor3f(0, 1, 1);
-			glBegin(GL_LINE_LOOP);
-				glVertex2i(0, 0+1);
-				glVertex2i(0+32, 0+1);
-				glVertex2i(0+31, 0+32);
-				glVertex2i(0, 0+32);
-			glEnd();
-			glFlush();
-		//orthogonalEnd();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(1.0, 0.3, 0.3, 1.0);
+
+		glBindVertexArray(vao);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glXSwapBuffers(display, win);
+		
 	}
 	
 
