@@ -15,7 +15,9 @@
 //#include <execinfo.h>
 #include <signal.h>
 #define BUFFER_OFFSET(i) ((void*)(i))
-
+//#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #define GLX_CONTEXT_MAJOR_VERSION_ARB 0x2091
 #define GLX_CONTEXT_MINOR_VERSION_ARB 0x2092
 
@@ -129,13 +131,13 @@ struct Klass {
   }
 };
 Display *display;
+bool done = false;
 void poll () {
 	XEvent event;
 	while ( XPending(display) > 0 ){
 		XNextEvent(display, &event);
 		switch (event.type){
-		case KeyPress:
-		{
+		case KeyPress: {
 			char buf[2];
 			int len;
 			KeySym keysym_return;
@@ -144,8 +146,12 @@ void poll () {
 			if ( len != 0 ){
 				printf("Char: %c",buf[0]);
 			}
+			break;
 		}
-		break;
+		case ClientMessage: {
+			done = true;
+			break;
+		}
 
 		default:
 			printf("Unhandled event: %d\n",event.type);
@@ -363,34 +369,45 @@ int main(int argc, char *argv[]) {
 	  fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 	  
 	}
-	
-
+	glViewport(0,0,800,600);
 	glEnable(GL_DEPTH_TEST);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	
+	auto projection = glm::ortho( 0.f, 800.f, 0.f, 600.f, 1.f, -1.f );
+	glm::mat4 view       = glm::lookAt(
+    glm::vec3(0.f,0.f,0.f), // Camera is at (0,0,5), in World Space
+    glm::vec3(0.f,0.f,0.f), // and looks at the origin
+    glm::vec3(0.f,0.f,0.f)  // Head is up (set to 0,-1,0 to look upside-down)
+);  
+	glm::mat4 model      = glm::mat4(1.0f);
+	glm::mat4 MVP        = projection*view * model;
 	auto program = glCreateProgram();
 	auto asdf = shaders["basic.glsl"].c_str();
 	auto fdsa = shaders["fragment.glsl"].c_str();
 	GLuint vs = glCreateShader (GL_VERTEX_SHADER);
 		glShaderSource(vs, 1, &asdf, NULL);
+		glCompileShader(vs);
+		int result;
+		glGetShaderiv(vs, GL_COMPILE_STATUS, &result);
+		if (result != GL_TRUE) {
+			printf("shader fail\n");
+			exit(1);
+		}
+
 		glAttachShader(program, vs);
-	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+	/*GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fs, 1, &fdsa, NULL);
-		//glAttachShader(program, fs);
+		glAttachShader(program, fs);*/
 	
-		//glLinkProgram(program);
-	glDetachShader(program,vs);
-	//glDetachShader(program,fs);
-	glUseProgram(program);
+		glLinkProgram(program);
+	
 	
 	unsigned int vao;
 	unsigned int vbo;
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-
+	
 	float vertices[][3] ={
-		{0.25f, -0.25f, 0.0f}, {-0.25f, -0.25f, 0.0f}, {0.25f, 0.25f, 0.0f}
+		{0.0f, 0.0f, 0.0f}, {100.0f, 0.0f, 0.0f}, {0.0f, 100.0f, 0.0f}
 	};
 
 	glGenBuffers(1, &vbo);
@@ -399,17 +416,19 @@ int main(int argc, char *argv[]) {
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
 	
+	
 	while (1) {
 		poll();
 		
-   		printf("display\n");
+   		//printf("display\n");
    		//XNextEvent(display, &xev);
 		if (xev.type == Expose) {
 			//XGetWindowAttributes(dpy, win, &gwa);
 				//glViewport(0, 0, gwa.width, gwa.height);
 			//DrawAQuad(); 
 				//glXSwapBuffers(dpy, win);
-		} else if (xev.type == KeyPress||xev.type == ClientMessage) {
+		}
+		if (done) {
 			glXMakeCurrent(display, None, NULL);
 			glXDestroyContext(display, ctx);
 			XDestroyWindow(display, win);
@@ -419,7 +438,11 @@ int main(int argc, char *argv[]) {
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(1.0, 0.3, 0.3, 1.0);
-
+		//glUseProgram(program);
+		auto projection_Location =  glGetUniformLocation(program, "a");
+		printf("\nLocation: %d\n", projection_Location);
+		glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(MVP));
+		
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glXSwapBuffers(display, win);
