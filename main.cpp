@@ -20,7 +20,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #define GLX_CONTEXT_MAJOR_VERSION_ARB 0x2091
 #define GLX_CONTEXT_MINOR_VERSION_ARB 0x2092
-
+Window win;
+Display *display;
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 extern void show_backtrace(void);
 extern void backtrace(void);
@@ -130,7 +131,7 @@ struct Klass {
     ns::foo(t, true);
   }
 };
-Display *display;
+
 bool done = false;
 void poll () {
 	XEvent event;
@@ -152,7 +153,12 @@ void poll () {
 			done = true;
 			break;
 		}
-
+		case Expose: {
+			/*XGetWindowAttributes(dpy, win, &gwa);
+			glViewport(0, 0, gwa.width, gwa.height);*/
+			glXSwapBuffers(display, win);
+			break;
+		}
 		default:
 			printf("Unhandled event: %d\n",event.type);
 			break;
@@ -253,7 +259,7 @@ int main(int argc, char *argv[]) {
 	
 
 	//printf("Creating window\n");
-	Window win = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
+	win = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
 														 800, 600, 0, vi->depth, InputOutput, vi->visual,
 														 CWBorderPixel | CWColormap | CWEventMask, &swa);
 	XSetWMProtocols(display, win, &WM_DELETE_WINDOW, 1);
@@ -371,63 +377,63 @@ int main(int argc, char *argv[]) {
 	}
 	glViewport(0,0,800,600);
 	glEnable(GL_DEPTH_TEST);
-	auto projection = glm::ortho( 0.f, 800.f, 0.f, 600.f, 1.f, -1.f );
-	glm::mat4 view       = glm::lookAt(
-    glm::vec3(0.f,0.f,0.f), // Camera is at (0,0,5), in World Space
-    glm::vec3(0.f,0.f,0.f), // and looks at the origin
-    glm::vec3(0.f,0.f,0.f)  // Head is up (set to 0,-1,0 to look upside-down)
-);  
-	glm::mat4 model      = glm::mat4(1.0f);
-	glm::mat4 MVP        = projection*view * model;
+	glDepthFunc(GL_LESS);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	auto projection = glm::ortho( 0.f, 800.f, 600.f, 0.0f, 0.0f, 100.f ); 
+	glm::mat4 VP = glm::mat4();
+	glm::mat4 view = glm::lookAt(
+				glm::vec3(1,1,1), // Camera is at (0,0,5), in World Space
+				glm::vec3(0,0,0), // and looks at the origin
+				glm::vec3(0,0,0)  // Head is up (set to 0,-1,0 to look upside-down)
+		);
+	VP = projection;
 	auto program = glCreateProgram();
 	auto asdf = shaders["basic.glsl"].c_str();
-	auto fdsa = shaders["fragment.glsl"].c_str();
+	auto fdsa = shaders["frag.glsl"].c_str();
 	GLuint vs = glCreateShader (GL_VERTEX_SHADER);
 		glShaderSource(vs, 1, &asdf, NULL);
 		glCompileShader(vs);
 		int result;
 		glGetShaderiv(vs, GL_COMPILE_STATUS, &result);
 		if (result != GL_TRUE) {
-			printf("shader fail\n");
+			printf("vert fail\n");
 			exit(1);
 		}
-
 		glAttachShader(program, vs);
-	/*GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+		//glLinkProgram(program);
+	GLuint fs = glCreateShader (GL_FRAGMENT_SHADER);
 		glShaderSource(fs, 1, &fdsa, NULL);
-		glAttachShader(program, fs);*/
-	
+		glCompileShader(fs);
+		glGetShaderiv(fs, GL_COMPILE_STATUS, &result);
+		if (result != GL_TRUE) {
+			printf("frag fail\n");
+			exit(1);
+		}
+		glAttachShader(program, fs);
 		glLinkProgram(program);
-	
 	
 	unsigned int vao;
 	unsigned int vbo;
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-	
+	int x = 4;
+	int y = 5;
+
 	float vertices[][3] ={
-		{0.0f, 0.0f, 0.0f}, {100.0f, 0.0f, 0.0f}, {0.0f, 100.0f, 0.0f}
+		{x*32.0f,		y*32.0f,		0.0f},
+		{(x+1)*32.0f,	y*32.0f,		0.0f},
+		{(x+1)*32.0f,	(y+1)*32.0f,	0.0f},
+		{x*32.0f,		(y+1)*32.0f,	0.0f}
 	};
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
-	
 	
 	while (1) {
 		poll();
-		
-   		//printf("display\n");
-   		//XNextEvent(display, &xev);
-		if (xev.type == Expose) {
-			//XGetWindowAttributes(dpy, win, &gwa);
-				//glViewport(0, 0, gwa.width, gwa.height);
-			//DrawAQuad(); 
-				//glXSwapBuffers(dpy, win);
-		}
 		if (done) {
 			glXMakeCurrent(display, None, NULL);
 			glXDestroyContext(display, ctx);
@@ -437,11 +443,16 @@ int main(int argc, char *argv[]) {
 			return 0;
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(1.0, 0.3, 0.3, 1.0);
-		//glUseProgram(program);
-		auto projection_Location =  glGetUniformLocation(program, "a");
+		glClearColor(1.0, 0.3, 0.3, 0.0f);
+		
+		glUseProgram(program);
+		auto loc = glGetAttribLocation(program, "position");
+		glEnableVertexAttribArray(loc);
+		glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+		auto projection_Location = glGetUniformLocation(program, "projection");
 		printf("\nLocation: %d\n", projection_Location);
-		glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(MVP));
+		glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
 		
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
