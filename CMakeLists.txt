@@ -5,7 +5,11 @@ SET(PROJECTNAME gl3)
 PROJECT(${PROJECTNAME})
  
 set(main_SRCS
-      main.cpp unwind.cpp
+      helpers.cpp
+      boilerplate.cpp
+      main.cpp
+      unwind.cpp
+      png_texture.cpp
    )
  
 SET(LIBRARIES ${LIBRARIES})
