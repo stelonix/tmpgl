@@ -109,3 +109,20 @@ void backtrace() {
     }
   }
 }
+
+namespace ns {
+
+template <typename T, typename U>
+void foo(T t, U u) {
+  backtrace(); // <-------- backtrace here!
+}
+
+}  // namespace ns
+
+template <typename T>
+struct Klass {
+  T t;
+  void bar() {
+    ns::foo(t, true);
+  }
+};

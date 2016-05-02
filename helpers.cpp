@@ -28,3 +28,7 @@ std::string read_file(std::string filename) {
 	delete[] contents;
 	return retval;
 }
+
+std::string operator "" s (const char* p, size_t) {
+	return std::string(p);
+}

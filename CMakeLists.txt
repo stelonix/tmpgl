@@ -1,15 +1,20 @@
 cmake_minimum_required(VERSION 2.6)
  
 SET(PROJECTNAME gl3)
- 
+SET(CMAKE_C_COMPILER /usr/bin/gcc)
+SET(CMAKE_CXX_COMPILER /usr/bin/g++)
+
 PROJECT(${PROJECTNAME})
  
 set(main_SRCS
-      helpers.cpp
-      boilerplate.cpp
-      main.cpp
-      unwind.cpp
-      png_texture.cpp
+		png_texture.cpp
+		assets.cpp
+		helpers.cpp
+		shader.cpp
+		boilerplate.cpp
+		main.cpp
+		unwind.cpp
+		
    )
  
 SET(LIBRARIES ${LIBRARIES})

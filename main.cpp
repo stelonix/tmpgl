@@ -10,12 +10,15 @@
 #include <iostream>
 #include <signal.h>
 #include "boilerplate.h"
-
+#include "include/json.hpp"
+using json = nlohmann::json;
 #define BUFFER_OFFSET(i) ((void*)(i))
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "assets.h"
 #include "helpers.h"
+#include "shader.h"
 
 extern void show_backtrace(void);
 extern void backtrace(void);
@@ -25,29 +28,9 @@ void handler(int sig) {
 	exit(1);
 }
 
-extern GLuint png_texture_load(const char* file_name, int* width, int* height);
 
-std::string operator "" s (const char* p, size_t) {
-	return std::string(p);
-}
+
 #define SHADER_DIR "./shaders"s
-namespace ns {
-
-template <typename T, typename U>
-void foo(T t, U u) {
-  backtrace(); // <-------- backtrace here!
-}
-
-}  // namespace ns
-
-template <typename T>
-struct Klass {
-  T t;
-  void bar() {
-    ns::foo(t, true);
-  }
-};
-
 
 void outputShaderLog(unsigned int shaderID) {
   std::vector<char> infoLog;
@@ -60,20 +43,24 @@ void outputShaderLog(unsigned int shaderID) {
   std::cout << std::string(infoLog.begin(), infoLog.end()) << std::endl;
 }
 int main(int argc, char *argv[]) {
+	auto mmmmap = read_file("map.json");
+
+	json tmap = json::parse(mmmmap);
+/*	for (int i = 0; i < tmap["tilemap"].size(); i++) {
+		printf("%d,", (int)(tmap["tilemap"][i]));	
+	}*/
 	signal(SIGSEGV, handler);
 	setvbuf(stdout, NULL, _IONBF, 0);
 	auto shaders = std::map<std::string, std::string>();
 	auto d = list_files(SHADER_DIR);
-	//printf("shd: %d\n", d.size());
 	for (std::string s : d) {
-		shaders[s] = (read_file(SHADER_DIR+"/"+s));
+		//printf("%s\n", (SHADER_DIR+"/"s).c_str());
+		shaders[s] = read_file(SHADER_DIR+"/"+s);
 		printf("%s\n---\n%s\n---\n", s.c_str(), shaders[s].c_str());
 	}
 	glx::setup_x();
-	int ww,hh;
-	int texture = png_texture_load("indoor_free_tileset__by_thegreatblaid-d5x95zt.png",&ww,&hh);
-	printf("Texture 1: %d\n", texture);
-	//int texture2 = png_texture_load("indoor_free_tileset__by_thegreatblaid-d5x95zt.png",&ww,&hh);
+	//auto texture = assets::texture("indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
+	//printf("Texture 1: %d\n", texture);
 	XEvent xev;
 	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();
@@ -167,9 +154,9 @@ int main(int argc, char *argv[]) {
 		//printf("\nLocation: %d\n", projection_Location);
 		glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
 			auto texLoc = glGetUniformLocation(program, "tex");
-			glUniform1i(texLoc, texture);
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texture);
+			//glUniform1i(texLoc, texture);
+			//glActiveTexture(GL_TEXTURE0);
+			//glBindTexture(GL_TEXTURE_2D, texture);
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glx::swap();
