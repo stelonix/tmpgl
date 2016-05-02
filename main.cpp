@@ -11,37 +11,21 @@
 #include <signal.h>
 #include "boilerplate.h"
 #include "include/json.hpp"
-using json = nlohmann::json;
-#define BUFFER_OFFSET(i) ((void*)(i))
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#include "unwind.h"
 #include "assets.h"
 #include "helpers.h"
 #include "shader.h"
 
-extern void show_backtrace(void);
-extern void backtrace(void);
-
-void handler(int sig) {
-	backtrace();
-	exit(1);
-}
-
-
-
 #define SHADER_DIR "./shaders"s
+using json = nlohmann::json;
 
-void outputShaderLog(unsigned int shaderID) {
-  std::vector<char> infoLog;
-  GLint infoLen;
-  glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &infoLen);
-  infoLog.resize(infoLen);
-
-  glGetShaderInfoLog(shaderID, infoLen, &infoLen, &infoLog[0]);
-
-  std::cout << std::string(infoLog.begin(), infoLog.end()) << std::endl;
+void init_crt() {
+	signal(SIGSEGV, handler);
+	setvbuf(stdout, NULL, _IONBF, 0);
 }
+
 int main(int argc, char *argv[]) {
 	auto mmmmap = read_file("map.json");
 
@@ -49,8 +33,7 @@ int main(int argc, char *argv[]) {
 /*	for (int i = 0; i < tmap["tilemap"].size(); i++) {
 		printf("%d,", (int)(tmap["tilemap"][i]));	
 	}*/
-	signal(SIGSEGV, handler);
-	setvbuf(stdout, NULL, _IONBF, 0);
+	init_crt();
 	auto shaders = std::map<std::string, std::string>();
 	auto d = list_files(SHADER_DIR);
 	for (std::string s : d) {
@@ -62,19 +45,8 @@ int main(int argc, char *argv[]) {
 	//auto texture = assets::texture("indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
 	//printf("Texture 1: %d\n", texture);
 	XEvent xev;
-	glewExperimental = GL_TRUE;
-	GLenum err = glewInit();
-	if (GLEW_OK != err)
-	{
-	  /* Problem: glewInit failed, something is seriously wrong. */
-	  fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
-	  
-	}
-	glViewport(0,0,800,600);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glx::init_glew();
+	glx::init_gl(800, 600);
 	auto projection = glm::ortho( 0.f, 800.f, 600.f, 0.0f, 0.0f, 100.f ); 
 	glm::mat4 VP = glm::mat4();
 	glm::mat4 view = glm::lookAt(
@@ -83,31 +55,10 @@ int main(int argc, char *argv[]) {
 				glm::vec3(0,0,0)  // Head is up (set to 0,-1,0 to look upside-down)
 		);
 	VP = projection;
-	auto program = glCreateProgram();
-	auto asdf = shaders["basic.glsl"].c_str();
-	auto fdsa = shaders["frag.glsl"].c_str();
-	GLuint vs = glCreateShader (GL_VERTEX_SHADER);
-		glShaderSource(vs, 1, &asdf, NULL);
-		glCompileShader(vs);
-		int result;
-		glGetShaderiv(vs, GL_COMPILE_STATUS, &result);
-		if (result != GL_TRUE) {
-			printf("vert fail\n");
-			exit(1);
-		}
-		glAttachShader(program, vs);
-		//glLinkProgram(program);
-	GLuint fs = glCreateShader (GL_FRAGMENT_SHADER);
-		glShaderSource(fs, 1, &fdsa, NULL);
-		glCompileShader(fs);
-		glGetShaderiv(fs, GL_COMPILE_STATUS, &result);
-		if (result != GL_TRUE) {
-			printf("frag fail\n");
-			outputShaderLog(fs);
-			exit(1);
-		}
-		glAttachShader(program, fs);
-		glLinkProgram(program);
+	scene::new_scene();
+	scene::add_shader(shaders["basic.glsl"].c_str(), GL_VERTEX_SHADER);
+	scene::add_shader(shaders["frag.glsl"].c_str(), GL_FRAGMENT_SHADER);
+	scene::link_shaders();
 	
 	unsigned int vao;
 	unsigned int vbo;
@@ -131,7 +82,6 @@ int main(int argc, char *argv[]) {
 		x*TILE_SIZE,		y*TILE_SIZE,		0.0f,
 		//1.0f, 1.0f
 	};
-	//printf("sizeof(vertices): %d\n", sizeof(vertices));
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
@@ -145,15 +95,15 @@ int main(int argc, char *argv[]) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(1.0, 0.3, 0.3, 0.0f);
 		
-		glUseProgram(program);
-		auto loc = glGetAttribLocation(program, "position");
+		scene::use_shaders();
+		auto loc = scene::get_attrib_loc("position");
 		glEnableVertexAttribArray(loc);
 		glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-		auto projection_Location = glGetUniformLocation(program, "projection");
+		auto projection_Location = scene::get_uniform_loc("projection");
 		//printf("\nLocation: %d\n", projection_Location);
 		glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
-			auto texLoc = glGetUniformLocation(program, "tex");
+			//auto texLoc = scene::get_uniform_loc("tex");
 			//glUniform1i(texLoc, texture);
 			//glActiveTexture(GL_TEXTURE0);
 			//glBindTexture(GL_TEXTURE_2D, texture);

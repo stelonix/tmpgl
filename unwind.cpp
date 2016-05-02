@@ -1,3 +1,4 @@
+#include "unwind.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <cxxabi.h>
@@ -5,8 +6,12 @@
 #define UNW_LOCAL_ONLY
 #include <libunwind.h>
 
-int getFileAndLine (unw_word_t addr, char *file, size_t flen, int *line)
-{
+void handler(int sig) {
+	backtrace();
+	exit(1);
+}
+
+int getFileAndLine (unw_word_t addr, char *file, size_t flen, int *line) {
 	static char buf[256];
 	char *p;
 

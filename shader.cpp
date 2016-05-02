@@ -6,7 +6,7 @@
 
 namespace scene {
 	GLuint program;
-	
+
 	void add_shader(const char* shader, GLenum type) {
 		GLuint s = glCreateShader (type);
 		glShaderSource(s, 1, &shader, NULL);
@@ -18,5 +18,25 @@ namespace scene {
 			exit(1);
 		}
 		glAttachShader(program, s);
+	}
+
+	void new_scene() {
+		program = glCreateProgram();
+	}
+
+	void link_shaders() {
+		glLinkProgram(program);
+	}
+
+	void use_shaders() {
+		glUseProgram(program);
+	}
+
+	int get_attrib_loc(const char* attrib) {
+		return glGetAttribLocation(program, attrib);
+	}
+
+	int get_uniform_loc(const char* attrib) {
+		return glGetUniformLocation(program, attrib);
 	}
 }

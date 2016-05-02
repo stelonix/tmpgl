@@ -4,6 +4,8 @@
 namespace glx {
 	void poll ();
 	void setup_x();
+	void init_glew();
+	void init_gl(int w, int h);
 	void clean_x();
 	void swap();
 	extern bool done;
