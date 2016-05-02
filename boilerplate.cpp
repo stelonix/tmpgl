@@ -295,16 +295,7 @@ namespace glx {
 		}
 	}
 
-	std::string get_shader_log(unsigned int shaderID) {
-		std::vector<char> infoLog;
-		GLint infoLen;
-		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &infoLen);
-		infoLog.resize(infoLen);
-
-		glGetShaderInfoLog(shaderID, infoLen, &infoLen, &infoLog[0]);
-
-		return std::string(infoLog.begin(), infoLog.end());
-	}
+	
 
 	void init_gl(int w, int h) {
 		glViewport(0,0,w,h);

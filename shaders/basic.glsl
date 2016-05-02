@@ -1,5 +1,5 @@
 #version 450 core                           //lower your version if GLSL 4.5 is not supported by your GPU
-attribute vec3 position;
+in vec3 position;
 uniform mat4x4 projection;
  
 void main()

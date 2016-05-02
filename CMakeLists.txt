@@ -11,6 +11,7 @@ set(main_SRCS
 		assets.cpp
 		helpers.cpp
 		shader.cpp
+		tileset.cpp
 		boilerplate.cpp
 		main.cpp
 		unwind.cpp
