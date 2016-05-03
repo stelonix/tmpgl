@@ -21,14 +21,15 @@ namespace scene {
 		return std::string(infoLog.begin(), infoLog.end());
 	}
 
-	void add_shader(const char* shader, GLenum type) {
+	void add_shader(const char* shader, const char* fname, GLenum type) {
 		GLuint s = glCreateShader (type);
 		glShaderSource(s, 1, &shader, NULL);
 		glCompileShader(s);
 		int result;
 		glGetShaderiv(s, GL_COMPILE_STATUS, &result);
 		if (result != GL_TRUE) {
-			printf("Shader fail\n%s\n",get_shader_log(s).c_str());
+			printf("Error compiling %s\n%s\n",fname,
+				get_shader_log(s).c_str());
 			
 			backtrace();
 			exit(1);

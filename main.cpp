@@ -56,8 +56,8 @@ int main(int argc, char *argv[]) {
 		);
 	VP = projection;
 	scene::new_scene();
-	scene::add_shader(shaders["basic.glsl"].c_str(), GL_VERTEX_SHADER);
-	scene::add_shader(shaders["frag.glsl"].c_str(), GL_FRAGMENT_SHADER);
+	scene::add_shader(shaders["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
+	scene::add_shader(shaders["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
 	scene::link_shaders();
 	
 	unsigned int vao;

@@ -1,7 +1,7 @@
 #include <GL/gl.h>
 
 namespace scene {
-	void add_shader(const char* shader, GLenum type);
+	void add_shader(const char* shader, const char* fname, GLenum type);
 	void new_scene();
 	void link_shaders();
 	void use_shaders();
