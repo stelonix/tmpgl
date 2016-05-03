@@ -1,4 +1,4 @@
-#version 450 core  
+#version 130  
 //varying vec4 v_color;
 uniform sampler2D tex;
 
