@@ -17,14 +17,16 @@
 #include "assets.h"
 #include "helpers.h"
 #include "shader.h"
+#include "game_map.h"
 
 #define SHADER_DIR "./shaders"s
 using json = nlohmann::json;
-
+using shader_program = scene::shader_program;
 void init_crt() {
 	signal(SIGSEGV, handler);
 	setvbuf(stdout, NULL, _IONBF, 0);
 }
+std::map<std::string, std::string> shaders;
 
 int main(int argc, char *argv[]) {
 	auto mmmmap = read_file("map.json");
@@ -33,8 +35,10 @@ int main(int argc, char *argv[]) {
 /*	for (int i = 0; i < tmap["tilemap"].size(); i++) {
 		printf("%d,", (int)(tmap["tilemap"][i]));	
 	}*/
+	auto valm = game_map::from_json(mmmmap);
+	std::cout << valm.tilesets[0];
 	init_crt();
-	auto shaders = std::map<std::string, std::string>();
+	shaders = std::map<std::string, std::string>();
 	auto d = list_files(SHADER_DIR);
 	for (std::string s : d) {
 		//printf("%s\n", (SHADER_DIR+"/"s).c_str());
@@ -50,23 +54,23 @@ int main(int argc, char *argv[]) {
 	auto projection = glm::ortho( 0.f, 800.f, 600.f, 0.0f, 0.0f, 100.f ); 
 	glm::mat4 VP = glm::mat4();
 	glm::mat4 view = glm::lookAt(
-				glm::vec3(1,1,1), // Camera is at (0,0,5), in World Space
+				glm::vec3(0,0,1), // Camera is at (0,0,5), in World Space
 				glm::vec3(0,0,0), // and looks at the origin
-				glm::vec3(0,0,0)  // Head is up (set to 0,-1,0 to look upside-down)
+				glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
 		);
-	VP = projection;
-	scene::new_scene();
-	scene::add_shader(shaders["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
-	scene::add_shader(shaders["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
-	scene::link_shaders();
+	VP = projection*view;
+	auto sp = shader_program();
+	sp.add_shader(shaders["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
+	sp.add_shader(shaders["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
+	sp.link_shaders();
 	
 	unsigned int vao;
 	unsigned int vbo;
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-	int x = 4;
-	int y = 5;
+	int x = 0;
+	int y = 0;
 	const float TILE_SIZE = 32.0f;
 	float vertices[] ={
 		x*TILE_SIZE,		y*TILE_SIZE,		0.0f,
@@ -95,12 +99,12 @@ int main(int argc, char *argv[]) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(1.0, 0.3, 0.3, 0.0f);
 		
-		scene::use_shaders();
-		auto loc = scene::get_attrib_loc("position");
+		sp.use_shaders();
+		auto loc = sp.attrib("position");
 		glEnableVertexAttribArray(loc);
 		glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-		auto projection_Location = scene::get_uniform_loc("projection");
+		auto projection_Location = sp.uniform("projection");
 		//printf("\nLocation: %d\n", projection_Location);
 		glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
 			//auto texLoc = scene::get_uniform_loc("tex");

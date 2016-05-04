@@ -1,44 +1,66 @@
-typedef std::tuple<int, int> tile_t;
-typedef std::vector<tile_t> tilemap;
+#include "game_map.h"
+#include "include/json.hpp"
+#include <tuple>
 
-struct map_layer {
-//	std::string name
+using json = nlohmann::json;
+
+game_map::game_map(std::string name, int w, int h, int l) {
+	this->name = name;
+	set_layers(l);
+	resize(w, h);
 };
 
-struct map_decal {
-	std::string name;
-	std::string sprite;
-	int x;
-	int y;
-	int z;
-};
+void game_map::set_layers(int l) {
+	layers.resize(l);
+}
 
-struct game_map {
-	std::string name;
-	int w;
-	int h;
-	std::vector<tilemap> layers;
-	std::vector<tileset> tilesets;
-	std::vector<map_decal> objects;
+void game_map::set_tile(int layer, int x, int y, tile_t tile) {
+	layers[layer].tiles[x+y*w] = tile;
+}
 
-	game_map(std::string name, int w, int h) {
-		this->name = name;
-		resize(w, h);
-	};
-
-	void set_tile(int layer, int x, int y, tile_t tile) {
-		layers[layer][x+y*w] = tile;
+void game_map::resize(int w, int h) {
+	this->w = w;
+	this->h = h;
+	for (auto i = 0; i < layers.size(); i++) {
+		layers[i].tiles.resize(w*h);
 	}
+}
 
-	void resize(int w, int h) {
-		this->w = w;
-		this->h = h;
-		for (auto i = 0; i < layers.size(); i++) {
-			layers[i].resize(w*h);
+tile_t game_map::get_tile(int layer, int x, int y) {
+	return layers[layer].tiles[x+y*w];
+}
+
+game_map game_map::from_json(std::string j) {
+	auto json = json::parse(j);
+	auto retval = game_map(	json["name"],
+							json["w"], json["h"],
+							json["layers"].size());
+	auto ts_node = json["tilesets"];
+	for (auto it = ts_node.begin(); it != ts_node.end(); it++) {
+		retval.tilesets.push_back(*it);
+	}
+	auto l_node = json["layers"];
+	for (auto it = l_node.begin(); it != l_node.end(); it++) {
+		auto cln = l_node[it.key().c_str()];
+		auto tmp = map_layer();
+			tmp.name = it.key();
+			tmp.z = cln["z"];
+
+		for (auto i = 0; i < cln["tiles"].size(); i++) {
+			auto ct = cln["tiles"][i];
+			tmp.tiles.push_back(std::make_tuple(ct[0], ct[1]));
 		}
+		for (auto ti = cln["objects"].begin();
+					ti != cln["objects"].end(); ti++) {
+			auto cur_dec = cln["objects"][ti.key()];
+			auto dec = map_decal();
+				dec.name = ti.key();
+				dec.sprite = cur_dec["sprite"];
+				dec.x = cur_dec["x"];
+				dec.y = cur_dec["y"];
+			tmp.objects.push_back(dec);
+		}
+		retval.layers.push_back(tmp);
 	}
-
-	tile_t get_tile(int layer, int x, int y) {
-		return layers[layer][x+y*w];
-	}
-};
+	return retval;
+}

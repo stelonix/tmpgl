@@ -8,20 +8,28 @@
 
 
 namespace scene {
-	GLuint program;
-
-	std::string get_shader_log(unsigned int shaderID) {
-		std::vector<char> infoLog;
-		GLint infoLen;
-		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &infoLen);
-		infoLog.resize(infoLen);
-
-		glGetShaderInfoLog(shaderID, infoLen, &infoLen, &infoLog[0]);
-
-		return std::string(infoLog.begin(), infoLog.end());
+	
+	int get_attrib_loc(const char* attrib, GLuint program) {
+		return glGetAttribLocation(program, attrib);
 	}
 
-	void add_shader(const char* shader, const char* fname, GLenum type) {
+	int get_uniform_loc(const char* attrib, GLuint program) {
+		return glGetUniformLocation(program, attrib);
+	}
+
+	shader_program::shader_program() {
+		new_scene();
+	}
+
+	void shader_program::new_scene() {
+		program_id = glCreateProgram();
+	}
+
+	int shader_program::uniform(std::string identifier) {
+		return get_uniform_loc(identifier.c_str(), program_id);
+	}
+
+	void shader_program::add_shader(const char* shader, const char* fname, GLenum type) {
 		GLuint s = glCreateShader (type);
 		glShaderSource(s, 1, &shader, NULL);
 		glCompileShader(s);
@@ -34,27 +42,31 @@ namespace scene {
 			backtrace();
 			exit(1);
 		}
-		glAttachShader(program, s);
+		glAttachShader(program_id, s);
+	}
+	void shader_program::link_shaders() {
+		glLinkProgram(program_id);
 	}
 
-	void new_scene() {
-		program = glCreateProgram();
+	void shader_program::use_shaders() {
+		glUseProgram(program_id);
 	}
 
-	void link_shaders() {
-		glLinkProgram(program);
+	int shader_program::attrib(std::string attrib) {
+		return get_attrib_loc(attrib.c_str(), program_id);
 	}
 
-	void use_shaders() {
-		glUseProgram(program);
+	std::string get_shader_log(unsigned int shaderID) {
+		std::vector<char> infoLog;
+		GLint infoLen;
+		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &infoLen);
+		infoLog.resize(infoLen);
+
+		glGetShaderInfoLog(shaderID, infoLen, &infoLen, &infoLog[0]);
+
+		return std::string(infoLog.begin(), infoLog.end());
 	}
 
-	int get_attrib_loc(const char* attrib) {
-		return glGetAttribLocation(program, attrib);
-	}
-
-	int get_uniform_loc(const char* attrib) {
-		return glGetUniformLocation(program, attrib);
-	}
+	
 
 }

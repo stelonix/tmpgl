@@ -20,10 +20,11 @@ std::string read_file(std::string filename) {
 	fseek(f, 0, SEEK_END);
 	size_t size = ftell(f);
 
-	char* contents = new char[size];
+	char* contents = new char[size+1];
 
 	rewind(f);
 	fread(contents, sizeof(char), size, f);
+	contents[size] = '\0';
 	auto retval = std::string(contents);
 	delete[] contents;
 	return retval;

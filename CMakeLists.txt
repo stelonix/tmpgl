@@ -9,6 +9,7 @@ PROJECT(${PROJECTNAME})
 set(main_SRCS
 		png_texture.cpp
 		assets.cpp
+		game_map.cpp
 		helpers.cpp
 		shader.cpp
 		tileset.cpp
