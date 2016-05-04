@@ -18,6 +18,7 @@
 #include "helpers.h"
 #include "shader.h"
 #include "game_map.h"
+#include "game_sprite.h"
 
 #define SHADER_DIR "./shaders"s
 using json = nlohmann::json;
@@ -29,14 +30,9 @@ void init_crt() {
 std::map<std::string, std::string> shaders;
 
 int main(int argc, char *argv[]) {
-	auto mmmmap = read_file("map.json");
-
-	json tmap = json::parse(mmmmap);
-/*	for (int i = 0; i < tmap["tilemap"].size(); i++) {
-		printf("%d,", (int)(tmap["tilemap"][i]));	
-	}*/
-	auto valm = game_map::from_json(mmmmap);
-	std::cout << valm.tilesets[0];
+	game_map::from_json(read_file("map.json"));
+	tileset::from_json(read_file("tileset.json"));
+	game_sprite::from_json(read_file("sprite.json"));
 	init_crt();
 	shaders = std::map<std::string, std::string>();
 	auto d = list_files(SHADER_DIR);
@@ -60,9 +56,9 @@ int main(int argc, char *argv[]) {
 		);
 	VP = projection*view;
 	auto sp = shader_program();
-	sp.add_shader(shaders["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
-	sp.add_shader(shaders["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
-	sp.link_shaders();
+		sp.add_shader(shaders["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
+		sp.add_shader(shaders["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
+		sp.link_shaders();
 	
 	unsigned int vao;
 	unsigned int vbo;
