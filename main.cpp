@@ -29,7 +29,10 @@ void init_crt() {
 }
 std::map<std::string, std::string> shaders;
 
+asset_loader* a_loader;
+
 int main(int argc, char *argv[]) {
+	a_loader = new asset_loader();
 	game_map::from_json(read_file("map.json"));
 	tileset::from_json(read_file("tileset.json"));
 	game_sprite::from_json(read_file("sprite.json"));
@@ -42,8 +45,8 @@ int main(int argc, char *argv[]) {
 		printf("%s\n---\n%s\n---\n", s.c_str(), shaders[s].c_str());
 	}
 	glx::setup_x();
-	//auto texture = assets::texture("indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
-	//printf("Texture 1: %d\n", texture);
+	auto t = a_loader->load_texture("indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
+	printf("Texture 1: %d\n", a_loader->loaded_tex[0]);
 	XEvent xev;
 	glx::init_glew();
 	glx::init_gl(800, 600);

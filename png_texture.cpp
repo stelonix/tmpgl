@@ -161,6 +161,7 @@ GLuint png_texture_load(const char *file_name, int *width, int *height) {
 	free(image_data);
 	free(row_pointers);
 	fclose(fp);
-
+	glBindTexture(GL_TEXTURE_2D, 0);
+	
 	return texture;
 }

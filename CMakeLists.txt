@@ -8,6 +8,7 @@ PROJECT(${PROJECTNAME})
  
 set(main_SRCS
 		png_texture.cpp
+		eng_texture.cpp
 		assets.cpp
 		game_map.cpp
 		game_sprite.cpp
