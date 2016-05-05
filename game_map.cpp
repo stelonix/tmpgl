@@ -4,7 +4,7 @@
 
 using json = nlohmann::json;
 
-game_map::game_map(std::string name, int w, int h, int l) {
+game_map::game_map(string name, int w, int h, int l) {
 	this->name = name;
 	set_layers(l);
 	resize(w, h);
@@ -30,7 +30,7 @@ tile_t game_map::get_tile(int layer, int x, int y) {
 	return layers[layer].tiles[x+y*w];
 }
 
-game_map game_map::from_json(std::string j) {
+game_map game_map::from_json(string j) {
 	auto json = json::parse(j);
 	auto retval = game_map(	json["name"],
 							json["w"], json["h"],
@@ -64,3 +64,28 @@ game_map game_map::from_json(std::string j) {
 	}
 	return retval;
 }
+
+
+/*void gen_map(int w, int h, int l) {
+	for (int i = 0; i < l; ++i) {
+		for (int j = 0; j < h*w; j++) {
+
+			float vertices[] ={
+				x*TILE_SIZE,		y*TILE_SIZE,		0.0f,
+					t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
+				(x+1)*TILE_SIZE,	y*TILE_SIZE,		0.0f,
+					t.normalize_u((tx+1)*ATILE), t.normalize_v(ty*ATILE),
+				(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,	0.0f,
+					t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE),
+				x*TILE_SIZE,		y*TILE_SIZE,	0.0f,
+					t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
+				x*TILE_SIZE,	(y+1)*TILE_SIZE,	0.0f,
+					t.normalize_u(tx*ATILE), t.normalize_v((ty+1)*ATILE),
+				(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,		0.0f,
+					t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE)
+			};
+
+		}
+	}
+	
+}*/

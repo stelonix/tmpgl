@@ -3,18 +3,20 @@
 #include <string>
 #include "tileset.h"
 
+using string = std::string;
+
 typedef std::tuple<int, int> tile_t;
 typedef std::vector<tile_t> tilemap;
 
 struct map_decal {
-	std::string name;
-	std::string sprite;
+	string name;
+	string sprite;
 	int x;
 	int y;
 	int z;
 };
 struct map_layer {
-	std::string name;
+	string name;
 	std::vector<map_decal> objects;
 	tilemap tiles;
 	int z;
@@ -23,13 +25,13 @@ struct map_layer {
 
 
 struct game_map {
-	std::string name;
+	string name;
 	int w;
 	int h;
 	std::vector<map_layer> layers;
-	std::vector<std::string> tilesets;
+	std::vector<string> tilesets;
 
-	game_map(std::string name, int w, int h, int l);
+	game_map(string name, int w, int h, int l);
 
 	void set_layers(int l);
 
@@ -39,5 +41,5 @@ struct game_map {
 
 	tile_t get_tile(int layer, int x, int y);
 
-	static game_map from_json(std::string json);
+	static game_map from_json(string json);
 };

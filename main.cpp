@@ -19,30 +19,44 @@
 #include "shader.h"
 #include "game_map.h"
 #include "game_sprite.h"
+#include <stdarg.h>
 
 #define SHADER_DIR "./shaders"s
 using json = nlohmann::json;
 using shader_program = scene::shader_program;
+
+/*namespace scene {
+	shader_program make_shader(std::array<const char*> shd) {
+		auto sp = shader_program();
+		for (auto it = shd.begin(); it != shd.end(); it++)
+		{
+			sp.add_shader(a_loader->shader_lib[*it].c_str(), *it, GL_VERTEX_SHADER);
+		}
+		
+		sp.add_shader(a_loader->shader_lib["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
+		sp.link_shaders();
+	}
+}*/
 void init_crt() {
 	signal(SIGSEGV, handler);
 	setvbuf(stdout, NULL, _IONBF, 0);
 }
-std::map<std::string, std::string> shaders;
 
 asset_loader* a_loader;
-
+std::map<string, string>* shaders;
 int main(int argc, char *argv[]) {
+	init_crt();
+
+
 	a_loader = new asset_loader();
+	shaders = &a_loader->shader_lib;
 	game_map::from_json(read_file("map.json"));
 	tileset::from_json(read_file("tileset.json"));
 	game_sprite::from_json(read_file("sprite.json"));
-	init_crt();
-	shaders = std::map<std::string, std::string>();
-	auto d = list_files(SHADER_DIR);
-	for (std::string s : d) {
-		//printf("%s\n", (SHADER_DIR+"/"s).c_str());
-		shaders[s] = read_file(SHADER_DIR+"/"+s);
-		printf("%s\n---\n%s\n---\n", s.c_str(), shaders[s].c_str());
+	
+	for (std::string s : list_files(SHADER_DIR)) {
+		a_loader->load_shader(SHADER_DIR+"/"+s);
+		//printf("%s\n---\n%s\n---\n", s.c_str(), shaders[s].c_str());
 	}
 	glx::setup_x();
 	auto t = a_loader->load_texture("indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
@@ -61,8 +75,8 @@ int main(int argc, char *argv[]) {
 		);
 	VP = projection*view;
 	auto sp = shader_program();
-		sp.add_shader(shaders["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
-		sp.add_shader(shaders["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
+		sp.add_shader(a_loader->shader_lib["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
+		sp.add_shader(a_loader->shader_lib["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
 		sp.link_shaders();
 	
 	unsigned int vao;
@@ -75,7 +89,8 @@ int main(int argc, char *argv[]) {
 	int tx = 0;
 	int ty = 0;
 	const float ATILE = 16.0f;
-	const float TILE_SIZE = 32.0f;
+	const int MAG = 2;
+	const float TILE_SIZE = ATILE * MAG;
 	float vertices[] ={
 		x*TILE_SIZE,		y*TILE_SIZE,		0.0f,
 			t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
@@ -90,6 +105,7 @@ int main(int argc, char *argv[]) {
 		(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,		0.0f,
 			t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE)
 	};
+
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);

@@ -1,17 +1,21 @@
+#include <map>
 #include <string>
 #include <vector>
 #include <GL/gl.h>
 #include <tuple>
 #include "eng_texture.h"
 
+using string = std::string;
 using namespace engine;
 
-GLuint texture(std::string filename);
+GLuint texture(string filename);
 
 struct asset_loader {
 	std::vector<eng_texture> loaded_tex;
-	std::vector<std::string> shader_lib;
+	std::map<string, string> shader_lib;
 
-	eng_texture load_texture(std::string filename);
+	eng_texture load_texture(string filename);
+	std::string load_shader(string filename);
+	int sweep_load(string directory);
 };
 
