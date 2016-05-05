@@ -142,7 +142,7 @@ GLuint png_texture_load(const char *file_name, int *width, int *height,
 	// set the individual row_pointers to point at the correct offsets of
 	// image_data
 	for (unsigned int i = 0; i < temp_height; i++) {
-		row_pointers[temp_height - 1 - i] = image_data + i * rowbytes;
+		row_pointers[i] = image_data + i * rowbytes;
 	}
 
 	// read the png into image_data through row_pointers

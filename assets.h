@@ -10,6 +10,7 @@ GLuint texture(std::string filename);
 
 struct asset_loader {
 	std::vector<eng_texture> loaded_tex;
+	std::vector<std::string> shader_lib;
 
 	eng_texture load_texture(std::string filename);
 };

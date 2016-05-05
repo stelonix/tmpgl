@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
 	int x = 0;
 	int y = 0;
 	int tx = 0;
-	int ty = 2;
+	int ty = 0;
 	const float ATILE = 16.0f;
 	const float TILE_SIZE = 32.0f;
 	float vertices[] ={
