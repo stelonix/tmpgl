@@ -1,6 +1,7 @@
 #include "assets.h"
 
-extern GLuint png_texture_load(const char* file_name, int* width, int* height);
+extern GLuint png_texture_load(const char* file_name, int* width, int* height,
+								int* real_w=NULL, int* real_h=NULL);
 
 
 GLuint texture(std::string filename) {
@@ -10,9 +11,9 @@ GLuint texture(std::string filename) {
 }
 
 eng_texture asset_loader::load_texture(std::string filename) {
-		int w, h;
-		auto tx = png_texture_load(filename.c_str(),&w,&h);
-		auto retval = eng_texture(tx, w, h);
-		loaded_tex.push_back(retval);
-		return retval;
-	}
+	int w, h, rw, rh;
+	auto tx = png_texture_load(filename.c_str(),&w,&h, &rw, &rh);
+	auto retval = eng_texture(tx, w, h, rw, rh);
+	loaded_tex.push_back(retval);
+	return retval;
+}

@@ -7,7 +7,8 @@
 #include <png.h>
 #include <stdlib.h>
 
-GLuint png_texture_load(const char *file_name, int *width, int *height) {
+GLuint png_texture_load(const char *file_name, int *width, int *height,
+						int *real_w = NULL, int *real_h = NULL) {
 	// This function was originally written by David Grayson for
 	// https://github.com/DavidEGrayson/ahrs-visualizer
 
@@ -155,13 +156,16 @@ GLuint png_texture_load(const char *file_name, int *width, int *height) {
 							 GL_UNSIGNED_BYTE, image_data);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
+	if (real_w != NULL)
+		glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, real_w);
+	if (real_h != NULL)
+		glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, real_h);
 	// clean up
 	png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 	free(image_data);
 	free(row_pointers);
 	fclose(fp);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	
+
 	return texture;
 }

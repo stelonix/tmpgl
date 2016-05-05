@@ -5,7 +5,6 @@
 #include "eng_texture.h"
 
 using namespace engine;
-extern GLuint png_texture_load(const char* file_name, int* width, int* height);
 
 GLuint texture(std::string filename);
 

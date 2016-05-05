@@ -46,7 +46,9 @@ int main(int argc, char *argv[]) {
 	}
 	glx::setup_x();
 	auto t = a_loader->load_texture("indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
-	printf("Texture 1: %d\n", a_loader->loaded_tex[0]);
+	printf("Texture id: %d\nw: %d (%d)\nh: %d (%d)",
+			t.texture_id,t.w, t.internal_w,
+									t.h, t.internal_h);
 	XEvent xev;
 	glx::init_glew();
 	glx::init_gl(800, 600);
@@ -70,25 +72,34 @@ int main(int argc, char *argv[]) {
 	glBindVertexArray(vao);
 	int x = 0;
 	int y = 0;
+	int tx = 0;
+	int ty = 2;
+	const float ATILE = 16.0f;
 	const float TILE_SIZE = 32.0f;
 	float vertices[] ={
 		x*TILE_SIZE,		y*TILE_SIZE,		0.0f,
-		//1.0f, 1.0f,
+			t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
 		(x+1)*TILE_SIZE,	y*TILE_SIZE,		0.0f,
-		//1.0f, 1.0f,
+			t.normalize_u((tx+1)*ATILE), t.normalize_v(ty*ATILE),
 		(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,	0.0f,
-		//1.0f, 1.0f,
-		x*TILE_SIZE,		(y+1)*TILE_SIZE,	0.0f,
-		//1.0f, 1.0f,
-		(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,	0.0f,
-		//1.0f, 1.0f,
-		x*TILE_SIZE,		y*TILE_SIZE,		0.0f,
-		//1.0f, 1.0f
+			t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE),
+		x*TILE_SIZE,		y*TILE_SIZE,	0.0f,
+			t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
+		x*TILE_SIZE,	(y+1)*TILE_SIZE,	0.0f,
+			t.normalize_u(tx*ATILE), t.normalize_v((ty+1)*ATILE),
+		(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,		0.0f,
+			t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE)
 	};
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
-	
+	auto loc = sp.attrib("position");
+	glEnableVertexAttribArray(loc);
+	glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
+	loc = sp.attrib("tex_coord");
+	glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(loc);
+
 	while (1) {
 		glx::poll();
 		if (glx::done) {
@@ -97,19 +108,18 @@ int main(int argc, char *argv[]) {
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(1.0, 0.3, 0.3, 0.0f);
-		
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, t.texture_id);
 		sp.use_shaders();
-		auto loc = sp.attrib("position");
-		glEnableVertexAttribArray(loc);
-		glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		
+		
 
 		auto projection_Location = sp.uniform("projection");
-		//printf("\nLocation: %d\n", projection_Location);
 		glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
 			//auto texLoc = scene::get_uniform_loc("tex");
 			//glUniform1i(texLoc, texture);
 			//glActiveTexture(GL_TEXTURE0);
-			//glBindTexture(GL_TEXTURE_2D, texture);
+			
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glx::swap();
