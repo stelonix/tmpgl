@@ -1,32 +1,29 @@
-#include <stdio.h>
-#include <X11/Xlib.h>
-#include <unistd.h>
-#include <GL/glew.h>
-#include <GL/gl.h>
-#include <dirent.h>
 #include "string"
-#include <vector>
-#include <map>
 #include <iostream>
-#include <signal.h>
-#include "boilerplate.h"
-#include "include/json.hpp"
+#include <map>
+#include <vector>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "unwind.h"
+#include <dirent.h>
+#include <GL/glew.h>
+#include <GL/gl.h>
+#include <signal.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <X11/keysym.h>
+#include <X11/Xlib.h>
+#include "include/json.hpp"
 #include "assets.h"
-#include "helpers.h"
-#include "shader.h"
+#include "boilerplate.h"
 #include "game_map.h"
 #include "game_sprite.h"
-#include <stdarg.h>
-#include <X11/keysym.h>
+#include "helpers.h"
+#include "shader.h"
+#include "unwind.h"
 
-#define DEBUG_PRINT false
-
-#define dprintf(...) if (DEBUG_PRINT) printf(__VA_ARGS__);
 #define ASSETS_DIR "./assets/"s
 #define SHADER_DIR ASSETS_DIR + "./shaders"s
+
 using json = nlohmann::json;
 using shader_program = scene::shader_program;
 extern const int MAG;
@@ -133,7 +130,7 @@ int main(int argc, char *argv[]) {
 
 	while (1) {
 		glx::poll();
-				dprintf("u:%s d:%s l:%s r:%s \n"
+				dbgprint("u:%s d:%s l:%s r:%s \n"
 			,keys[XK_Up]?"!":"-"
 			,keys[XK_Down]?"!":"-"
 			,keys[XK_Left]?"!":"-"
@@ -156,23 +153,23 @@ int main(int argc, char *argv[]) {
 			//glUniform1i(texLoc, texture);
 			//glActiveTexture(GL_TEXTURE0);
 		if (keys[XK_Up]) {
-			printf("up!\n");
+			dbgprint("up!\n");
 			pany += float(MAG);
 		}
 		if(keys[XK_Down]) {
-			printf("dw!\n");
+			dbgprint("dw!\n");
 			pany -= float(MAG);
 		}
 		if(keys[XK_Left]) {
-			printf("lf!\n");
+			dbgprint("lf!\n");
 			panx += float(MAG);
 		}
 		if(keys[XK_Right]) {
-			printf("rt!\n");
+			dbgprint("rt!\n");
 			panx -= float(MAG);
 		}
 		pan_view(panx,pany);
-		//printf("%f %f\n", panx, pany);
+		
 		auto model_loc = sp.uniform("model");
 		glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(pan));
 
