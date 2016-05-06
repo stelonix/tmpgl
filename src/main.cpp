@@ -20,12 +20,16 @@
 #include "game_map.h"
 #include "game_sprite.h"
 #include <stdarg.h>
+#include <X11/keysym.h>
 #define ASSETS_DIR "./assets/"s
 #define SHADER_DIR ASSETS_DIR + "./shaders"s
 using json = nlohmann::json;
 using shader_program = scene::shader_program;
 extern const int MAG;
-extern int panx, pany;
+extern float panx, pany;
+
+std::map<int, int> keys;
+
 /*namespace scene {
 	shader_program make_shader(std::array<const char*> shd) {
 		auto sp = shader_program();
@@ -125,7 +129,17 @@ int main(int argc, char *argv[]) {
     glEnableVertexAttribArray(loc);
 
 	while (1) {
+		printf("u:%s d:%s l:%s r:%s \n"
+			,keys[XK_Up]?"!":"-"
+			,keys[XK_Down]?"!":"-"
+			,keys[XK_Left]?"!":"-"
+			,keys[XK_Right]?"!":"-");
 		glx::poll();
+				printf("u:%s d:%s l:%s r:%s \n"
+			,keys[XK_Up]?"!":"-"
+			,keys[XK_Down]?"!":"-"
+			,keys[XK_Left]?"!":"-"
+			,keys[XK_Right]?"!":"-");
 		if (glx::done) {
 			glx::clean_x();
 			return 0;
@@ -143,6 +157,24 @@ int main(int argc, char *argv[]) {
 			//auto texLoc = scene::get_uniform_loc("tex");
 			//glUniform1i(texLoc, texture);
 			//glActiveTexture(GL_TEXTURE0);
+		if (keys[XK_Up]) {
+			printf("up!\n");
+			pany += float(MAG);
+		}
+		if(keys[XK_Down]) {
+			printf("dw!\n");
+			pany -= float(MAG);
+		}
+		if(keys[XK_Left]) {
+			printf("lf!\n");
+			panx += float(MAG);
+		}
+		if(keys[XK_Right]) {
+			printf("rt!\n");
+			panx -= float(MAG);
+		}
+		pan_view(panx,pany);
+		//printf("%f %f\n", panx, pany);
 		auto model_loc = sp.uniform("model");
 		glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(pan));
 

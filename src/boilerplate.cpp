@@ -1,17 +1,22 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/XKBlib.h>
 #include <stdio.h>
 #include <GL/glew.h>
 #include <GL/glx.h>
 #include <string.h>
 #include <string>
+#include <map>
 #include <vector>
 #include <stdlib.h>
 #include "boilerplate.h"
+#include <iostream>
+
 const int MAG = 2;
 extern void pan_view(float x, float y);
 float panx, pany;
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
+extern std::map<int, int> keys;
 namespace glx {
 	Window win;
 	Display *display;
@@ -30,6 +35,13 @@ namespace glx {
 			case KeyPress: {
 				char buf[20];
 				KeySym keysym_return;
+				XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
+				keys[keysym_return] = 1;
+				printf("press: %d +\n", event.xkey.keycode);
+				XFlush(display);
+				
+				/*char buf[20];
+				KeySym keysym_return;
 				len = XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
 				if(keysym_return == XK_Up)
 					pany += float(MAG);
@@ -41,13 +53,26 @@ namespace glx {
 					panx -= float(MAG);
 
 				printf("pos(x,y): %f %f\n", panx, pany);
-				pan_view(panx, pany);
-				//panx=0;pany=0;
-				printf("Char: %d\n",event.xkey.keycode);
+				pan_view(panx, pany);*/
+				printf("u:%s d:%s l:%s r:%s \n"
+			,keys[XK_Up]?"!":"-"
+			,keys[XK_Down]?"!":"-"
+			,keys[XK_Left]?"!":"-"
+			,keys[XK_Right]?"!":"-");
+				for (auto it = keys.begin(); it != keys.end(); it++) {
+					std::cout << it->first << ": " << it->second << std::endl;
+				}
+
 				break;
 			}
 			case KeyRelease: {
-				if (XEventsQueued(display, QueuedAfterReading))
+				char buf[20];
+				KeySym keysym_return;
+				XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
+				keys[keysym_return] = 0;
+				XFlush(display);
+				printf("release %d\n", event.xkey.keycode);
+				/*if (XEventsQueued(display, QueuedAfterReading))
 				{
 					XEvent nev;
 					XPeekEvent(display, &nev);
@@ -59,8 +84,16 @@ namespace glx {
 				KeySym keysym_return;
 
 				XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
-				
+				*/
 				//printf("%c released\n", buf[0]);
+				printf("u:%s d:%s l:%s r:%s \n"
+			,keys[XK_Up]?"!":"-"
+			,keys[XK_Down]?"!":"-"
+			,keys[XK_Left]?"!":"-"
+			,keys[XK_Right]?"!":"-");
+				for (auto it = keys.begin(); it != keys.end(); it++) {
+					std::cout << it->first << ": " << it->second << std::endl;
+				}
 				break;
 			}
 			case ClientMessage: {
@@ -119,6 +152,10 @@ namespace glx {
 	}
 
 	void setup_x() {
+		/*keys[XK_Up] = false;
+		keys[XK_Down] = false;
+		keys[XK_Left] = false;
+		keys[XK_Right] = false;*/
 		display = XOpenDisplay(NULL);
 
 		if (!display) {
@@ -147,7 +184,7 @@ namespace glx {
 			printf("Invalid GLX version");
 			exit(1);
 		}
-
+		XkbSetDetectableAutoRepeat(display, True, NULL);
 		//printf("Getting matching framebuffer configs\n");
 		int fbcount;
 		GLXFBConfig *fbc = glXChooseFBConfig(display, DefaultScreen(display),
