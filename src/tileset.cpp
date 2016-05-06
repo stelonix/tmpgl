@@ -2,7 +2,7 @@
 #include "include/json.hpp"
 using json = nlohmann::json;
 
-tileset tileset::from_json(std::string j) {
+tileset tileset::from_json(string j) {
 	auto json = json::parse(j);
 	auto retval = tileset();
 	retval.name = json["name"];

@@ -8,7 +8,9 @@
 #include <vector>
 #include <stdlib.h>
 #include "boilerplate.h"
-
+const int MAG = 2;
+extern void pan_view(float x, float y);
+float panx, pany;
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 namespace glx {
 	Window win;
@@ -19,18 +21,46 @@ namespace glx {
 	bool done = false;
 	void poll () {
 		XEvent event;
+		
+		int len;
+		
 		while ( XPending(display) > 0 ){
 			XNextEvent(display, &event);
 			switch (event.type){
 			case KeyPress: {
-				char buf[2];
-				int len;
+				char buf[20];
 				KeySym keysym_return;
 				len = XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
+				if(keysym_return == XK_Up)
+					pany += float(MAG);
+				if(keysym_return == XK_Down)
+					pany -= float(MAG);
+				if(keysym_return == XK_Left)
+					panx += float(MAG);
+				if(keysym_return == XK_Right)
+					panx -= float(MAG);
 
-				if ( len != 0 ){
-					printf("Char: %c",buf[0]);
+				printf("pos(x,y): %f %f\n", panx, pany);
+				pan_view(panx, pany);
+				//panx=0;pany=0;
+				printf("Char: %d\n",event.xkey.keycode);
+				break;
+			}
+			case KeyRelease: {
+				if (XEventsQueued(display, QueuedAfterReading))
+				{
+					XEvent nev;
+					XPeekEvent(display, &nev);
+					if (nev.type == KeyPress && nev.xkey.time == event.xkey.time &&
+						nev.xkey.keycode == event.xkey.keycode)
+						break;
 				}
+				char buf[20];
+				KeySym keysym_return;
+
+				XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
+				
+				//printf("%c released\n", buf[0]);
 				break;
 			}
 			case ClientMessage: {
@@ -40,6 +70,7 @@ namespace glx {
 			case Expose: {
 				/*XGetWindowAttributes(dpy, win, &gwa);
 				glViewport(0, 0, gwa.width, gwa.height);*/
+
 				glXSwapBuffers(display, win);
 				break;
 			}
@@ -187,7 +218,7 @@ namespace glx {
 
 		//printf("Mapping window\n");
 		XMapWindow(display, win);
-		XSelectInput(display, win, ExposureMask | KeyPressMask);
+		XSelectInput(display, win, ExposureMask | KeyPressMask | KeyReleaseMask);
 		// Get the default screen's GLX extension list
 		const char *glxExts =
 				glXQueryExtensionsString(display, DefaultScreen(display));

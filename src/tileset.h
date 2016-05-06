@@ -2,17 +2,19 @@
 #include <string>
 #include <vector>
 
+using string = std::string;
+
 struct tile_frame {
-	std::string img;
+	string img;
 	int interval;
-	std::string pass;
+	string pass;
 	int u,v;
 };
 
 typedef std::vector<tile_frame> game_tile;
 
 struct tileset {
-	std::string name;
+	string name;
 	std::map<int, game_tile> tiles;
-	static tileset from_json(std::string json);
+	static tileset from_json(string json);
 };

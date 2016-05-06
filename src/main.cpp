@@ -24,7 +24,8 @@
 #define SHADER_DIR ASSETS_DIR + "./shaders"s
 using json = nlohmann::json;
 using shader_program = scene::shader_program;
-
+extern const int MAG;
+extern int panx, pany;
 /*namespace scene {
 	shader_program make_shader(std::array<const char*> shd) {
 		auto sp = shader_program();
@@ -44,6 +45,13 @@ void init_crt() {
 
 asset_loader* a_loader;
 std::map<string, string>* shaders;
+
+glm::mat4 pan;
+
+void pan_view(float x, float y) {
+	pan = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0.0f));
+}
+
 int main(int argc, char *argv[]) {
 	init_crt();
 
@@ -87,9 +95,9 @@ int main(int argc, char *argv[]) {
 	int x = 0;
 	int y = 0;
 	int tx = 0;
-	int ty = 0;
+	int ty = 1;
 	const float ATILE = 16.0f;
-	const int MAG = 2;
+	
 	const float TILE_SIZE = ATILE * MAG;
 	float vertices[] ={
 		x*TILE_SIZE,		y*TILE_SIZE,		0.0f,
@@ -105,7 +113,7 @@ int main(int argc, char *argv[]) {
 		(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,		0.0f,
 			t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE)
 	};
-
+	//auto camx = glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 0.0f, 0.0f));
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
@@ -135,7 +143,9 @@ int main(int argc, char *argv[]) {
 			//auto texLoc = scene::get_uniform_loc("tex");
 			//glUniform1i(texLoc, texture);
 			//glActiveTexture(GL_TEXTURE0);
-			
+		auto model_loc = sp.uniform("model");
+		glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(pan));
+
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glx::swap();
