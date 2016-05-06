@@ -1,11 +1,10 @@
+#include "string"
+#include <vector>
 #include <GL/glew.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string>
-#include <vector>
-#include "unwind.h"
 #include "shader.h"
-
+#include "unwind.h"
 
 namespace scene {
 	
@@ -25,7 +24,7 @@ namespace scene {
 		program_id = glCreateProgram();
 	}
 
-	int shader_program::uniform(std::string identifier) {
+	int shader_program::uniform(string identifier) {
 		return get_uniform_loc(identifier.c_str(), program_id);
 	}
 
@@ -52,11 +51,11 @@ namespace scene {
 		glUseProgram(program_id);
 	}
 
-	int shader_program::attrib(std::string attrib) {
+	int shader_program::attrib(string attrib) {
 		return get_attrib_loc(attrib.c_str(), program_id);
 	}
 
-	std::string get_shader_log(unsigned int shaderID) {
+	string get_shader_log(unsigned int shaderID) {
 		std::vector<char> infoLog;
 		GLint infoLen;
 		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &infoLen);

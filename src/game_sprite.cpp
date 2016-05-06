@@ -1,8 +1,9 @@
-#include "game_sprite.h"
 #include "include/json.hpp"
+#include "game_sprite.h"
+
 using json = nlohmann::json;
 
-game_sprite game_sprite::from_json(std::string j) {
+game_sprite game_sprite::from_json(string j) {
 	auto json = json::parse(j);
 	auto retval = game_sprite();
 	retval.name = json["name"];

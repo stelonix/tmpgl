@@ -1,16 +1,16 @@
+#include <iostream>
+#include <map>
+#include <vector>
+#include "string"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <GL/glew.h>
+#include <GL/glx.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/XKBlib.h>
-#include <stdio.h>
-#include <GL/glew.h>
-#include <GL/glx.h>
-#include <string.h>
-#include <string>
-#include <map>
-#include <vector>
-#include <stdlib.h>
 #include "boilerplate.h"
-#include <iostream>
 
 const int MAG = 2;
 extern void pan_view(float x, float y);
@@ -37,28 +37,8 @@ namespace glx {
 				KeySym keysym_return;
 				XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
 				keys[keysym_return] = 1;
-				printf("press: %d +\n", event.xkey.keycode);
+				//printf("press: %d +\n", event.xkey.keycode);
 				XFlush(display);
-				
-				/*char buf[20];
-				KeySym keysym_return;
-				len = XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
-				if(keysym_return == XK_Up)
-					pany += float(MAG);
-				if(keysym_return == XK_Down)
-					pany -= float(MAG);
-				if(keysym_return == XK_Left)
-					panx += float(MAG);
-				if(keysym_return == XK_Right)
-					panx -= float(MAG);
-
-				printf("pos(x,y): %f %f\n", panx, pany);
-				pan_view(panx, pany);*/
-				printf("u:%s d:%s l:%s r:%s \n"
-			,keys[XK_Up]?"!":"-"
-			,keys[XK_Down]?"!":"-"
-			,keys[XK_Left]?"!":"-"
-			,keys[XK_Right]?"!":"-");
 				for (auto it = keys.begin(); it != keys.end(); it++) {
 					std::cout << it->first << ": " << it->second << std::endl;
 				}
@@ -71,26 +51,8 @@ namespace glx {
 				XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
 				keys[keysym_return] = 0;
 				XFlush(display);
-				printf("release %d\n", event.xkey.keycode);
-				/*if (XEventsQueued(display, QueuedAfterReading))
-				{
-					XEvent nev;
-					XPeekEvent(display, &nev);
-					if (nev.type == KeyPress && nev.xkey.time == event.xkey.time &&
-						nev.xkey.keycode == event.xkey.keycode)
-						break;
-				}
-				char buf[20];
-				KeySym keysym_return;
-
-				XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
-				*/
-				//printf("%c released\n", buf[0]);
-				printf("u:%s d:%s l:%s r:%s \n"
-			,keys[XK_Up]?"!":"-"
-			,keys[XK_Down]?"!":"-"
-			,keys[XK_Left]?"!":"-"
-			,keys[XK_Right]?"!":"-");
+				//printf("release %d\n", event.xkey.keycode);
+				
 				for (auto it = keys.begin(); it != keys.end(); it++) {
 					std::cout << it->first << ": " << it->second << std::endl;
 				}

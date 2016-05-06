@@ -1,11 +1,10 @@
 #include <map>
-#include <string>
+#include <tuple>
 #include <vector>
 #include <GL/gl.h>
-#include <tuple>
+#include "string"
 #include "eng_texture.h"
 
-using string = std::string;
 using namespace engine;
 
 GLuint texture(string filename);

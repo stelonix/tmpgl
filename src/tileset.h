@@ -1,8 +1,6 @@
+#include "string"
 #include <map>
-#include <string>
 #include <vector>
-
-using string = std::string;
 
 struct tile_frame {
 	string img;

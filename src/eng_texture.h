@@ -1,5 +1,5 @@
-#include <GL/gl.h>
 #include <tuple>
+#include <GL/gl.h>
 
 namespace engine {
 	float normalize(int v, float unit);

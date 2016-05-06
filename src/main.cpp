@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <dirent.h>
-#include <string>
+#include "string"
 #include <vector>
 #include <map>
 #include <iostream>
@@ -21,6 +21,10 @@
 #include "game_sprite.h"
 #include <stdarg.h>
 #include <X11/keysym.h>
+
+#define DEBUG_PRINT false
+
+#define dprintf(...) if (DEBUG_PRINT) printf(__VA_ARGS__);
 #define ASSETS_DIR "./assets/"s
 #define SHADER_DIR ASSETS_DIR + "./shaders"s
 using json = nlohmann::json;
@@ -117,7 +121,6 @@ int main(int argc, char *argv[]) {
 		(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,		0.0f,
 			t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE)
 	};
-	//auto camx = glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 0.0f, 0.0f));
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
@@ -129,13 +132,8 @@ int main(int argc, char *argv[]) {
     glEnableVertexAttribArray(loc);
 
 	while (1) {
-		printf("u:%s d:%s l:%s r:%s \n"
-			,keys[XK_Up]?"!":"-"
-			,keys[XK_Down]?"!":"-"
-			,keys[XK_Left]?"!":"-"
-			,keys[XK_Right]?"!":"-");
 		glx::poll();
-				printf("u:%s d:%s l:%s r:%s \n"
+				dprintf("u:%s d:%s l:%s r:%s \n"
 			,keys[XK_Up]?"!":"-"
 			,keys[XK_Down]?"!":"-"
 			,keys[XK_Left]?"!":"-"

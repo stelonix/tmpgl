@@ -1,9 +1,7 @@
-#include <vector>
+#include "string"
 #include <tuple>
-#include <string>
+#include <vector>
 #include "tileset.h"
-
-using string = std::string;
 
 typedef std::tuple<int, int> tile_t;
 typedef std::vector<tile_t> tilemap;
@@ -15,14 +13,13 @@ struct map_decal {
 	int y;
 	int z;
 };
+
 struct map_layer {
 	string name;
 	std::vector<map_decal> objects;
 	tilemap tiles;
 	int z;
 };
-
-
 
 struct game_map {
 	string name;
