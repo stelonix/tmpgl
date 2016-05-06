@@ -14,6 +14,7 @@
 #include <X11/Xlib.h>
 #include "include/json.hpp"
 #include "assets.h"
+#include "cfg.h"
 #include "boilerplate.h"
 #include "game_map.h"
 #include "game_sprite.h"
@@ -21,16 +22,13 @@
 #include "shader.h"
 #include "unwind.h"
 
-#define ASSETS_DIR "./assets/"s
-#define SHADER_DIR ASSETS_DIR + "./shaders"s
-
+using namespace cfg;
 using json = nlohmann::json;
 using shader_program = scene::shader_program;
-extern const int MAG;
-extern float panx, pany;
+
 
 std::map<int, int> keys;
-
+float panx, pany;
 /*namespace scene {
 	shader_program make_shader(std::array<const char*> shd) {
 		auto sp = shader_program();
@@ -101,9 +99,7 @@ int main(int argc, char *argv[]) {
 	int y = 0;
 	int tx = 0;
 	int ty = 1;
-	const float ATILE = 16.0f;
 	
-	const float TILE_SIZE = ATILE * MAG;
 	float vertices[] ={
 		x*TILE_SIZE,		y*TILE_SIZE,		0.0f,
 			t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),

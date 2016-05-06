@@ -1,8 +1,14 @@
+#include <limits>
+#include <memory>
+#include <tuple>
+#include <string.h>
+#include "cfg.h"
 #include "game_map.h"
 #include "include/json.hpp"
-#include <tuple>
 
 using json = nlohmann::json;
+using namespace cfg;
+using namespace std;
 
 game_map::game_map(string name, int w, int h, int l) {
 	this->name = name;
@@ -66,26 +72,32 @@ game_map game_map::from_json(string j) {
 }
 
 
-/*void gen_map(int w, int h, int l) {
-	for (int i = 0; i < l; ++i) {
-		for (int j = 0; j < h*w; j++) {
-
+shared_ptr<float> gen_map_sh(int w, int h, int l) {
+	const int PER_VERTEX = 5;
+	const int NUM_VERTEX = 6;
+	const int SIZE_BYTES = w*h*NUM_VERTEX*PER_VERTEX*sizeof(float);
+	const float UNDF = numeric_limits<float>::quiet_NaN();
+	auto z = l/100.0f;
+	auto retval = shared_ptr<float>(new float[SIZE_BYTES], default_delete<float[]>());
+	for (int x = 0; x < w; x++) {
+		for (int y = 0; y < h; y++) {
 			float vertices[] ={
-				x*TILE_SIZE,		y*TILE_SIZE,		0.0f,
-					t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
-				(x+1)*TILE_SIZE,	y*TILE_SIZE,		0.0f,
-					t.normalize_u((tx+1)*ATILE), t.normalize_v(ty*ATILE),
-				(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,	0.0f,
-					t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE),
-				x*TILE_SIZE,		y*TILE_SIZE,	0.0f,
-					t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
-				x*TILE_SIZE,	(y+1)*TILE_SIZE,	0.0f,
-					t.normalize_u(tx*ATILE), t.normalize_v((ty+1)*ATILE),
-				(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,		0.0f,
-					t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE)
+				x*TILE_SIZE,		y*TILE_SIZE,		z,
+					UNDF, 				UNDF,
+				(x+1)*TILE_SIZE,	y*TILE_SIZE,		z,
+					UNDF, 				UNDF,
+				(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,	z,
+					UNDF, 				UNDF,
+				x*TILE_SIZE,		y*TILE_SIZE,		z,
+					UNDF, 				UNDF,
+				x*TILE_SIZE,		(y+1)*TILE_SIZE,	z,
+					UNDF, 				UNDF,
+				(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,	z,
+					UNDF, 				UNDF
 			};
-
+			memcpy((&*retval)+(y*w+x), vertices, sizeof(vertices));
 		}
 	}
+	return retval;
 	
-}*/
+}

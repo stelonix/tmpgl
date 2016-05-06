@@ -1,3 +1,5 @@
 #include <string>
 
 using string = std::string;
+
+extern string operator "" s (const char* p, size_t);

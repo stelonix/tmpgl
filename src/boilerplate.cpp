@@ -12,9 +12,10 @@
 #include <X11/XKBlib.h>
 #include "boilerplate.h"
 
-const int MAG = 2;
+#include "cfg.h"
+using namespace cfg;
+
 extern void pan_view(float x, float y);
-float panx, pany;
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 extern std::map<int, int> keys;
 namespace glx {
@@ -114,10 +115,11 @@ namespace glx {
 	}
 
 	void setup_x() {
-		/*keys[XK_Up] = false;
+		keys[XK_Up] = false;
 		keys[XK_Down] = false;
 		keys[XK_Left] = false;
-		keys[XK_Right] = false;*/
+		keys[XK_Right] = false;
+		panx = 0.0f;pany = 0.0f;
 		display = XOpenDisplay(NULL);
 
 		if (!display) {

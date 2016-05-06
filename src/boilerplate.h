@@ -1,6 +1,10 @@
+#ifndef BOILERPLATE_H
+#define BOILERPLATE_H
+
 #define GLX_CONTEXT_MAJOR_VERSION_ARB 0x2091
 #define GLX_CONTEXT_MINOR_VERSION_ARB 0x2092
-extern const int MAG;
+
+extern float panx, pany;
 namespace glx {
 	void poll ();
 	void setup_x();
@@ -10,3 +14,5 @@ namespace glx {
 	void swap();
 	extern bool done;
 }
+
+#endif

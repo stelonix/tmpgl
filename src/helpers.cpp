@@ -1,12 +1,13 @@
+#include "string"
 #include "helpers.h"
 #include <dirent.h>
 
-std::vector<std::string> list_files(std::string dir) {
+std::vector<string> list_files(std::string dir) {
 	auto dirp = opendir(dir.c_str());
-	auto ret_val = std::vector<std::string>();
+	auto ret_val = std::vector<string>();
 	dirent* dp;
 	while ((dp = readdir(dirp)) != NULL) {
-		auto name = std::string(dp->d_name);
+		auto name = string(dp->d_name);
 		if (name != "." && name != "..")
 			ret_val.push_back(dp->d_name);
 	}
@@ -14,7 +15,7 @@ std::vector<std::string> list_files(std::string dir) {
 	return ret_val;
 }
 
-std::string read_file(std::string filename) {
+std::string read_file(string filename) {
 	//std::cout << filename << std::endl;
 	FILE* f = fopen(filename.c_str(), "r");
 	fseek(f, 0, SEEK_END);
@@ -25,11 +26,11 @@ std::string read_file(std::string filename) {
 	rewind(f);
 	fread(contents, sizeof(char), size, f);
 	contents[size] = '\0';
-	auto retval = std::string(contents);
+	auto retval = string(contents);
 	delete[] contents;
 	return retval;
 }
 
-std::string operator "" s (const char* p, size_t) {
-	return std::string(p);
+string operator "" s (const char* p, size_t) {
+	return string(p);
 }
