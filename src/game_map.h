@@ -40,3 +40,5 @@ struct game_map {
 
 	static game_map from_json(string json);
 };
+
+std::vector<float> gen_map_sh(int w, int h, int l);

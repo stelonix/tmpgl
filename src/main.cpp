@@ -123,7 +123,16 @@ int main(int argc, char *argv[]) {
 	loc = sp.attrib("tex_coord");
 	glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(loc);
-
+    auto vb = gen_map_sh(20,15,1);
+    printf("%d\n", vb.size());
+    int count = 0;
+    for (auto i = vb.begin(); i != vb.end(); ++i)
+    {
+    	printf("%d: %f\n",count, *i);
+    	count++;
+    	if (count >= 30) break;
+    }
+    //exit(0);
 	while (1) {
 		glx::poll();
 				dbgprint("u:%s d:%s l:%s r:%s \n"

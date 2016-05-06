@@ -1,5 +1,3 @@
-#include <limits>
-#include <memory>
 #include <tuple>
 #include <string.h>
 #include "cfg.h"
@@ -72,13 +70,15 @@ game_map game_map::from_json(string j) {
 }
 
 
-shared_ptr<float> gen_map_sh(int w, int h, int l) {
+std::vector<float> gen_map_sh(int w, int h, int l) {
 	const int PER_VERTEX = 5;
 	const int NUM_VERTEX = 6;
-	const int SIZE_BYTES = w*h*NUM_VERTEX*PER_VERTEX*sizeof(float);
+	const int NUM_ELEMENTS = NUM_VERTEX*PER_VERTEX;
+	const int SIZE_VEC = w*h*NUM_ELEMENTS;
 	const float UNDF = numeric_limits<float>::quiet_NaN();
+	std::vector<float> retval;
 	auto z = l/100.0f;
-	auto retval = shared_ptr<float>(new float[SIZE_BYTES], default_delete<float[]>());
+	retval.resize(SIZE_VEC);
 	for (int x = 0; x < w; x++) {
 		for (int y = 0; y < h; y++) {
 			float vertices[] ={
@@ -95,9 +95,9 @@ shared_ptr<float> gen_map_sh(int w, int h, int l) {
 				(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,	z,
 					UNDF, 				UNDF
 			};
-			memcpy((&*retval)+(y*w+x), vertices, sizeof(vertices));
+			memcpy(retval.data()+(y*w+x)*NUM_ELEMENTS,
+					vertices, sizeof(vertices));
 		}
 	}
-	return retval;
-	
+	return retval;	
 }
