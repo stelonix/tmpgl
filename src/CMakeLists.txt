@@ -8,17 +8,18 @@ PROJECT(${PROJECTNAME})
 
 set(main_SRCS
 		cfg.cpp
+		generators.cpp
 		png_texture.cpp
 		eng_texture.cpp
 		assets.cpp
 		game_map.cpp
 		game_sprite.cpp
+		game_tileset.cpp
 		helpers.cpp
 		shader.cpp
-		tileset.cpp
 		boilerplate.cpp
 		main.cpp
-		unwind.cpp
+		debug.cpp
 		
    )
  

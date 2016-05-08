@@ -16,7 +16,7 @@ eng_texture asset_loader::load_texture(string filename) {
 	int w, h, rw, rh;
 	auto tx = png_texture_load(filename.c_str(),&w,&h, &rw, &rh);
 	auto retval = eng_texture(tx, w, h, rw, rh);
-	loaded_tex.push_back(retval);
+	loaded_tex[filename] = retval;
 	return retval;
 }
 

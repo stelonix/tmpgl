@@ -17,10 +17,11 @@
 #include "cfg.h"
 #include "boilerplate.h"
 #include "game_map.h"
+#include "generators.h"
 #include "game_sprite.h"
 #include "helpers.h"
 #include "shader.h"
-#include "unwind.h"
+#include "debug.h"
 
 using namespace cfg;
 using json = nlohmann::json;
@@ -62,7 +63,7 @@ int main(int argc, char *argv[]) {
 	a_loader = new asset_loader();
 	shaders = &a_loader->shader_lib;
 	game_map::from_json(read_file(ASSETS_DIR+"map.json"));
-	tileset::from_json(read_file(ASSETS_DIR+"tileset.json"));
+	game_tileset::from_json(read_file(ASSETS_DIR+"tileset.json"));
 	game_sprite::from_json(read_file(ASSETS_DIR+"sprite.json"));
 	
 	for (std::string s : list_files(SHADER_DIR)) {
@@ -123,7 +124,7 @@ int main(int argc, char *argv[]) {
 	loc = sp.attrib("tex_coord");
 	glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(loc);
-    auto vb = gen_map_sh(20,15,1);
+    auto vb = gen::vertex_grid(20, 15, 1);
     printf("%d\n", vb.size());
     int count = 0;
     for (auto i = vb.begin(); i != vb.end(); ++i)

@@ -1,11 +1,11 @@
 #include "include/json.hpp"
-#include "tileset.h"
+#include "game_tileset.h"
 
 using json = nlohmann::json;
 
-tileset tileset::from_json(string j) {
+game_tileset game_tileset::from_json(string j) {
 	auto json = json::parse(j);
-	auto retval = tileset();
+	auto retval = game_tileset();
 	retval.name = json["name"];
 	for (auto it = json["tiles"].begin();it != json["tiles"].end(); it++) {
 		auto key = (*it)["id"];
@@ -13,7 +13,7 @@ tileset tileset::from_json(string j) {
 
 		for (auto fr = (*it)["frames"].begin();
 					fr != (*it)["frames"].end(); fr++) {
-			auto cf = tile_frame();
+			auto cf = game_tile_frame();
 
 			cf.img = (*fr)["image"];
 

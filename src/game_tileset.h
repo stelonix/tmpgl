@@ -2,17 +2,17 @@
 #include <map>
 #include <vector>
 
-struct tile_frame {
+struct game_tile_frame {
 	string img;
 	int interval;
 	string pass;
 	int u,v;
 };
 
-typedef std::vector<tile_frame> game_tile;
+typedef std::vector<game_tile_frame> game_tile;
 
-struct tileset {
+struct game_tileset {
 	string name;
 	std::map<int, game_tile> tiles;
-	static tileset from_json(string json);
+	static game_tileset from_json(string json);
 };

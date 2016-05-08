@@ -1,6 +1,10 @@
 #include "eng_texture.h"
 
 namespace engine {
+	eng_texture::eng_texture() {
+
+	}
+	
 	eng_texture::eng_texture(GLuint texture_id, int w, int h, int rw, int rh) {
 		this->w = w;
 		this->h = h;

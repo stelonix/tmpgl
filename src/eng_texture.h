@@ -1,3 +1,6 @@
+#ifndef ENG_TEXTURE_H
+#define ENG_TEXTURE_H
+
 #include <tuple>
 #include <GL/gl.h>
 
@@ -11,8 +14,10 @@ namespace engine {
 		GLuint texture_id;
 
 		eng_texture(GLuint texture_id, int w, int h, int rw, int rh);
-
+		eng_texture();
 		float normalize_u(int u);
 		float normalize_v(int v);
 	};
 }
+
+#endif
