@@ -26,3 +26,21 @@ string asset_loader::load_shader(string filename) {
 	shader_lib[basename(ptr)] = file_c;
 	return file_c;
 }
+
+game_map asset_loader::load_map(string filename) {
+	loaded_maps[filename] = game_map::from_json(
+		read_file(filename));
+	return loaded_maps[filename];
+}
+
+game_sprite asset_loader::load_sprite(string filename) {
+	loaded_sprites[filename] = game_sprite::from_json(
+		read_file(filename));
+	return loaded_sprites[filename];
+}
+
+game_tileset asset_loader::load_tileset(string filename) {
+	loaded_tilesets[filename] = game_tileset::from_json(
+		read_file(filename));
+	return loaded_tilesets[filename];
+}

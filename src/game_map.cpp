@@ -1,9 +1,16 @@
 #include <tuple>
+#include "assets.h"
 #include "game_map.h"
 #include "include/json.hpp"
+#include "assets.h"
 
 using json = nlohmann::json;
 using namespace std;
+
+game_map::game_map()
+{
+
+}
 
 game_map::game_map(string name, int w, int h, int l) {
 	this->name = name;
@@ -65,3 +72,31 @@ game_map game_map::from_json(string j) {
 	}
 	return retval;
 }
+extern asset_loader* a_loader;
+
+res_map<game_tileset> flatten_tilesets(std::vector<string> tsets) {
+	auto retval = res_map<game_tileset>();
+	for (auto i = 0; i < tsets.size(); i++)
+	{
+		retval[i] = a_loader->loaded_tilesets[tsets[i]];
+	}
+	return retval;
+}
+
+game_tilemap game_map::flatten_layer(int z)
+{
+	auto tiles = layers[z].tiles;
+	auto retval = game_tilemap();
+	auto tmaps = flatten_tilesets(tilesets);
+	for (auto i = 0; i < tiles.size(); i++) {
+		retval.push_back(	tmaps[get<0>(tiles[i])].tiles
+								 [get<1>(tiles[i])]);
+
+	}
+	return retval;
+}
+
+/*eng_texture game_map::tex_from_map_tile(map_tile tile) {
+	auto tex_name = tilesets[get<0>(tile)];
+	return a_loader->loaded_text[tex_name];
+}*/

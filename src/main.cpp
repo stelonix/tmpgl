@@ -30,18 +30,7 @@ using shader_program = scene::shader_program;
 
 std::map<int, int> keys;
 float panx, pany;
-/*namespace scene {
-	shader_program make_shader(std::array<const char*> shd) {
-		auto sp = shader_program();
-		for (auto it = shd.begin(); it != shd.end(); it++)
-		{
-			sp.add_shader(a_loader->shader_lib[*it].c_str(), *it, GL_VERTEX_SHADER);
-		}
-		
-		sp.add_shader(a_loader->shader_lib["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
-		sp.link_shaders();
-	}
-}*/
+
 void init_crt() {
 	signal(SIGSEGV, handler);
 	setvbuf(stdout, NULL, _IONBF, 0);
@@ -58,8 +47,6 @@ void pan_view(float x, float y) {
 
 int main(int argc, char *argv[]) {
 	init_crt();
-
-
 	a_loader = new asset_loader();
 	shaders = &a_loader->shader_lib;
 	game_map::from_json(read_file(ASSETS_DIR+"map.json"));

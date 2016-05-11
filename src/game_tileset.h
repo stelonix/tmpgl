@@ -1,3 +1,7 @@
+#ifndef GAME_TILESET_H
+#define GAME_TILESET_H
+
+#include "aliases.hpp"
 #include "string"
 #include <map>
 #include <vector>
@@ -9,10 +13,10 @@ struct game_tile_frame {
 	int u,v;
 };
 
-typedef std::vector<game_tile_frame> game_tile;
-
 struct game_tileset {
 	string name;
 	std::map<int, game_tile> tiles;
 	static game_tileset from_json(string json);
 };
+
+#endif

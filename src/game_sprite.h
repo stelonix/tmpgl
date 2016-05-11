@@ -1,3 +1,7 @@
+#ifndef GAME_SPRITE_H
+#define GAME_SPRITE_H
+
+#include "aliases.hpp"
 #include "string"
 #include <map>
 #include <vector>
@@ -13,11 +17,12 @@ struct sprite_frame {
 	std::vector<hitbox> hitboxes;
 };
 
-typedef std::vector<sprite_frame> sprite_anim;
-
 struct game_sprite {
 	int id;
 	string name;
 	std::map<string, sprite_anim> states;
+	
 	static game_sprite from_json(string j);
 };
+
+#endif
