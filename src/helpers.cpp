@@ -31,6 +31,6 @@ std::string read_file(string filename) {
 	return retval;
 }
 
-string operator "" s (const char* p, size_t) {
+string operator "" _s (const char* p, size_t) {
 	return string(p);
 }

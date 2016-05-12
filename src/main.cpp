@@ -13,6 +13,7 @@
 #include <X11/keysym.h>
 #include <X11/Xlib.h>
 #include "include/json.hpp"
+//#include "include/prettyprint.hpp"
 #include "assets.h"
 #include "cfg.h"
 #include "boilerplate.h"
@@ -49,8 +50,8 @@ int main(int argc, char *argv[]) {
 	init_crt();
 	a_loader = new asset_loader();
 	shaders = &a_loader->shader_lib;
-	game_map::from_json(read_file(ASSETS_DIR+"map.json"));
-	game_tileset::from_json(read_file(ASSETS_DIR+"tileset.json"));
+	auto mymap = game_map::from_json(read_file(ASSETS_DIR+"map.json"));
+	a_loader->load_tileset(ASSETS_DIR+"tileset.json");
 	game_sprite::from_json(read_file(ASSETS_DIR+"sprite.json"));
 	
 	for (std::string s : list_files(SHADER_DIR)) {
@@ -59,7 +60,7 @@ int main(int argc, char *argv[]) {
 	}
 	glx::setup_x();
 	auto t = a_loader->load_texture(ASSETS_DIR+"indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
-	printf("Texture id: %d\nw: %d (%d)\nh: %d (%d)",
+	printf("Texture id: %d\nw: %d (%d)\nh: %d (%d)\n",
 			t.texture_id,t.w, t.internal_w,
 									t.h, t.internal_h);
 	XEvent xev;
@@ -106,12 +107,25 @@ int main(int argc, char *argv[]) {
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
 	auto loc = sp.attrib("position");
-	glEnableVertexAttribArray(loc);
-	glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
+		glEnableVertexAttribArray(loc);
+		glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
 	loc = sp.attrib("tex_coord");
-	glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(loc);
+		glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+    	glEnableVertexAttribArray(loc);
     auto vb = gen::vertex_grid(20, 15, 1);
+    
+    auto gt = mymap.flatten_layer(0);
+
+    for (auto it = mymap.layers.begin(); it != mymap.layers.end(); ++it)
+    {
+    	printf("1\n");
+    	std::cout << (*it).name << endl;
+    }
+    std::cout << mymap.layers.size() << endl;
+    //exit(0);
+    auto tc = gen::texture_map(gt, a_loader);
+    printf("v: %d t: %d\n", vb.size()/3, tc.size()/2);
+    auto vertex_data = gen::intercalate<3,2>(vb, tc);
     printf("%d\n", vb.size());
     int count = 0;
     for (auto i = vb.begin(); i != vb.end(); ++i)

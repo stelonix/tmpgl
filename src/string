@@ -2,4 +2,4 @@
 
 using string = std::string;
 
-extern string operator "" s (const char* p, size_t);
+extern string operator "" _s (const char* p, size_t);

@@ -15,7 +15,7 @@ coord_grid gen::vertex_grid(int w, int h, int l)
 	const int PER_VERTEX = 3;
 	const int NUM_VERTEX = 6;
 	const int NUM_ELEMENTS = NUM_VERTEX*PER_VERTEX;
-	std::vector<float> retval; retval.resize(w*h*NUM_ELEMENTS);
+	coord_grid retval; retval.resize(w*h*NUM_ELEMENTS);
 	auto z = l/100.0f;
 	for (int x = 0; x < w; x++)
 	{
@@ -37,7 +37,7 @@ coord_grid gen::vertex_grid(int w, int h, int l)
 	return retval;	
 }
 
-game_tilemap flatten_tilemap(map_tilemap tiles,
+game_tilemap gen::flatten_tilemap(map_tilemap tiles,
 	res_map<game_tileset> tilesets)
 {
 	game_tilemap retval;
@@ -48,32 +48,50 @@ game_tilemap flatten_tilemap(map_tilemap tiles,
 	return retval;	
 }
 
-coord_grid texture_map(game_tilemap tiles, asset_loader* a_loader)
+coord_grid gen::texture_map(game_tilemap tiles, asset_loader* a_loader)
 {
 	coord_grid retval;
+	//printf("%d\n", tiles.size());
+	int i = 0;
 	for (auto it = tiles.begin(); it != tiles.end(); it++)
 	{
+
+		//printf("%d\n", (*it).size());
 		auto frame = (*it)[0];
-		auto nibs = a_loader->loaded_tex[frame.img]
-			.normalize(frame.u, frame.v);
-		retval.push_back(nibs[0]);
-		retval.push_back(nibs[1]);
+		
+		//exit(0);
+		printf("%s\n", frame.img.c_str());
+		auto tex = a_loader->loaded_tex[ASSETS_DIR+frame.img];
+		auto values = std::array<float, 12>(
+		{
+			frame.u, frame.v,
+			frame.u+1, frame.v,
+			frame.u+1, frame.v+1,
+			frame.u, frame.v,
+			frame.u, frame.v+1,
+			frame.u+1, frame.v+1,
+		});
+		for (auto i = 0; i < values.size(); i+=2) {
+			auto nibs = tex.normalize(values[i], values[i+1]);
+			retval.push_back(nibs[0]);
+			retval.push_back(nibs[1]);
+		}
+		
+		printf("adding %d\n", i);
+		i++;
 	}
 	return retval;
 }
 
-template <int N, int M> coord_grid intercalate(coord_grid verts, coord_grid uvs)
+res_map<game_tileset> gen::flatten_tilesets(
+	std::vector<string> tsets, asset_loader* a_loader)
 {
-	assert(verts.size() / N == uvs.size() / M);
-	coord_grid retval;
-	retval.reserve(verts.size() + uvs.size());
-	auto sz = (N+M)*sizeof(float);
-	for (int i = 0; i < verts.size() / N; i++)
+	auto retval = res_map<game_tileset>();
+	for (auto i = 0; i < tsets.size(); i++)
 	{
-		memcpy(retval.data()+(i)*sz,
-			verts.data()+i*N*sizeof(float), N);
-		memcpy(retval.data()+(i)*sz+N*sizeof(float),
-			uvs.data()+i*M*sizeof(float), M);
+		retval[i] = a_loader->loaded_tilesets[ASSETS_DIR+tsets[i]];
+		printf("%s is %s\n", (ASSETS_DIR+tsets[i]).c_str(), retval[i].name.c_str());
+		//exit(0);
 	}
 	return retval;
 }

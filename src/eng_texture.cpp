@@ -42,7 +42,8 @@ namespace engine {
 		{
 			for (int y = 0; y < (h / TILE_SIZE) + 1; y++)
 			{
-				normalized.push_back({normalize_u(x), normalize_v(y)});
+				normalized.push_back(
+					{normalize_u(x*ATILE), normalize_v(y*ATILE)});
 			}
 		}
 	}

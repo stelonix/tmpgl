@@ -40,6 +40,7 @@ game_sprite asset_loader::load_sprite(string filename) {
 }
 
 game_tileset asset_loader::load_tileset(string filename) {
+	printf("Loading tileset: %s\n", filename.c_str());
 	loaded_tilesets[filename] = game_tileset::from_json(
 		read_file(filename));
 	return loaded_tilesets[filename];

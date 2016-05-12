@@ -3,6 +3,7 @@
 #include "game_map.h"
 #include "include/json.hpp"
 #include "assets.h"
+#include "generators.h"
 
 using json = nlohmann::json;
 using namespace std;
@@ -14,7 +15,7 @@ game_map::game_map()
 
 game_map::game_map(string name, int w, int h, int l) {
 	this->name = name;
-	set_layers(l);
+	//set_layers(l);
 	resize(w, h);
 };
 
@@ -52,6 +53,7 @@ game_map game_map::from_json(string j) {
 		auto cln = l_node[it.key().c_str()];
 		auto tmp = map_layer();
 			tmp.name = it.key();
+			//printf("%s\n", tmp.name.c_str());
 			tmp.z = cln["z"];
 
 		for (auto i = 0; i < cln["tiles"].size(); i++) {
@@ -74,29 +76,53 @@ game_map game_map::from_json(string j) {
 }
 extern asset_loader* a_loader;
 
-res_map<game_tileset> flatten_tilesets(std::vector<string> tsets) {
-	auto retval = res_map<game_tileset>();
-	for (auto i = 0; i < tsets.size(); i++)
-	{
-		retval[i] = a_loader->loaded_tilesets[tsets[i]];
-	}
-	return retval;
-}
 
+// convert map_tilemap to game_tilemap for a given layer
 game_tilemap game_map::flatten_layer(int z)
 {
 	auto tiles = layers[z].tiles;
 	auto retval = game_tilemap();
-	auto tmaps = flatten_tilesets(tilesets);
+
+	auto tmaps = gen::flatten_tilesets(tilesets, a_loader);
 	for (auto i = 0; i < tiles.size(); i++) {
+		printf("inserting at %d: %d,%d\n", i, get<0>(tiles[i]), get<1>(tiles[i]));
 		retval.push_back(	tmaps[get<0>(tiles[i])].tiles
 								 [get<1>(tiles[i])]);
-
+		/*printf("which is %s\n", tmaps[get<0>(tiles[i])].tiles
+								 [get<1>(tiles[i])].img.c_str());*/
 	}
 	return retval;
 }
-
-/*eng_texture game_map::tex_from_map_tile(map_tile tile) {
+/*
+coord_grid
+generators::texture_map(game_tilemap tiles,
+			std::map<int,
+				tuple<tileset, eng_texture>
+			> tile_data)
+{
+	const int PER_COORD = 2;
+	const int NUM_COORD = 6;
+	const int NUM_ELEMENTS = PER_COORD*NUM_COORD;
+	std::vector<float> retval; retval.resize(tiles.size()*NUM_ELEMENTS);
+	for (auto it = tiles.begin(); it != tiles.end(); it++) {
+		auto cur_tile = get<0>(tile_data).tiles[get<1>(*it)];
+		auto t = get<1>(tile_data);
+		a_loader->loaded_tex[]
+		int tx = cur_tile.u; int ty = cur_tile.v;
+		float norm_texels[] ={
+			t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
+			t.normalize_u((tx+1)*ATILE), t.normalize_v(ty*ATILE),
+			t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE),
+			t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
+			t.normalize_u(tx*ATILE), t.normalize_v((ty+1)*ATILE),
+			t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE)
+		};
+		memcpy(retval.data()+(y*w+x)*NUM_ELEMENTS,
+				norm_texels, sizeof(norm_texels));
+	}
+	return retval;
+}
+eng_texture game_map::tex_from_map_tile(map_tile tile) {
 	auto tex_name = tilesets[get<0>(tile)];
 	return a_loader->loaded_text[tex_name];
 }*/
