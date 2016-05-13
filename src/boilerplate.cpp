@@ -41,7 +41,7 @@ namespace glx {
 				//printf("press: %d +\n", event.xkey.keycode);
 				XFlush(display);
 				for (auto it = keys.begin(); it != keys.end(); it++) {
-					std::cout << it->first << ": " << it->second << std::endl;
+					//std::cout << it->first << ": " << it->second << std::endl;
 				}
 
 				break;
@@ -55,7 +55,7 @@ namespace glx {
 				//printf("release %d\n", event.xkey.keycode);
 				
 				for (auto it = keys.begin(); it != keys.end(); it++) {
-					std::cout << it->first << ": " << it->second << std::endl;
+					//std::cout << it->first << ": " << it->second << std::endl;
 				}
 				break;
 			}
@@ -114,7 +114,7 @@ namespace glx {
 		return 0;
 	}
 
-	void setup_x() {
+	void setup_x(int w, int h) {
 		keys[XK_Up] = false;
 		keys[XK_Down] = false;
 		keys[XK_Left] = false;
@@ -204,7 +204,7 @@ namespace glx {
 
 		//printf("Creating window\n");
 		win = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
-															 800, 600, 0, vi->depth, InputOutput, vi->visual,
+															 w, h, 0, vi->depth, InputOutput, vi->visual,
 															 CWBorderPixel | CWColormap | CWEventMask, &swa);
 		XSetWMProtocols(display, win, &WM_DELETE_WINDOW, 1);
 		if (!win) {

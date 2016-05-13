@@ -31,20 +31,16 @@ namespace engine {
 		return engine::normalize(v, y_unit);
 	}
 
-	uv_coord eng_texture::normalize(int u, int v)
-	{
-		return normalized[u+v*w];
-	}
-
 	void eng_texture::build_cache()
 	{
 		for (int x = 0; x < (w / TILE_SIZE) + 1; x++)
 		{
-			for (int y = 0; y < (h / TILE_SIZE) + 1; y++)
-			{
-				normalized.push_back(
-					{normalize_u(x*ATILE), normalize_v(y*ATILE)});
-			}
+			normalized_x.push_back(normalize_u(x*ATILE));
+		}
+		for (int y = 0; y < (h / TILE_SIZE) + 1; y++)
+		{
+			normalized_y.push_back(normalize_v(y*ATILE));
+			//printf("%f -> %f \n", y*ATILE, normalize_v(y*ATILE));
 		}
 	}
 

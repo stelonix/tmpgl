@@ -45,7 +45,7 @@ glm::mat4 pan;
 void pan_view(float x, float y) {
 	pan = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0.0f));
 }
-
+coord_grid vertex_data;
 int main(int argc, char *argv[]) {
 	init_crt();
 	a_loader = new asset_loader();
@@ -58,15 +58,15 @@ int main(int argc, char *argv[]) {
 		a_loader->load_shader(SHADER_DIR+"/"+s);
 		//printf("%s\n---\n%s\n---\n", s.c_str(), shaders[s].c_str());
 	}
-	glx::setup_x();
+	glx::setup_x(HORZ_RES, VERT_RES);
 	auto t = a_loader->load_texture(ASSETS_DIR+"indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
 	printf("Texture id: %d\nw: %d (%d)\nh: %d (%d)\n",
 			t.texture_id,t.w, t.internal_w,
 									t.h, t.internal_h);
 	XEvent xev;
 	glx::init_glew();
-	glx::init_gl(800, 600);
-	auto projection = glm::ortho( 0.f, 800.f, 600.f, 0.0f, 0.0f, 100.f ); 
+	glx::init_gl(HORZ_RES, VERT_RES);
+	auto projection = glm::ortho( 0.f, float(HORZ_RES), float(VERT_RES), 0.0f, 0.0f, 100.f ); 
 	glm::mat4 VP = glm::mat4();
 	glm::mat4 view = glm::lookAt(
 				glm::vec3(0,0,1), // Camera is at (0,0,5), in World Space
@@ -103,37 +103,41 @@ int main(int argc, char *argv[]) {
 		(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,		0.0f,
 			t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE)
 	};
+
+	auto vb = gen::vertex_grid(20, 15, 1);
+    auto gt = mymap.flatten_layer(0);
+    auto tc = gen::texture_map(gt, a_loader);
+    
+    vertex_data = gen::intercalate<3,2>(vb, tc);
+    //printf("v: %d t: %d\n", vb.size()/3, tc.size()/2);
+    //printf("%d\n", vb.size());
+
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertex_data.size(), vertex_data.data(), GL_STATIC_DRAW);
 	auto loc = sp.attrib("position");
 		glEnableVertexAttribArray(loc);
 		glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
 	loc = sp.attrib("tex_coord");
 		glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-    	glEnableVertexAttribArray(loc);
-    auto vb = gen::vertex_grid(20, 15, 1);
-    
-    auto gt = mymap.flatten_layer(0);
+		glEnableVertexAttribArray(loc);
 
-    for (auto it = mymap.layers.begin(); it != mymap.layers.end(); ++it)
-    {
-    	printf("1\n");
-    	std::cout << (*it).name << endl;
-    }
-    std::cout << mymap.layers.size() << endl;
+    // for (auto it = mymap.layers.begin(); it != mymap.layers.end(); ++it)
+    // {
+    // 	printf("1\n");
+    // 	std::cout << (*it).name << endl;
+    // }
+    // std::cout << mymap.layers.size() << endl;
     //exit(0);
-    auto tc = gen::texture_map(gt, a_loader);
-    printf("v: %d t: %d\n", vb.size()/3, tc.size()/2);
-    auto vertex_data = gen::intercalate<3,2>(vb, tc);
-    printf("%d\n", vb.size());
+    
     int count = 0;
-    for (auto i = vb.begin(); i != vb.end(); ++i)
+    /*printf("%d\n", vertex_data.size());
+    for (auto i = vertex_data.begin(); i != vertex_data.end(); ++i)
     {
-    	printf("%d: %f\n",count, *i);
+    	//printf("%f,",count, *i);
     	count++;
-    	if (count >= 30) break;
-    }
+    	//if (count > 10) printf("\n");;
+    }*/
     //exit(0);
 	while (1) {
 		glx::poll();
@@ -181,7 +185,7 @@ int main(int argc, char *argv[]) {
 		glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(pan));
 
 		glBindVertexArray(vao);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawArrays(GL_TRIANGLES, 0, 9000);
 		glx::swap();
 	}
 	glx::clean_x();

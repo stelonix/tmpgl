@@ -9,7 +9,8 @@ namespace engine {
 	float normalize(int v, float unit);
 
 	struct eng_texture {
-		std::vector<uv_coord> normalized;
+		std::vector<float> normalized_x;
+		std::vector<float> normalized_y;
 		int w, h;
 		int internal_w, internal_h;
 		float x_unit, y_unit;
@@ -19,7 +20,6 @@ namespace engine {
 		eng_texture();
 		float normalize_u(int u);
 		float normalize_v(int v);
-		uv_coord normalize(int u, int v);
 		void build_cache();
 	};
 }

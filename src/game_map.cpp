@@ -85,7 +85,7 @@ game_tilemap game_map::flatten_layer(int z)
 
 	auto tmaps = gen::flatten_tilesets(tilesets, a_loader);
 	for (auto i = 0; i < tiles.size(); i++) {
-		printf("inserting at %d: %d,%d\n", i, get<0>(tiles[i]), get<1>(tiles[i]));
+		//printf("inserting at %d: %d,%d\n", i, get<0>(tiles[i]), get<1>(tiles[i]));
 		retval.push_back(	tmaps[get<0>(tiles[i])].tiles
 								 [get<1>(tiles[i])]);
 		/*printf("which is %s\n", tmaps[get<0>(tiles[i])].tiles

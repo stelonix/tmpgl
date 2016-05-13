@@ -9,6 +9,8 @@ namespace cfg {
 	extern float TILE_SIZE;
 	extern string ASSETS_DIR;
 	extern string SHADER_DIR;
+	extern int HORZ_RES;
+	extern int VERT_RES;
 }
 
 #endif

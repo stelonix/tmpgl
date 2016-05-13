@@ -14,15 +14,28 @@ namespace gen {
 	{
 		assert(verts.size() / N == uvs.size() / M);
 		coord_grid retval;
-		retval.reserve(verts.size() + uvs.size());
+		//retval.resize(verts.size() + uvs.size());
+		//printf("intercalate size: %d\n", retval.size());
 		auto sz = (N+M)*sizeof(float);
 		for (int i = 0; i < verts.size() / N; i++)
 		{
-			memcpy(retval.data()+(i)*sz,
-				verts.data()+i*N*sizeof(float), N);
-			memcpy(retval.data()+(i)*sz+N*sizeof(float),
-				uvs.data()+i*M*sizeof(float), M);
+			// verts
+			retval.push_back(verts[i*N]);
+			retval.push_back(verts[i*N+1]);
+			retval.push_back(verts[i*N+2]);
+			
+			// uv
+			retval.push_back(uvs[i*M]);
+			retval.push_back(uvs[i*M+1]);
+			
+			// printf("x,y,z: %f,%f,%f | u,v: %f %f\n",
+			// 	retval[i],
+			// 	retval[i+1],
+			// 	retval[i+2],
+			// 	retval[i+3],
+			// 	retval[i+4]);
 		}
+		//exit(0);
 		return retval;
 	}
 }
