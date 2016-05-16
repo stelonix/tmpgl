@@ -28,12 +28,13 @@
 #include <freetype/ftglyph.h>
 #include FT_FREETYPE_H 
 #include "fonts.h"
+#include "vbo.h"
 
 using namespace cfg;
 using json = nlohmann::json;
 using shader_program = scene::shader_program;
 
-
+shader_program* current_program;
 std::map<int, int> keys;
 float panx, pany;
 
@@ -90,6 +91,7 @@ int main(int argc, char *argv[]) {
 		sp.add_shader(a_loader->shader_lib["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
 		sp.add_shader(a_loader->shader_lib["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
 		sp.link_shaders();
+		sp.use_shaders();
 	
 	auto vb = gen::vertex_grid(20, 15, 1);
     auto gt = mymap.flatten_layer(0);
@@ -97,21 +99,12 @@ int main(int argc, char *argv[]) {
     
     vertex_data = gen::intercalate<3,2>(vb, tc);
     
-    unsigned int vao;
-	unsigned int vbo;
-
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertex_data.size(), vertex_data.data(), GL_STATIC_DRAW);
-	auto loc = sp.attrib("position");
-		glEnableVertexAttribArray(loc);
-		glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
-	loc = sp.attrib("tex_coord");
-		glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-		glEnableVertexAttribArray(loc);
+    vbo tile_buffer;
+    tile_buffer.buffer_data(vertex_data);
+    tile_buffer
+    	.add_pointer("position", 3, GL_FLOAT)
+    	.add_pointer("tex_coord", 2, GL_FLOAT)
+    .attach(tile_buffer);
 
 	while (1) {
 		glx::poll();
@@ -151,7 +144,7 @@ int main(int argc, char *argv[]) {
 		auto model_loc = sp.uniform("model");
 			glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(pan));
 
-		glBindVertexArray(vao);
+		glBindVertexArray(tile_buffer.vao_id);
 		glDrawArrays(GL_TRIANGLES, 0, 9000);
 		glx::swap();
 	}

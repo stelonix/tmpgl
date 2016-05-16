@@ -1,7 +1,13 @@
+#ifndef SHADER_H
+#define SHADER_H
+
+#include "string"
+#include <GL/glew.h>
 #include <GL/gl.h>
 
 namespace scene {
-	
+
+	int get_attrib_loc(char const* attrib, GLuint program);
 	int get_attrib_loc(const char* attrib, int program);
 	int get_uniform_loc(const char* attrib, int program);
 	std::string get_shader_log(unsigned int shaderID);
@@ -17,4 +23,7 @@ namespace scene {
 		int attrib(std::string attrib);
 
 	};
+
 }
+extern scene::shader_program* current_program;
+#endif

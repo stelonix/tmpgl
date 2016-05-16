@@ -1,6 +1,6 @@
 #include "string"
 #include <vector>
-#include <GL/glew.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "shader.h"
@@ -8,6 +8,9 @@
 
 namespace scene {
 	
+	int get_attrib_loc(char const* attrib, int program) {
+		return glGetAttribLocation(program, attrib);
+	}
 	int get_attrib_loc(const char* attrib, GLuint program) {
 		return glGetAttribLocation(program, attrib);
 	}
@@ -49,6 +52,7 @@ namespace scene {
 
 	void shader_program::use_shaders() {
 		glUseProgram(program_id);
+		current_program = this;
 	}
 
 	int shader_program::attrib(string attrib) {
