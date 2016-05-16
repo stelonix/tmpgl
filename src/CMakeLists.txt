@@ -8,6 +8,9 @@ PROJECT(${PROJECTNAME})
 
 set(main_SRCS
 		cfg.cpp
+		vbo.cpp
+		engine.cpp
+		fonts.cpp
 		generators.cpp
 		png_texture.cpp
 		eng_texture.cpp
@@ -30,11 +33,15 @@ find_package(PNG REQUIRED)
 include_directories(${PNG_INCLUDE_DIR})
 
 # OpenGL
-FIND_PACKAGE(OpenGL REQUIRED)
+find_package(OpenGL REQUIRED)
 if(NOT OPENGL_FOUND)
     message(ERROR " OPENGL not found!")
 endif(NOT OPENGL_FOUND)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
+# Freetype
+find_package(Freetype REQUIRED)
+include_directories(${FREETYPE_INCLUDE_DIRS})
 
 find_package(Libunwind REQUIRED)
 if ( LIBUNWIND_FOUND )
@@ -46,7 +53,7 @@ find_package(X11 REQUIRED)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../bin)
 
-SET(LIBRARIES ${LIBRARIES} ${OPENGL_LIBRARIES}
+SET(LIBRARIES ${LIBRARIES} ${FREETYPE_LIBRARIES} ${OPENGL_LIBRARIES}
 	${PNG_LIBRARY} ${UNWIND_SHARED_LIB} ${GLEW_LIBRARY}
 	${X11_LIBRARIES}
 	)

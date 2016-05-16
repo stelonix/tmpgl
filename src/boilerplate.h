@@ -12,6 +12,7 @@ namespace glx {
 	void init_gl(int w, int h);
 	void clean_x();
 	void swap();
+	void clear_buffers();
 	extern bool done;
 }
 

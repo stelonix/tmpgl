@@ -22,26 +22,27 @@ eng_texture asset_loader::load_texture(string filename) {
 
 string asset_loader::load_shader(string filename) {
 	auto ptr = const_cast<char*>(filename.c_str());
-	auto file_c = read_file(filename);
+	auto file_c = read_file<string>(filename);
 	shader_lib[basename(ptr)] = file_c;
 	return file_c;
 }
 
 game_map asset_loader::load_map(string filename) {
 	loaded_maps[filename] = game_map::from_json(
-		read_file(filename));
+		read_file<string>(filename));
 	return loaded_maps[filename];
 }
 
 game_sprite asset_loader::load_sprite(string filename) {
 	loaded_sprites[filename] = game_sprite::from_json(
-		read_file(filename));
+		read_file<string>(filename));
 	return loaded_sprites[filename];
 }
 
 game_tileset asset_loader::load_tileset(string filename) {
 	printf("Loading tileset: %s\n", filename.c_str());
 	loaded_tilesets[filename] = game_tileset::from_json(
-		read_file(filename));
+		read_file<string>(filename));
 	return loaded_tilesets[filename];
 }
+

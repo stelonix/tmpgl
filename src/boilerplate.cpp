@@ -15,6 +15,8 @@
 #include "cfg.h"
 using namespace cfg;
 
+#define RGBA(r, g, b, a) r/255.0, g/255.0, b/255.0, a/255.0
+#define RGB(r, g, b, a) r/255.0, g/255.0, b/255.0
 extern void pan_view(float x, float y);
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 extern std::map<int, int> keys;
@@ -327,7 +329,10 @@ namespace glx {
 		}
 	}
 
-	
+	void clear_buffers() {
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(1.0, 0.3, 0.3, 0.0f);
+	}
 
 	void init_gl(int w, int h) {
 		glViewport(0,0,w,h);

@@ -15,22 +15,6 @@ std::vector<string> list_files(std::string dir) {
 	return ret_val;
 }
 
-std::string read_file(string filename) {
-	//std::cout << filename << std::endl;
-	FILE* f = fopen(filename.c_str(), "r");
-	fseek(f, 0, SEEK_END);
-	size_t size = ftell(f);
-
-	char* contents = new char[size+1];
-
-	rewind(f);
-	fread(contents, sizeof(char), size, f);
-	contents[size] = '\0';
-	auto retval = string(contents);
-	delete[] contents;
-	return retval;
-}
-
 string operator "" _s (const char* p, size_t) {
 	return string(p);
 }

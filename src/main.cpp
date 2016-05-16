@@ -23,6 +23,11 @@
 #include "helpers.h"
 #include "shader.h"
 #include "debug.h"
+#include "engine.h"
+#include <ft2build.h>
+#include <freetype/ftglyph.h>
+#include FT_FREETYPE_H 
+#include "fonts.h"
 
 using namespace cfg;
 using json = nlohmann::json;
@@ -46,19 +51,26 @@ void pan_view(float x, float y) {
 	pan = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0.0f));
 }
 coord_grid vertex_data;
+FT_Library  library;
 int main(int argc, char *argv[]) {
 	init_crt();
+	
+	bool error = FT_Init_FreeType( &library );
+	
+
+	
+	font f;
+
+
 	a_loader = new asset_loader();
 	shaders = &a_loader->shader_lib;
-	auto mymap = game_map::from_json(read_file(ASSETS_DIR+"map.json"));
+	auto mymap = game_map::from_json(read_file<string>(ASSETS_DIR+"map.json"));
 	a_loader->load_tileset(ASSETS_DIR+"tileset.json");
-	game_sprite::from_json(read_file(ASSETS_DIR+"sprite.json"));
+	game_sprite::from_json(read_file<string>(ASSETS_DIR+"sprite.json"));
 	
-	for (std::string s : list_files(SHADER_DIR)) {
-		a_loader->load_shader(SHADER_DIR+"/"+s);
-		//printf("%s\n---\n%s\n---\n", s.c_str(), shaders[s].c_str());
-	}
+	engine::load_shaders();
 	glx::setup_x(HORZ_RES, VERT_RES);
+	f.load();
 	auto t = a_loader->load_texture(ASSETS_DIR+"indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
 	printf("Texture id: %d\nw: %d (%d)\nh: %d (%d)\n",
 			t.texture_id,t.w, t.internal_w,
@@ -79,38 +91,17 @@ int main(int argc, char *argv[]) {
 		sp.add_shader(a_loader->shader_lib["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
 		sp.link_shaders();
 	
-	unsigned int vao;
-	unsigned int vbo;
-
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	int x = 0;
-	int y = 0;
-	int tx = 0;
-	int ty = 1;
-	
-	float vertices[] ={
-		x*TILE_SIZE,		y*TILE_SIZE,		0.0f,
-			t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
-		(x+1)*TILE_SIZE,	y*TILE_SIZE,		0.0f,
-			t.normalize_u((tx+1)*ATILE), t.normalize_v(ty*ATILE),
-		(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,	0.0f,
-			t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE),
-		x*TILE_SIZE,		y*TILE_SIZE,	0.0f,
-			t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
-		x*TILE_SIZE,	(y+1)*TILE_SIZE,	0.0f,
-			t.normalize_u(tx*ATILE), t.normalize_v((ty+1)*ATILE),
-		(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,		0.0f,
-			t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE)
-	};
-
 	auto vb = gen::vertex_grid(20, 15, 1);
     auto gt = mymap.flatten_layer(0);
     auto tc = gen::texture_map(gt, a_loader);
     
     vertex_data = gen::intercalate<3,2>(vb, tc);
-    //printf("v: %d t: %d\n", vb.size()/3, tc.size()/2);
-    //printf("%d\n", vb.size());
+    
+    unsigned int vao;
+	unsigned int vbo;
+
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -122,23 +113,6 @@ int main(int argc, char *argv[]) {
 		glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 		glEnableVertexAttribArray(loc);
 
-    // for (auto it = mymap.layers.begin(); it != mymap.layers.end(); ++it)
-    // {
-    // 	printf("1\n");
-    // 	std::cout << (*it).name << endl;
-    // }
-    // std::cout << mymap.layers.size() << endl;
-    //exit(0);
-    
-    int count = 0;
-    /*printf("%d\n", vertex_data.size());
-    for (auto i = vertex_data.begin(); i != vertex_data.end(); ++i)
-    {
-    	//printf("%f,",count, *i);
-    	count++;
-    	//if (count > 10) printf("\n");;
-    }*/
-    //exit(0);
 	while (1) {
 		glx::poll();
 				dbgprint("u:%s d:%s l:%s r:%s \n"
@@ -149,20 +123,8 @@ int main(int argc, char *argv[]) {
 		if (glx::done) {
 			glx::clean_x();
 			return 0;
-		}
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(1.0, 0.3, 0.3, 0.0f);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, t.texture_id);
-		sp.use_shaders();
+		}		
 		
-		
-
-		auto projection_Location = sp.uniform("projection");
-		glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
-			//auto texLoc = scene::get_uniform_loc("tex");
-			//glUniform1i(texLoc, texture);
-			//glActiveTexture(GL_TEXTURE0);
 		if (keys[XK_Up]) {
 			dbgprint("up!\n");
 			pany += float(MAG);
@@ -180,9 +142,14 @@ int main(int argc, char *argv[]) {
 			panx -= float(MAG);
 		}
 		pan_view(panx,pany);
-		
+		glx::clear_buffers();
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, t.texture_id);
+		sp.use_shaders();
+		auto projection_Location = sp.uniform("projection");
+			glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
 		auto model_loc = sp.uniform("model");
-		glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(pan));
+			glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(pan));
 
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLES, 0, 9000);

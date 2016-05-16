@@ -11,6 +11,7 @@
 #include "game_map.h"
 #include "game_sprite.h"
 #include "game_tileset.h"
+#include "helpers.h"
 
 using namespace engine;
 using namespace std;
@@ -30,6 +31,16 @@ struct asset_loader {
 	game_sprite load_sprite(string filename);
 	game_tileset load_tileset(string filename);
 	int sweep_load(string directory);
-};
 
+	
+
+};
+/*template <typename T, LoadFunc, typename AsType = string>
+T load_simple(
+	string filename,
+	path_map<string>& path_store)
+{
+	path_store[filename] = LoadFunc(read_file<AsType>(filename));
+	return path_store[filename];
+}*/
 #endif

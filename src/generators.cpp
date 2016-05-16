@@ -51,31 +51,21 @@ game_tilemap gen::flatten_tilemap(map_tilemap tiles,
 coord_grid gen::texture_map(game_tilemap tiles, asset_loader* a_loader)
 {
 	coord_grid retval;
-	//printf("%d\n", tiles.size());
 	int i = 0;
 	for (auto it = tiles.begin(); it != tiles.end(); it++)
 	{
-
-		//printf("%d\n", (*it).size());
 		auto frame = (*it)[0];
-		
-		//exit(0);
-		//printf("%s\n", frame.img.c_str());
 		auto tex = a_loader->loaded_tex[ASSETS_DIR+frame.img];
-		//#pragma GCC diagnostic push
-		//#pragma GCC diagnostic ignored "-Wnarrowing"
 		auto values = std::array<float, 12>(
 		{
-			tex.normalized_x[frame.u], tex.normalized_y[frame.v],
-			tex.normalized_x[frame.u+1], tex.normalized_y[frame.v],
-			tex.normalized_x[frame.u+1], tex.normalized_y[frame.v+1],
-			tex.normalized_x[frame.u], tex.normalized_y[frame.v],
-			tex.normalized_x[frame.u], tex.normalized_y[frame.v+1],
-			tex.normalized_x[frame.u+1], tex.normalized_y[frame.v+1],
+			tex.normalized_x[frame.u],		tex.normalized_y[frame.v],
+			tex.normalized_x[frame.u+1],	tex.normalized_y[frame.v],
+			tex.normalized_x[frame.u+1],	tex.normalized_y[frame.v+1],
+			tex.normalized_x[frame.u],		tex.normalized_y[frame.v],
+			tex.normalized_x[frame.u],		tex.normalized_y[frame.v+1],
+			tex.normalized_x[frame.u+1],	tex.normalized_y[frame.v+1],
 		});
-		//#pragma GCC diagnostic pop
 		retval.insert(retval.end(), values.begin(), values.end());
-		//printf("adding %d\n", i);
 		i++;
 	}
 	return retval;
@@ -88,8 +78,6 @@ res_map<game_tileset> gen::flatten_tilesets(
 	for (auto i = 0; i < tsets.size(); i++)
 	{
 		retval[i] = a_loader->loaded_tilesets[ASSETS_DIR+tsets[i]];
-		//printf("%s is %s\n", (ASSETS_DIR+tsets[i]).c_str(), retval[i].name.c_str());
-		//exit(0);
 	}
 	return retval;
 }
