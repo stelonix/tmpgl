@@ -22,9 +22,11 @@ struct vao_pointer {
 struct vbo {
 	unsigned int vao_id;
 	unsigned int vbo_id;
-
+	unsigned int num_els;
+	
 	vbo (std::vector<float> data);
 	vbo ();
+	void init();
 	void setup_vao();
 	void buffer_data(std::vector<float> data);
 

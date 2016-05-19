@@ -17,42 +17,41 @@
 #include "assets.h"
 #include "cfg.h"
 #include "boilerplate.h"
+#include "debug.h"
+#include "engine.h"
+#include "fonts.h"
 #include "game_map.h"
 #include "generators.h"
 #include "game_sprite.h"
 #include "helpers.h"
 #include "shader.h"
-#include "debug.h"
-#include "engine.h"
+#include "vbo.h"
 #include <ft2build.h>
 #include <freetype/ftglyph.h>
 #include FT_FREETYPE_H 
-#include "fonts.h"
-#include "vbo.h"
 
 using namespace cfg;
 using json = nlohmann::json;
 using shader_program = scene::shader_program;
 
+asset_loader* a_loader;
 shader_program* current_program;
 std::map<int, int> keys;
+FT_Library library;
+glm::mat4 pan;
 float panx, pany;
+coord_grid vertex_data;
 
 void init_crt() {
 	signal(SIGSEGV, handler);
 	setvbuf(stdout, NULL, _IONBF, 0);
 }
 
-asset_loader* a_loader;
-std::map<string, string>* shaders;
-
-glm::mat4 pan;
-
 void pan_view(float x, float y) {
 	pan = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0.0f));
 }
-coord_grid vertex_data;
-FT_Library  library;
+vbo texture_viewer;
+
 int main(int argc, char *argv[]) {
 	init_crt();
 	
@@ -64,7 +63,6 @@ int main(int argc, char *argv[]) {
 
 
 	a_loader = new asset_loader();
-	shaders = &a_loader->shader_lib;
 	auto mymap = game_map::from_json(read_file<string>(ASSETS_DIR+"map.json"));
 	a_loader->load_tileset(ASSETS_DIR+"tileset.json");
 	game_sprite::from_json(read_file<string>(ASSETS_DIR+"sprite.json"));
@@ -76,7 +74,6 @@ int main(int argc, char *argv[]) {
 	printf("Texture id: %d\nw: %d (%d)\nh: %d (%d)\n",
 			t.texture_id,t.w, t.internal_w,
 									t.h, t.internal_h);
-	XEvent xev;
 	glx::init_glew();
 	glx::init_gl(HORZ_RES, VERT_RES);
 	auto projection = glm::ortho( 0.f, float(HORZ_RES), float(VERT_RES), 0.0f, 0.0f, 100.f ); 
@@ -92,19 +89,41 @@ int main(int argc, char *argv[]) {
 		sp.add_shader(a_loader->shader_lib["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
 		sp.link_shaders();
 		sp.use_shaders();
-	
+	auto wp = shader_program();
+		wp.add_shader(a_loader->shader_lib["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
+		wp.add_shader(a_loader->shader_lib["all_white.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
+		wp.link_shaders();
+		//wp.use_shaders();
+
 	auto vb = gen::vertex_grid(20, 15, 1);
+	printf("vb[0]=%f\n", vb[3]);
     auto gt = mymap.flatten_layer(0);
     auto tc = gen::texture_map(gt, a_loader);
-    
+    text_buffer test;
+    auto dt = test.set("For some reason its all black", &f);
+    printf("dt[5]=%f\n", dt[5]);
     vertex_data = gen::intercalate<3,2>(vb, tc);
-    
-    vbo tile_buffer;
-    tile_buffer.buffer_data(vertex_data);
-    tile_buffer
-    	.add_pointer("position", 3, GL_FLOAT)
-    	.add_pointer("tex_coord", 2, GL_FLOAT)
-    .attach(tile_buffer);
+
+    vbo tile_buffer, text_buffer;
+    tile_buffer.init();
+	    tile_buffer.buffer_data(vertex_data);
+	    tile_buffer
+	    	.add_pointer("position", 3, GL_FLOAT)
+	    	.add_pointer("tex_coord", 2, GL_FLOAT)
+	    .attach(tile_buffer);
+	text_buffer.init();
+	    text_buffer.buffer_data(dt);
+	    text_buffer
+	    	.add_pointer("position", 3, GL_FLOAT)
+	    	.add_pointer("tex_coord", 2, GL_FLOAT)
+    	.attach(text_buffer);
+
+    texture_viewer.init();
+    	texture_viewer.buffer_data(gen::texview(f.texture,9));
+		texture_viewer
+	    	.add_pointer("position", 3, GL_FLOAT)
+	    	.add_pointer("tex_coord", 2, GL_FLOAT)
+    	.attach(texture_viewer);    	
 
 	while (1) {
 		glx::poll();
@@ -136,16 +155,43 @@ int main(int argc, char *argv[]) {
 		}
 		pan_view(panx,pany);
 		glx::clear_buffers();
+		// draw tiles
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, t.texture_id);
 		sp.use_shaders();
+		{
+			auto projection_Location = sp.uniform("projection");
+				glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
+			auto model_loc = sp.uniform("model");
+				glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(pan));
+		}
+		glBindVertexArray(tile_buffer.vao_id);
+		glDrawArrays(GL_TRIANGLES, 0, tile_buffer.num_els);
+
+		// draw text
+		/*glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, f.texture.texture_id);
+		//wp.use_shaders();
+		{
+			auto projection_Location = sp.uniform("projection");
+				glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
+			auto model_loc = sp.uniform("model");
+				glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(glm::mat4()));
+		}
+		glBindVertexArray(text_buffer.vao_id);
+		glDrawArrays(GL_TRIANGLES, 0, text_buffer.num_els);
+		
+		// texture viewer
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, f.texture.texture_id);
 		auto projection_Location = sp.uniform("projection");
-			glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
+				glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
 		auto model_loc = sp.uniform("model");
 			glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(pan));
+		glBindVertexArray(texture_viewer.vao_id);
+		glDrawArrays(GL_TRIANGLES, 0, texture_viewer.num_els);*/
 
-		glBindVertexArray(tile_buffer.vao_id);
-		glDrawArrays(GL_TRIANGLES, 0, 9000);
+		//printf("%d\n", texture_viewer.num_els);
 		glx::swap();
 	}
 	glx::clean_x();

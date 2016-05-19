@@ -10,7 +10,12 @@ vbo::vbo (std::vector<float> data) {
 
 vbo::vbo()
 {
+	//setup_vao();
+}
+
+void vbo::init() {
 	setup_vao();
+	num_els = 0;
 }
 
 void vbo::setup_vao() {
@@ -19,6 +24,7 @@ void vbo::setup_vao() {
 }
 
 void vbo::buffer_data(std::vector<float> data) {
+	num_els = data.size();
 	glGenBuffers(1, &vbo_id);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
 	glBufferData(GL_ARRAY_BUFFER,

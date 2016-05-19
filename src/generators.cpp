@@ -71,6 +71,36 @@ coord_grid gen::texture_map(game_tilemap tiles, asset_loader* a_loader)
 	return retval;
 }
 
+coord_grid gen::texview(eng_texture tex, int l)
+{
+	auto internal_w = (float)tex.internal_w;
+	auto internal_h = (float)tex.internal_h;
+	printf("Texture view for texture %d (%f, %f)\n", tex.texture_id, internal_w, internal_h);
+	auto z = l/100.0f;
+	coord_grid retval;
+	auto verts = std::vector<float>(
+	{
+		0,			0,			z,
+		internal_w,	0,			z,
+		internal_w,	internal_h,	z,
+		0,			0,			z,
+		0,			internal_h,	z,
+		internal_w,	internal_h,	z,
+	});
+	auto t = tex;
+	auto uvs = std::vector<float>(
+	{
+		t.normalize_u(0),			t.normalize_v(0),
+		t.normalize_u(internal_w),	t.normalize_v(0),
+		t.normalize_u(internal_w),	t.normalize_v(internal_h),
+		t.normalize_u(0),			t.normalize_v(0),
+		t.normalize_u(0),			t.normalize_v(internal_h),
+		t.normalize_u(internal_w),	t.normalize_v(internal_h),
+	});
+	
+	return intercalate<3,2>(verts,uvs);
+}
+
 res_map<game_tileset> gen::flatten_tilesets(
 	std::vector<string> tsets, asset_loader* a_loader)
 {
