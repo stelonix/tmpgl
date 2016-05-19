@@ -32,7 +32,8 @@ struct font {
 	void load();
 	void fill_texture_data(unsigned int ch,
 		font::font_info_t* font, unsigned int texture_width,
-		unsigned char* texture_data);
+		unsigned char* texture_data, int char_x, int char_y);
+	string to_json();
 };
 
 

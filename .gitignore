@@ -6,3 +6,5 @@ Makefile
 cmake_install.cmake
 install_manifest.txt
 Fipps-Regular.otf
+*.ttf
+*.otf

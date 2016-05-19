@@ -1,3 +1,4 @@
+#include "string"
 #include "debug.h"
 #include <cxxabi.h>
 #include <stdio.h>
@@ -9,6 +10,22 @@
 void handler(int sig) {
 	backtrace();
 	exit(1);
+}
+//std::map<string, string> dbg_notice_map;
+
+
+void real_dbgprint(int counter, const char* msg_type, const char* format, ...) {
+	char buf[16];
+	sprintf(buf, "[%s%03d] ", msg_type, counter);
+
+	va_list ap;
+	va_start(ap, format);
+
+	auto str = string(format);
+	str = string(buf) + str;
+
+	printf(str.c_str(), ap);
+	va_end(ap);
 }
 
 int getFileAndLine (unw_word_t addr, char *file, size_t flen, int *line) {

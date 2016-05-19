@@ -71,9 +71,7 @@ int main(int argc, char *argv[]) {
 	glx::setup_x(HORZ_RES, VERT_RES);
 	f.load();
 	auto t = a_loader->load_texture(ASSETS_DIR+"indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
-	printf("Texture id: %d\nw: %d (%d)\nh: %d (%d)\n",
-			t.texture_id,t.w, t.internal_w,
-									t.h, t.internal_h);
+	
 	glx::init_glew();
 	glx::init_gl(HORZ_RES, VERT_RES);
 	auto projection = glm::ortho( 0.f, float(HORZ_RES), float(VERT_RES), 0.0f, 0.0f, 100.f ); 
@@ -94,29 +92,16 @@ int main(int argc, char *argv[]) {
 		wp.add_shader(a_loader->shader_lib["all_white.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
 		wp.link_shaders();
 		//wp.use_shaders();
-
-	auto vb = gen::vertex_grid(20, 15, 1);
-	printf("vb[0]=%f\n", vb[3]);
-    auto gt = mymap.flatten_layer(0);
-    auto tc = gen::texture_map(gt, a_loader);
-    text_buffer test;
-    auto dt = test.set("For some reason its all black", &f);
-    printf("dt[5]=%f\n", dt[5]);
-    vertex_data = gen::intercalate<3,2>(vb, tc);
-
-    vbo tile_buffer, text_buffer;
-    tile_buffer.init();
-	    tile_buffer.buffer_data(vertex_data);
-	    tile_buffer
+	vbo tb;
+	auto tile_buffer = engine::prepare_for(mymap);
+	text_buffer buff;
+    auto dt = buff.set("Rafael chegou aqui agora. n~ao", &f);
+	tb.init();
+	    tb.buffer_data(dt);
+	    tb
 	    	.add_pointer("position", 3, GL_FLOAT)
 	    	.add_pointer("tex_coord", 2, GL_FLOAT)
-	    .attach(tile_buffer);
-	text_buffer.init();
-	    text_buffer.buffer_data(dt);
-	    text_buffer
-	    	.add_pointer("position", 3, GL_FLOAT)
-	    	.add_pointer("tex_coord", 2, GL_FLOAT)
-    	.attach(text_buffer);
+    	.attach(tb);
 
     texture_viewer.init();
     	texture_viewer.buffer_data(gen::texview(f.texture,9));
@@ -127,30 +112,30 @@ int main(int argc, char *argv[]) {
 
 	while (1) {
 		glx::poll();
-				dbgprint("u:%s d:%s l:%s r:%s \n"
+				/*dbgprint("u:%s d:%s l:%s r:%s \n"
 			,keys[XK_Up]?"!":"-"
 			,keys[XK_Down]?"!":"-"
 			,keys[XK_Left]?"!":"-"
-			,keys[XK_Right]?"!":"-");
+			,keys[XK_Right]?"!":"-");*/
 		if (glx::done) {
 			glx::clean_x();
 			return 0;
 		}		
 		
 		if (keys[XK_Up]) {
-			dbgprint("up!\n");
+			//dbgprint("up!\n");
 			pany += float(MAG);
 		}
 		if(keys[XK_Down]) {
-			dbgprint("dw!\n");
+			//dbgprint("dw!\n");
 			pany -= float(MAG);
 		}
 		if(keys[XK_Left]) {
-			dbgprint("lf!\n");
+			//dbgprint("lf!\n");
 			panx += float(MAG);
 		}
 		if(keys[XK_Right]) {
-			dbgprint("rt!\n");
+			//dbgprint("rt!\n");
 			panx -= float(MAG);
 		}
 		pan_view(panx,pany);
@@ -169,7 +154,7 @@ int main(int argc, char *argv[]) {
 		glDrawArrays(GL_TRIANGLES, 0, tile_buffer.num_els);
 
 		// draw text
-		/*glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, f.texture.texture_id);
 		//wp.use_shaders();
 		{
@@ -178,8 +163,8 @@ int main(int argc, char *argv[]) {
 			auto model_loc = sp.uniform("model");
 				glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(glm::mat4()));
 		}
-		glBindVertexArray(text_buffer.vao_id);
-		glDrawArrays(GL_TRIANGLES, 0, text_buffer.num_els);
+		glBindVertexArray(tb.vao_id);
+		glDrawArrays(GL_TRIANGLES, 0, tb.num_els);
 		
 		// texture viewer
 		glActiveTexture(GL_TEXTURE0);
@@ -189,7 +174,7 @@ int main(int argc, char *argv[]) {
 		auto model_loc = sp.uniform("model");
 			glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(pan));
 		glBindVertexArray(texture_viewer.vao_id);
-		glDrawArrays(GL_TRIANGLES, 0, texture_viewer.num_els);*/
+		glDrawArrays(GL_TRIANGLES, 0, texture_viewer.num_els);
 
 		//printf("%d\n", texture_viewer.num_els);
 		glx::swap();

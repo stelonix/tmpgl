@@ -3,6 +3,7 @@
 
 #include "aliases.hpp"
 #include <vector>
+#include <GL/glew.h>
 #include <GL/gl.h>
 
 namespace engine {

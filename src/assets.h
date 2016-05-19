@@ -4,6 +4,7 @@
 #include <map>
 #include <tuple>
 #include <vector>
+#include <GL/glew.h>
 #include <GL/gl.h>
 #include "aliases.hpp"
 #include "string"

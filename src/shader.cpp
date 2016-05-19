@@ -45,9 +45,14 @@ namespace scene {
 			exit(1);
 		}
 		glAttachShader(program_id, s);
+		attached.push_back(s);
 	}
 	void shader_program::link_shaders() {
 		glLinkProgram(program_id);
+		for (auto i = 0; i < attached.size(); i++) {
+			glDetachShader(program_id, attached[i]);
+		}
+		attached.clear();
 	}
 
 	void shader_program::use_shaders() {

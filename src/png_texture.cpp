@@ -1,6 +1,6 @@
 // This one file (png_texture.cpp) is free and unencumbered software
 // released into the public domain.
-
+#include <GL/glew.h>
 #include <GL/gl.h>
 #include <EGL/egl.h>
 #include <EGL/eglext.h>

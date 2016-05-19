@@ -93,36 +93,3 @@ game_tilemap game_map::flatten_layer(int z)
 	}
 	return retval;
 }
-/*
-coord_grid
-generators::texture_map(game_tilemap tiles,
-			std::map<int,
-				tuple<tileset, eng_texture>
-			> tile_data)
-{
-	const int PER_COORD = 2;
-	const int NUM_COORD = 6;
-	const int NUM_ELEMENTS = PER_COORD*NUM_COORD;
-	std::vector<float> retval; retval.resize(tiles.size()*NUM_ELEMENTS);
-	for (auto it = tiles.begin(); it != tiles.end(); it++) {
-		auto cur_tile = get<0>(tile_data).tiles[get<1>(*it)];
-		auto t = get<1>(tile_data);
-		a_loader->loaded_tex[]
-		int tx = cur_tile.u; int ty = cur_tile.v;
-		float norm_texels[] ={
-			t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
-			t.normalize_u((tx+1)*ATILE), t.normalize_v(ty*ATILE),
-			t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE),
-			t.normalize_u(tx*ATILE), t.normalize_v(ty*ATILE),
-			t.normalize_u(tx*ATILE), t.normalize_v((ty+1)*ATILE),
-			t.normalize_u((tx+1)*ATILE), t.normalize_v((ty+1)*ATILE)
-		};
-		memcpy(retval.data()+(y*w+x)*NUM_ELEMENTS,
-				norm_texels, sizeof(norm_texels));
-	}
-	return retval;
-}
-eng_texture game_map::tex_from_map_tile(map_tile tile) {
-	auto tex_name = tilesets[get<0>(tile)];
-	return a_loader->loaded_text[tex_name];
-}*/
