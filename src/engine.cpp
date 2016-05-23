@@ -8,13 +8,18 @@ using namespace cfg;
 
 extern asset_loader* a_loader;
 
-void engine::load_shaders() {
+game_engine::game_engine()
+{
+	selected = NULL;
+}
+
+void game_engine::load_shaders() {
 	for (string s : list_files(SHADER_DIR)) {
 		a_loader->load_shader(SHADER_DIR+"/"+s);
 	}
 }
 
-vbo engine::prepare_for(game_map mymap) {
+vbo game_engine::prepare_for(game_map mymap) {
 	auto vb = gen::vertex_grid(20, 15, 1);
 	//printf("vb[0]=%f\n", vb[3]);
     auto gt = mymap.flatten_layer(0);

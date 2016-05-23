@@ -39,10 +39,6 @@ if(NOT OPENGL_FOUND)
 endif(NOT OPENGL_FOUND)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
-# Freetype
-find_package(Freetype REQUIRED)
-include_directories(${FREETYPE_INCLUDE_DIRS})
-
 find_package(Libunwind REQUIRED)
 if ( LIBUNWIND_FOUND )
 	include_directories( ${LIBUNWIND_INCLUDE_DIRS} )
@@ -50,11 +46,23 @@ endif(LIBUNWIND_FOUND)
 
 find_package(GLEW REQUIRED)
 find_package(X11 REQUIRED)
+# Freetype
+find_package(Freetype REQUIRED)
+	include_directories(${FREETYPE_INCLUDE_DIRS})
+find_package(HarfBuzz REQUIRED)
+	include_directories(${HARFBUZZ_INCLUDE_DIRS})
+
+find_package(Cairo REQUIRED)
+ 	include_directories(${CAIRO_INCLUDE_DIRS})
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../bin)
 
-SET(LIBRARIES ${LIBRARIES} ${FREETYPE_LIBRARIES} ${OPENGL_LIBRARIES}
-	${PNG_LIBRARY} ${UNWIND_SHARED_LIB} ${GLEW_LIBRARY}
+SET(LIBRARIES ${LIBRARIES} ${FREETYPE_LIBRARIES}
+	${CAIRO_LIBRARIES}
+	${HARFBUZZ_LIBRARIES}
+	${OPENGL_LIBRARIES} ${GLEW_LIBRARY}
+	${PNG_LIBRARIES}
+	${UNWIND_SHARED_LIB} 
 	${X11_LIBRARIES}
 	)
  

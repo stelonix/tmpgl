@@ -4,7 +4,7 @@
 #include <GL/gl.h>
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
-#include <png.h>
+#include "/home/stel/code/repos/code/bin/include/png.h"
 #include <stdlib.h>
 
 GLuint png_texture_load(const char *file_name, int *width, int *height,
