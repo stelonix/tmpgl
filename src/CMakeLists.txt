@@ -10,6 +10,7 @@ set(main_SRCS
 		cfg.cpp
 		vbo.cpp
 		engine.cpp
+		text_engine.cpp
 		fonts.cpp
 		generators.cpp
 		png_texture.cpp
