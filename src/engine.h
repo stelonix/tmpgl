@@ -11,6 +11,7 @@ struct eng_object {
 };
 
 struct game_engine {
+	string root_dir;
 	game_engine();
 	eng_object* selected;
 	std::vector<eng_object> objs;

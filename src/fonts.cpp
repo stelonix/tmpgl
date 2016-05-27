@@ -83,7 +83,6 @@ void font::render(string text)
 	auto s_dim = calc_surface_area(direction, pos, len);
 	setup_cairo_surface(get<0>(s_dim), get<1>(s_dim));
 	init_cairo_font();
-	printf("fdsfddddddddddd\n");
 	setup_baseline(direction);
 	auto glyphs = build_glyphs(len);
 		cairo_show_glyphs (cr, glyphs, len);
@@ -119,7 +118,7 @@ cairo_surface_t* font::setup_cairo_surface(int w, int h)
 	cairo_paint (cr);
 	cairo_set_source_rgba (cr, 0., 0., 0., 1.);
 	cairo_translate (cr, MARGIN, MARGIN);
-	printf("surface %x context %x w,h: %d, %d\n", cairo_surface, cr, w, h);
+	//printf("surface %x context %x w,h: %d, %d\n", cairo_surface, cr, w, h);
 	return cairo_surface;
 }
 

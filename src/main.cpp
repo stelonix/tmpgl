@@ -31,6 +31,7 @@
 #include <hb-ft.h>
 #include <cairo.h>
 #include <cairo-ft.h>
+#include "logging.h"
 
 #define FONT "./Sevastopol-Interface.ttf"
 #define FONT_SIZE 36
@@ -59,8 +60,12 @@ vbo texture_viewer;
 game_engine* eng;
 
 int main(int argc, char *argv[]) {
-	eng = new game_engine();
 	init_crt();
+	setup_stdout();
+	setup_threads();
+	
+	
+	eng = new game_engine();
 	a_loader = new asset_loader();
 	auto mymap = game_map::from_json(read_file<string>(ASSETS_DIR+"map.json"));
 	a_loader->load_tileset(ASSETS_DIR+"tileset.json");
@@ -74,13 +79,12 @@ int main(int argc, char *argv[]) {
 	glx::init_glew();
 	glx::init_gl(HORZ_RES, VERT_RES);
 	auto projection = glm::ortho( 0.f, float(HORZ_RES), float(VERT_RES), 0.0f, 0.0f, 100.f ); 
-	glm::mat4 VP = glm::mat4();
 	glm::mat4 view = glm::lookAt(
 				glm::vec3(0,0,1), // Camera is at (0,0,5), in World Space
 				glm::vec3(0,0,0), // and looks at the origin
 				glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
 		);
-	VP = projection*view;
+	auto VP = projection*view;
 	auto sp = shader_program();
 		sp.add_shader(a_loader->shader_lib["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
 		sp.add_shader(a_loader->shader_lib["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
@@ -158,6 +162,5 @@ int main(int argc, char *argv[]) {
 		glx::swap();
 	}
 	glx::clean_x();
-
 	return 0;
 }

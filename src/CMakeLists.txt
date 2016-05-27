@@ -9,6 +9,7 @@ PROJECT(${PROJECTNAME})
 set(main_SRCS
 		cfg.cpp
 		vbo.cpp
+		logging.cpp
 		engine.cpp
 		text_engine.cpp
 		fonts.cpp
