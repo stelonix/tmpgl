@@ -2,6 +2,16 @@
 #include "assets.h"
 #include "helpers.h"
 
+std::map<string, std::vector<string>> dir_filetypes = {
+	{ "fonts",		{ ".ttf", ".otf" } },
+	{ "maps",		{ ".json" } },
+	{ "scripts",	{ ".lua" } },
+	{ "shaders",	{ ".glsl" } },
+	{ "sprites",	{ ".json" } },
+	{ "textures",	{ ".png" } },
+	{ "tiles",		{".json" } }
+};
+
 extern GLuint png_texture_load(const char* file_name, int* width, int* height,
 								int* real_w=NULL, int* real_h=NULL);
 

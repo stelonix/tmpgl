@@ -8,8 +8,11 @@
 struct vbo;
 
 struct vap_desc {
-	string attr; size_t num; GLenum type;
+	string attr;
+	size_t num;
+	GLenum type;
 };
+
 struct vao_pointer {
 	
 	std::vector<vap_desc> pointers;
@@ -26,6 +29,7 @@ struct vbo {
 	
 	vbo (std::vector<float> data);
 	vbo ();
+	void draw();
 	void init();
 	void setup_vao();
 	void buffer_data(std::vector<float> data);

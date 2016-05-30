@@ -19,6 +19,8 @@ using namespace std;
 
 GLuint texture(string filename);
 
+extern std::map<string, std::vector<string>> dir_filetypes;
+
 struct asset_loader {
 	path_map<string> shader_lib;
 	path_map<eng_texture> loaded_tex;

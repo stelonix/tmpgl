@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "string"
+#include "text_engine.h"
 #include "vbo.h"
 
 struct eng_object {
@@ -12,11 +13,14 @@ struct eng_object {
 
 struct game_engine {
 	string root_dir;
-	game_engine();
+	text_engine te;
 	eng_object* selected;
 	std::vector<eng_object> objs;
+
+	game_engine();
 	void load_shaders();
 	vbo prepare_for(game_map mymap);
+	void draw_text(string text);
 };
 
 

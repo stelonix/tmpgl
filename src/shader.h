@@ -2,9 +2,17 @@
 #define SHADER_H
 
 #include "string"
+#include "vbo.h"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <vector>
 #include <GL/glew.h>
 #include <GL/gl.h>
+
+template <typename T>
+float* glm_addr(T* ptr) {
+	return static_cast<float*>(glm::value_ptr(*ptr));
+}
 
 namespace scene {
 
@@ -23,7 +31,14 @@ namespace scene {
 		void link_shaders();
 		void use_shaders();
 		int attrib(string attrib);
+		void draw(vbo target);
 
+		// uniforms
+
+		void uniform(string uni, std::vector<glm::vec3> value);
+		void uniform(string uni, glm::vec3 value);
+		void uniform(string uni, std::vector<glm::mat4> values, GLenum transpose = GL_FALSE);
+		void uniform(string uni, glm::mat4 value, GLenum transpose = GL_FALSE);
 	};
 
 }

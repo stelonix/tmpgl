@@ -1,3 +1,4 @@
+```
 fonts			✅
 
 fix asset_dir
@@ -14,6 +15,10 @@ shaders			✅
 
 vbo				✅
 
+sprites
+
+text input
+
 lua
 
 octree
@@ -25,3 +30,5 @@ wireframe
 camera			✅
 
 load entire vbo
+
+```

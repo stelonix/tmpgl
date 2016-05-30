@@ -64,3 +64,8 @@ void vao_pointer::attach(vbo targ) {
 	}
 }
 
+void vbo::draw()
+{
+	glBindVertexArray(vao_id);
+	glDrawArrays(GL_TRIANGLES, 0, num_els);
+}

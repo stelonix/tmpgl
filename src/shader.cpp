@@ -75,6 +75,39 @@ namespace scene {
 		return std::string(infoLog.begin(), infoLog.end());
 	}
 
-	
+	void shader_program::draw(vbo target)
+	{
+		target.draw();
+	}
 
+	void shader_program::uniform(string uni, std::vector<glm::vec3> value) {
+		glUniform3fv(uniform(uni),
+			value.size(),
+			glm_addr(value.data())
+		);
+	}
+
+	void shader_program::uniform(string uni, glm::vec3 value)
+	{
+		glUniform3fv(uniform(uni),
+			1,
+			glm_addr(&value)
+		);
+	}
+
+	void shader_program::uniform(string uni, std::vector<glm::mat4> values, GLenum transpose) {
+		glUniformMatrix4fv(uniform(uni),
+			values.size(),
+			transpose,
+			glm_addr(values.data())
+		);
+	}
+
+	void shader_program::uniform(string uni, glm::mat4 value, GLenum transpose) {
+		glUniformMatrix4fv(uniform(uni),
+			1,
+			transpose,
+			glm_addr(&value)
+		);
+	}
 }

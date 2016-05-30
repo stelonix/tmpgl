@@ -8,9 +8,14 @@ using namespace cfg;
 
 extern asset_loader* a_loader;
 
+#define FONT "./Sevastopol-Interface.ttf"
+#define FONT_SIZE 36
+
 game_engine::game_engine()
 {
 	selected = NULL;
+	te.init();
+	te.load_font(FONT, FONT_SIZE);
 }
 
 void game_engine::load_shaders() {
@@ -36,4 +41,8 @@ vbo game_engine::prepare_for(game_map mymap) {
 	    	.add_pointer("tex_coord", 2, GL_FLOAT)
 	    .attach(tile_buffer);
 	return tile_buffer;
+}
+
+void game_engine::draw_text(string text) {
+
 }

@@ -24,7 +24,10 @@ struct font {
 	
 	cairo_glyph_t* build_glyphs(int len);
 	static wh_size_t calc_surface_area(
-		hb_direction_t dir, hb_glyph_position_t* pos, unsigned int len);
+		hb_direction_t dir,
+		hb_glyph_position_t* pos,
+		unsigned int len
+	);
 	font();
 	font(FT_Face ft, hb_font_t* hb, cairo_font_face_t* cf);
 	void 				init_cairo_font();

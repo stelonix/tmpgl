@@ -105,12 +105,13 @@ int main(int argc, char *argv[]) {
 	auto txt = te.draw_text(FONT, "Teste magnífico de encapsulamento de text_rendering né? ÇAÇABA!");
 
 	//eng_texture hb_tb(texture, tex_w, tex_h,tex_w, tex_h);
-  texture_viewer.init();
-      texture_viewer.buffer_data(gen::texview(txt,9));
-    texture_viewer
-        .add_pointer("position", 3, GL_FLOAT)
-        .add_pointer("tex_coord", 2, GL_FLOAT)
-      .attach(texture_viewer);
+	texture_viewer.init();
+		texture_viewer.buffer_data(gen::texview(txt,9));
+		texture_viewer
+			.add_pointer("position", 3, GL_FLOAT)
+			.add_pointer("tex_coord", 2, GL_FLOAT)
+	.attach(texture_viewer);
+	auto mat_move = glm::vec3(300,200,0);
 	while (1) {
 		glx::poll();
 		if (glx::done) {
@@ -141,24 +142,16 @@ int main(int argc, char *argv[]) {
 		glBindTexture(GL_TEXTURE_2D, t.texture_id);
 		sp.use_shaders();
 		{
-			auto projection_Location = sp.uniform("projection");
-				glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
-			auto model_loc = sp.uniform("model");
-				glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(pan));
+			sp.uniform("projection", VP);
+			sp.uniform("model", pan);
 		}
-		glBindVertexArray(tile_buffer.vao_id);
-		glDrawArrays(GL_TRIANGLES, 0, tile_buffer.num_els);
+		sp.draw(tile_buffer);
 
-		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, txt.texture_id);
-		auto projection_Location = sp.uniform("projection");
-				glUniformMatrix4fv(projection_Location, 1, GL_FALSE, glm::value_ptr(VP));
-		auto model_loc = sp.uniform("model");
-			glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(glm::mat4()));
-		glBindVertexArray(texture_viewer.vao_id);
-		glDrawArrays(GL_TRIANGLES, 0, texture_viewer.num_els);
-
-		//printf("%d\n", texture_viewer.num_els);
+			sp.uniform("model", glm::mat4());
+			sp.uniform("v_trans", mat_move);
+			sp.draw(texture_viewer);
+		sp.uniform("v_trans", glm::vec3(0.,0.,0.));
 		glx::swap();
 	}
 	glx::clean_x();
