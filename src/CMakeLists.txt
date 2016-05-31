@@ -7,6 +7,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
 PROJECT(${PROJECTNAME})
 
 set(main_SRCS
+		util.cpp
 		cfg.cpp
 		vbo.cpp
 		logging.cpp

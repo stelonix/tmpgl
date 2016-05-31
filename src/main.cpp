@@ -1,3 +1,5 @@
+#define _XOPEN_SOURCE 500			/* Required under GLIBC for nftw() */
+//#define _XOPEN_SOURCE_EXTENDED 1	/* Same */
 #include "string"
 #include <iostream>
 #include <map>
@@ -14,6 +16,7 @@
 #include <X11/keysym.h>
 #include <X11/Xlib.h>
 #include "include/json.hpp"
+#include "include/alphanum.hpp"
 //#include "include/prettyprint.hpp"
 #include "assets.h"
 #include "cfg.h"
@@ -35,6 +38,8 @@
 #include "logging.h"
 #include <libgen.h>
 #include <ftw.h>
+#include <dirent.h>
+#include "util.h"
 
 #define FONT "./Sevastopol-Interface.ttf"
 #define FONT_SIZE 36
@@ -54,33 +59,51 @@ void pan_view(float x, float y) {
 	pan = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0.0f));
 }
 
-
-
-string dirname_s(char *path)
-{
-	auto ptr = strdup(path);
-		auto retval = string(dirname(ptr));
-	free(ptr);
-	return retval;
-}
-
-string dirname_s(string path)
-{
-	return dirname_s(path.c_str());
-}
-
 vbo texture_viewer;
 game_engine* eng;
-
-int fn(const char* path, const struct stat* st, const int type, struct FTW* path_info)
+typedef std::map<std::string, std::vector<string>, doj::alphanum_less<string> > m_t;
+m_t files_to_load;
+int fn(	const char* path,
+		const struct stat* st,
+		const int type,
+		struct FTW* path_info)
 {
-	printf("%s\n", path);
+	auto cd = util::dirname_s(path);
+	auto entry_bname = util::basename_s(path);
+	switch (type) {
+		case FTW_F:
+		{
+			files_to_load[cd].push_back(entry_bname);
+			break;
+		}
+		case FTW_D:
+		{
+			if (path_info->level > 1) break;
+			if (files_to_load.find(entry_bname) == files_to_load.end())
+				files_to_load[entry_bname] = std::vector<string>();
+			break;
+		}
+	}
+	return 0;
 }
 
 int main(int argc, char *argv[]) {
 	panx = 0.0f;pany = 0.0f;
 	eng = new game_engine(HORZ_RES, VERT_RES);
-	//ftw("sample_project/", fn, USE_FDS, FTW_PHYS);
+	nftw("./sample_project", fn, 20, FTW_PHYS);
+	
+	for (auto it = files_to_load.begin(); it != files_to_load.end(); it++)
+	{
+		std::sort(it->second.begin(), it->second.end(), doj::alphanum_less<string>());
+	}
+	for (auto it = files_to_load.begin(); it != files_to_load.end(); it++)
+	{
+		printf("dir %s has\n", it->first.c_str());
+		for (int i = 0; i < it->second.size(); i++)
+			printf("\t%s\n", it->second[i].c_str());
+	}
+	printf("map size %d\n", files_to_load.size());
+	exit(0);
 	//printf("In %s/\n", dirname("sample_project/"));
 	a_loader = new asset_loader();
 	auto mymap = game_map::from_json(read_file<string>(ASSETS_DIR+"map.json"));
