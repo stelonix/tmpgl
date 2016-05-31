@@ -4,18 +4,19 @@
 
 vbo::vbo (std::vector<float> data) {
 	setup_vao();
-	buffer_data(data);
+	buffer(data);
 	
 }
 
 vbo::vbo()
 {
-	//setup_vao();
+
 }
 
-void vbo::init() {
+void vbo::init(GLenum usage) {
 	setup_vao();
 	num_els = 0;
+	this->usage = usage;
 }
 
 void vbo::setup_vao() {
@@ -23,13 +24,25 @@ void vbo::setup_vao() {
 	glBindVertexArray(vao_id);
 }
 
-void vbo::buffer_data(std::vector<float> data) {
+void vbo::buffer(std::vector<float> data) {
 	num_els = data.size();
 	glGenBuffers(1, &vbo_id);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
+	GLenum buffer_type;
 	glBufferData(GL_ARRAY_BUFFER,
 		data.size() * sizeof(float),
-		data.data(), GL_STATIC_DRAW);
+		data.data(), usage);
+}
+
+void vbo::buffer(std::vector<float> data, int offset) {
+	num_els = data.size();
+	glGenBuffers(1, &vbo_id);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
+	GLenum buffer_type;
+	glBufferSubData(GL_ARRAY_BUFFER,
+		offset,
+		data.size() * sizeof(float),
+		data.data());
 }
 
 vao_pointer vao_pointer::add_pointer(string attrib, size_t num_elems, GLenum type) {
@@ -49,7 +62,6 @@ size_t vao_pointer::get_size(GLenum type) {
 }
 //extern scene::shader_program* current_program;
 void vao_pointer::attach(vbo targ) {
-	scene::get_attrib_loc((pointers[0]).attr.c_str(), 0);
 	int offset = 0; int total_size = 0;
 	for (auto it = pointers.begin(); it != pointers.end(); it++)
 	{
@@ -62,6 +74,7 @@ void vao_pointer::attach(vbo targ) {
 			glVertexAttribPointer(loc, (*it).num, (*it).type, GL_FALSE, total_size, (void*)offset);
 		offset += get_size((*it).type) * (*it).num;
 	}
+	targ.pointers = *this;
 }
 
 void vbo::draw()

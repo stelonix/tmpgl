@@ -32,5 +32,5 @@ public:
 };
 
 size_t trim_out(char *out, size_t len, const char *str);
-
+std::vector<std::string>& split(const std::string &s, char delim);
 #endif

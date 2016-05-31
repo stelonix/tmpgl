@@ -27,10 +27,10 @@ struct map_layer
 struct game_map
 {
 	// Attrs
-	string name;
-	int w;
-	int h;
+	
+	int w, h;
 	std::vector<map_layer> layers;
+	string name;
 	std::vector<string> tilesets;
 
 	// Constructors

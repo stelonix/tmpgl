@@ -43,4 +43,12 @@ namespace scene {
 
 }
 extern scene::shader_program* current_program;
+
+struct glsl_type_set {
+  GLenum      type;
+  const char* name;
+};
+
+extern glsl_type_set type_set[];
+
 #endif

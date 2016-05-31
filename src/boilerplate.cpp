@@ -11,6 +11,7 @@
 #include <X11/Xutil.h>
 #include <X11/XKBlib.h>
 #include "boilerplate.h"
+#include "engine.h"
 
 #include "cfg.h"
 using namespace cfg;
@@ -20,6 +21,7 @@ using namespace cfg;
 extern void pan_view(float x, float y);
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 extern std::map<int, int> keys;
+extern game_engine* eng;
 namespace glx {
 	Window win;
 	Display *display;
@@ -34,47 +36,63 @@ namespace glx {
 		
 		while ( XPending(display) > 0 ){
 			XNextEvent(display, &event);
-			switch (event.type){
-			case KeyPress: {
-				char buf[20];
-				KeySym keysym_return;
-				XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
-				keys[keysym_return] = 1;
-				//printf("press: %d +\n", event.xkey.keycode);
-				XFlush(display);
-				for (auto it = keys.begin(); it != keys.end(); it++) {
-					//std::cout << it->first << ": " << it->second << std::endl;
-				}
+			switch (event.type)
+			{
+				case KeyPress:
+				{
+					char buf[20];
+					KeySym keysym_return;
+					XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
+					keys[keysym_return] = 1;
+					//printf("press: %d +\n", event.xkey.keycode);
+					XFlush(display);
+					for (auto it = keys.begin(); it != keys.end(); it++) {
+						//std::cout << it->first << ": " << it->second << std::endl;
+					}
 
-				break;
-			}
-			case KeyRelease: {
-				char buf[20];
-				KeySym keysym_return;
-				XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
-				keys[keysym_return] = 0;
-				XFlush(display);
-				//printf("release %d\n", event.xkey.keycode);
-				
-				for (auto it = keys.begin(); it != keys.end(); it++) {
-					//std::cout << it->first << ": " << it->second << std::endl;
+					break;
 				}
-				break;
-			}
-			case ClientMessage: {
-				done = true;
-				break;
-			}
-			case Expose: {
-				/*XGetWindowAttributes(dpy, win, &gwa);
-				glViewport(0, 0, gwa.width, gwa.height);*/
+				case KeyRelease:
+				{
+					char buf[20];
+					KeySym keysym_return;
+					XLookupString(&event.xkey, buf, 1, &keysym_return, NULL);
+					keys[keysym_return] = 0;
+					XFlush(display);
+					//printf("release %d\n", event.xkey.keycode);
+					
+					for (auto it = keys.begin(); it != keys.end(); it++) {
+						//std::cout << it->first << ": " << it->second << std::endl;
+					}
+					break;
+				}
+				case ButtonPress:
+				{
+					break;
+				}
+				case ButtonRelease:
+				{
+					eng->click_event(event.xbutton.x, event.xbutton.y);
+					break;
+				}
+				case ClientMessage:
+				{
+					done = true;
+					break;
+				}
+				case Expose:
+				{
+					/*XGetWindowAttributes(dpy, win, &gwa);
+					glViewport(0, 0, gwa.width, gwa.height);*/
 
-				glXSwapBuffers(display, win);
-				break;
-			}
-			default:
-				printf("Unhandled event: %d\n",event.type);
-				break;
+					glXSwapBuffers(display, win);
+					break;
+				}
+				default:
+				{
+					printf("Unhandled event: %d\n",event.type);
+					break;
+				}
 			}
 		}
 	}
@@ -121,7 +139,6 @@ namespace glx {
 		keys[XK_Down] = false;
 		keys[XK_Left] = false;
 		keys[XK_Right] = false;
-		panx = 0.0f;pany = 0.0f;
 		display = XOpenDisplay(NULL);
 
 		if (!display) {
@@ -221,7 +238,9 @@ namespace glx {
 
 		//printf("Mapping window\n");
 		XMapWindow(display, win);
-		XSelectInput(display, win, ExposureMask | KeyPressMask | KeyReleaseMask);
+		XSelectInput(display, win,
+			ExposureMask | KeyPressMask | KeyReleaseMask |
+			ButtonPressMask | ButtonReleaseMask);
 		// Get the default screen's GLX extension list
 		const char *glxExts =
 				glXQueryExtensionsString(display, DefaultScreen(display));
@@ -340,10 +359,6 @@ namespace glx {
 		glDepthFunc(GL_LESS);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
-
-	void send_uniform() {
-		
 	}
 }
 

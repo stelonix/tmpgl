@@ -83,6 +83,26 @@ void font::render(string text)
 	auto s_dim = calc_surface_area(direction, pos, len);
 	setup_cairo_surface(get<0>(s_dim), get<1>(s_dim));
 	init_cairo_font();
+
+	setup_baseline(direction);
+	auto glyphs = build_glyphs(len);
+		cairo_show_glyphs (cr, glyphs, len);
+	cairo_glyph_free (glyphs);
+	hb_buffer_destroy(hb_buffer);
+}
+
+void font::render_nowrap(string text)
+{
+	auto hb_buffer = shape(text);
+	auto direction = hb_buffer_get_direction(hb_buffer);
+	
+	unsigned int len = hb_buffer_get_length (hb_buffer);
+	infos = hb_buffer_get_glyph_infos (hb_buffer, NULL);
+	pos = hb_buffer_get_glyph_positions (hb_buffer, NULL);
+
+	auto s_dim = calc_surface_area(direction, pos, len);
+	setup_cairo_surface(get<0>(s_dim), get<1>(s_dim));
+	init_cairo_font();
 	setup_baseline(direction);
 	auto glyphs = build_glyphs(len);
 		cairo_show_glyphs (cr, glyphs, len);

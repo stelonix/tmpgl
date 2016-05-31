@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
 	init_crt();
 	setup_stdout();
 	setup_threads();
-	
+	panx = 0.0f;pany = 0.0f;
 	
 	eng = new game_engine();
 	a_loader = new asset_loader();
@@ -92,9 +92,8 @@ int main(int argc, char *argv[]) {
 		sp.use_shaders();
 	auto wp = shader_program();
 		wp.add_shader(a_loader->shader_lib["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
-		wp.add_shader(a_loader->shader_lib["all_white.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
+		wp.add_shader(a_loader->shader_lib["all_white.glsl"].c_str(), "all_white.glsl", GL_FRAGMENT_SHADER);
 		wp.link_shaders();
-		//wp.use_shaders();
 	vbo tb;
 	auto tile_buffer = eng->prepare_for(mymap);
     
@@ -106,11 +105,18 @@ int main(int argc, char *argv[]) {
 
 	//eng_texture hb_tb(texture, tex_w, tex_h,tex_w, tex_h);
 	texture_viewer.init();
-		texture_viewer.buffer_data(gen::texview(txt,9));
+		texture_viewer.buffer(eng->texture_viewer(txt,"texview1", 300,200,9));
 		texture_viewer
 			.add_pointer("position", 3, GL_FLOAT)
 			.add_pointer("tex_coord", 2, GL_FLOAT)
 	.attach(texture_viewer);
+	
+	eng->objects[0].click_function = [](eng_object* t, int x, int y)
+	{
+		eng->selected = t;
+		printf("%s\n", t->name.c_str());
+	};
+	sp.use_shaders();
 	auto mat_move = glm::vec3(300,200,0);
 	while (1) {
 		glx::poll();
@@ -135,9 +141,12 @@ int main(int argc, char *argv[]) {
 			//dbgprint("rt!\n");
 			panx -= float(MAG);
 		}
+		if (keys[XK_Escape]) break;
 		pan_view(panx,pany);
 		glx::clear_buffers();
 		// draw tiles
+		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+		glDepthFunc( GL_LEQUAL );
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, t.texture_id);
 		sp.use_shaders();
@@ -146,13 +155,29 @@ int main(int argc, char *argv[]) {
 			sp.uniform("model", pan);
 		}
 		sp.draw(tile_buffer);
-
+		//glUseProgram(NULL);
+		//wp.use_shaders();
+		sp.uniform("projection", VP);
+		//sp.uniform("model", pan);
 		glBindTexture(GL_TEXTURE_2D, txt.texture_id);
 			sp.uniform("model", glm::mat4());
 			sp.uniform("v_trans", mat_move);
 			sp.draw(texture_viewer);
+		if (eng->selected != NULL)
+		{
+			wp.use_shaders();
+			wp.uniform("projection", VP);
+			wp.uniform("model", glm::mat4());
+			wp.uniform("v_trans", mat_move);
+			//wp.draw(texture_viewer);
+			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+			//glDepthFunc( GL_EQUAL );
+			wp.draw(texture_viewer);
+		}
+		sp.use_shaders();
 		sp.uniform("v_trans", glm::vec3(0.,0.,0.));
 		glx::swap();
+		usleep(1000);
 	}
 	glx::clean_x();
 	return 0;

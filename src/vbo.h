@@ -14,26 +14,33 @@ struct vap_desc {
 };
 
 struct vao_pointer {
-	
 	std::vector<vap_desc> pointers;
-
 	vao_pointer add_pointer(string attrib, size_t num_elems, GLenum type);
-	size_t get_size(GLenum type);
 	void attach(vbo targ);
+	size_t get_size(GLenum type);
 };
 
 struct vbo {
+	// Data
+	std::vector<float>* _stream_cache;
+	unsigned int num_els;
+	vao_pointer pointers;
+	GLenum usage;
 	unsigned int vao_id;
 	unsigned int vbo_id;
-	unsigned int num_els;
 	
+	// Constructors
 	vbo (std::vector<float> data);
 	vbo ();
-	void draw();
-	void init();
-	void setup_vao();
-	void buffer_data(std::vector<float> data);
 
+	// Functions
+	void buffer(std::vector<float> data);
+	void buffer(std::vector<float> data, int offset);
+	void draw();
+	void init(GLenum usage = GL_STATIC_DRAW);
+	void setup_vao();
+	
+	// VAO handling
 	vao_pointer add_pointer(string attrib, size_t num_elems, GLenum type);
 };
 

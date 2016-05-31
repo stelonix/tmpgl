@@ -1,7 +1,10 @@
 #include "string"
-#include "helpers.h"
+#include <sstream>
+#include <vector>
 #include <dirent.h>
 #include <string.h>
+#include "helpers.h"
+
 
 std::vector<string> list_files(std::string dir)
 {
@@ -53,4 +56,14 @@ size_t trim_out(char *out, size_t len, const char *str)
   out[out_size] = 0;
 
   return out_size;
+}
+
+std::vector<string>& split(const string &s, char delim) {
+    std::stringstream ss(s);
+    string item;
+    std::vector<string> retval;
+    while (std::getline(ss, item, delim)) {
+        retval.push_back(item);
+    }
+    return retval;
 }
