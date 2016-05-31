@@ -2,7 +2,9 @@
 #include <sstream>
 #include <vector>
 #include <dirent.h>
+#include <signal.h>
 #include <string.h>
+#include "debug.h"
 #include "helpers.h"
 
 
@@ -58,7 +60,7 @@ size_t trim_out(char *out, size_t len, const char *str)
   return out_size;
 }
 
-std::vector<string>& split(const string &s, char delim) {
+std::vector<string> split(const string &s, char delim) {
     std::stringstream ss(s);
     string item;
     std::vector<string> retval;
@@ -66,4 +68,9 @@ std::vector<string>& split(const string &s, char delim) {
         retval.push_back(item);
     }
     return retval;
+}
+
+void init_crt() {
+  signal(SIGSEGV, handler);
+  setvbuf(stdout, NULL, _IONBF, 0);
 }

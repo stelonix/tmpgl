@@ -10,6 +10,6 @@ struct loader {
 };
 
 template <typename GameType, typename EngType> struct res_info {
-	GameType game_obj;
-	EngType eng_obj;
+	GameType* game_obj;
+	EngType* eng_obj;
 };

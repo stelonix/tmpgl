@@ -7,6 +7,7 @@
 namespace glx {
 	void poll ();
 	void setup_x(int w, int h);
+	void set_title(const char* title);
 	void init_glew();
 	void init_gl(int w, int h);
 	void clean_x();

@@ -1,8 +1,10 @@
+#include <glm/gtc/matrix_transform.hpp>
 #include "assets.h"
+#include "boilerplate.h"
 #include "engine.h"
 #include "generators.h"
 #include "helpers.h"
-
+#include "logging.h"
 #include "cfg.h"
 using namespace cfg;
 
@@ -11,11 +13,28 @@ extern asset_loader* a_loader;
 #define FONT "./Sevastopol-Interface.ttf"
 #define FONT_SIZE 36
 
-game_engine::game_engine()
+game_engine::game_engine(int w, int h)
 {
+	screen_w = w; screen_h = h;
+	setup(w, h);
+	init();
 	selected = NULL;
 	te.init();
 	te.load_font(FONT, FONT_SIZE);
+}
+
+void game_engine::init() {
+	projection = glm::ortho( 0.f, float(screen_w), float(screen_h), 0.0f, 0.0f, 100.f );
+	view = glm::lookAt(
+		glm::vec3(0,0,1), // Camera is at (0,0,5), in World Space
+		glm::vec3(0,0,0), // and looks at the origin
+		glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
+	);
+}
+
+void game_engine::load_project(string base_dir)
+{
+	
 }
 
 void game_engine::load_shaders() {
@@ -41,6 +60,26 @@ vbo game_engine::prepare_for(game_map mymap) {
 	    	.add_pointer("tex_coord", 2, GL_FLOAT)
 	    .attach(tile_buffer);
 	return tile_buffer;
+}
+
+void game_engine::setup(int w, int h)
+{
+	setup_linux();
+	setup_gui(w ,h);
+}
+
+void game_engine::setup_linux()
+{
+	init_crt();
+	setup_stdout();
+	setup_threads();
+}
+
+void game_engine::setup_gui(int w, int h)
+{
+	glx::setup_x(w, h);
+	glx::init_glew();
+	glx::init_gl(w, h);
 }
 
 void game_engine::draw_text(string text)

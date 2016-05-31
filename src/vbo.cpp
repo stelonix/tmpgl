@@ -60,7 +60,7 @@ size_t vao_pointer::get_size(GLenum type) {
 		case GL_FLOAT: return sizeof(float);
 	}
 }
-//extern scene::shader_program* current_program;
+
 void vao_pointer::attach(vbo targ) {
 	int offset = 0; int total_size = 0;
 	for (auto it = pointers.begin(); it != pointers.end(); it++)

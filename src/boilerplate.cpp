@@ -134,6 +134,11 @@ namespace glx {
 		return 0;
 	}
 
+	void set_title(const char* title)
+	{
+		XStoreName(display, win, title);
+	}
+
 	void setup_x(int w, int h) {
 		keys[XK_Up] = false;
 		keys[XK_Down] = false;
@@ -234,7 +239,7 @@ namespace glx {
 		// Done with the visual info data
 		XFree(vi);
 
-		XStoreName(display, win, "GL 3.0 Window");
+		set_title("GL 3.0 Window");
 
 		//printf("Mapping window\n");
 		XMapWindow(display, win);

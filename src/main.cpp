@@ -9,6 +9,7 @@
 #include <GL/gl.h>
 #include <signal.h>
 #include <stdio.h>
+#include <time.h>
 #include <unistd.h>
 #include <X11/keysym.h>
 #include <X11/Xlib.h>
@@ -32,6 +33,8 @@
 #include <cairo.h>
 #include <cairo-ft.h>
 #include "logging.h"
+#include <libgen.h>
+#include <ftw.h>
 
 #define FONT "./Sevastopol-Interface.ttf"
 #define FONT_SIZE 36
@@ -46,45 +49,49 @@ std::map<int, int> keys;
 
 glm::mat4 pan;
 float panx, pany;
-coord_grid vertex_data;
-
-void init_crt() {
-	signal(SIGSEGV, handler);
-	setvbuf(stdout, NULL, _IONBF, 0);
-}
 
 void pan_view(float x, float y) {
 	pan = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0.0f));
 }
+
+
+
+string dirname_s(char *path)
+{
+	auto ptr = strdup(path);
+		auto retval = string(dirname(ptr));
+	free(ptr);
+	return retval;
+}
+
+string dirname_s(string path)
+{
+	return dirname_s(path.c_str());
+}
+
 vbo texture_viewer;
 game_engine* eng;
 
+int fn(const char* path, const struct stat* st, const int type, struct FTW* path_info)
+{
+	printf("%s\n", path);
+}
+
 int main(int argc, char *argv[]) {
-	init_crt();
-	setup_stdout();
-	setup_threads();
 	panx = 0.0f;pany = 0.0f;
-	
-	eng = new game_engine();
+	eng = new game_engine(HORZ_RES, VERT_RES);
+	//ftw("sample_project/", fn, USE_FDS, FTW_PHYS);
+	//printf("In %s/\n", dirname("sample_project/"));
 	a_loader = new asset_loader();
 	auto mymap = game_map::from_json(read_file<string>(ASSETS_DIR+"map.json"));
 	a_loader->load_tileset(ASSETS_DIR+"tileset.json");
 	game_sprite::from_json(read_file<string>(ASSETS_DIR+"sprite.json"));
 	
 	eng->load_shaders();
-	glx::setup_x(HORZ_RES, VERT_RES);
-	//f.load();
+	
 	auto t = a_loader->load_texture(ASSETS_DIR+"indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
 	
-	glx::init_glew();
-	glx::init_gl(HORZ_RES, VERT_RES);
-	auto projection = glm::ortho( 0.f, float(HORZ_RES), float(VERT_RES), 0.0f, 0.0f, 100.f ); 
-	glm::mat4 view = glm::lookAt(
-				glm::vec3(0,0,1), // Camera is at (0,0,5), in World Space
-				glm::vec3(0,0,0), // and looks at the origin
-				glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
-		);
-	auto VP = projection*view;
+	auto VP = eng->projection * eng->view;
 	auto sp = shader_program();
 		sp.add_shader(a_loader->shader_lib["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
 		sp.add_shader(a_loader->shader_lib["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
@@ -94,7 +101,6 @@ int main(int argc, char *argv[]) {
 		wp.add_shader(a_loader->shader_lib["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
 		wp.add_shader(a_loader->shader_lib["all_white.glsl"].c_str(), "all_white.glsl", GL_FRAGMENT_SHADER);
 		wp.link_shaders();
-	vbo tb;
 	auto tile_buffer = eng->prepare_for(mymap);
     
 
@@ -116,37 +122,28 @@ int main(int argc, char *argv[]) {
 		eng->selected = t;
 		printf("%s\n", t->name.c_str());
 	};
-	sp.use_shaders();
+	
 	auto mat_move = glm::vec3(300,200,0);
+	time_t start, end;
+	long frames = 0;
 	while (1) {
 		glx::poll();
 		if (glx::done) {
 			glx::clean_x();
 			return 0;
 		}		
-		
-		if (keys[XK_Up]) {
-			//dbgprint("up!\n");
-			pany += float(MAG);
-		}
-		if(keys[XK_Down]) {
-			//dbgprint("dw!\n");
-			pany -= float(MAG);
-		}
-		if(keys[XK_Left]) {
-			//dbgprint("lf!\n");
-			panx += float(MAG);
-		}
-		if(keys[XK_Right]) {
-			//dbgprint("rt!\n");
-			panx -= float(MAG);
-		}
+		start = time(NULL);
+		if (keys[XK_Up])	pany += float(MAG);
+		if (keys[XK_Down])	pany -= float(MAG);
+		if (keys[XK_Left])	panx += float(MAG);
+		if (keys[XK_Right])	panx -= float(MAG);
 		if (keys[XK_Escape]) break;
+
 		pan_view(panx,pany);
 		glx::clear_buffers();
 		// draw tiles
 		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-		glDepthFunc( GL_LEQUAL );
+		//glDepthFunc( GL_LEQUAL );
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, t.texture_id);
 		sp.use_shaders();
@@ -155,29 +152,39 @@ int main(int argc, char *argv[]) {
 			sp.uniform("model", pan);
 		}
 		sp.draw(tile_buffer);
-		//glUseProgram(NULL);
-		//wp.use_shaders();
-		sp.uniform("projection", VP);
-		//sp.uniform("model", pan);
+
 		glBindTexture(GL_TEXTURE_2D, txt.texture_id);
 			sp.uniform("model", glm::mat4());
 			sp.uniform("v_trans", mat_move);
-			sp.draw(texture_viewer);
+		sp.draw(texture_viewer);
+
 		if (eng->selected != NULL)
 		{
 			wp.use_shaders();
 			wp.uniform("projection", VP);
 			wp.uniform("model", glm::mat4());
 			wp.uniform("v_trans", mat_move);
-			//wp.draw(texture_viewer);
 			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-			//glDepthFunc( GL_EQUAL );
 			wp.draw(texture_viewer);
 		}
 		sp.use_shaders();
 		sp.uniform("v_trans", glm::vec3(0.,0.,0.));
 		glx::swap();
-		usleep(1000);
+
+		end = time(NULL);
+		float fps;
+		frames++;
+		
+		if (end - start > 0.25 )
+		{
+		    fps = float(frames) / float(end - start);
+		    //printf("%d / %d-%d (%d) = %f\n", frames, end,start,end-start, fps);
+		    start = end;
+		    frames = 0;
+		}
+		char buf[200];
+		sprintf(buf, "gl3 %.1f", fps);
+		glx::set_title(buf);
 	}
 	glx::clean_x();
 	return 0;
