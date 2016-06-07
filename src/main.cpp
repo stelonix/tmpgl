@@ -40,6 +40,7 @@
 #include <ftw.h>
 #include <dirent.h>
 #include "util.h"
+#include "include/imgui/imgui.h"
 
 #define FONT "./Sevastopol-Interface.ttf"
 #define FONT_SIZE 36
@@ -103,7 +104,7 @@ int main(int argc, char *argv[]) {
 			printf("\t%s\n", it->second[i].c_str());
 	}
 	printf("map size %d\n", files_to_load.size());
-	exit(0);
+	//exit(0);
 	//printf("In %s/\n", dirname("sample_project/"));
 	a_loader = new asset_loader();
 	auto mymap = game_map::from_json(read_file<string>(ASSETS_DIR+"map.json"));
@@ -115,15 +116,9 @@ int main(int argc, char *argv[]) {
 	auto t = a_loader->load_texture(ASSETS_DIR+"indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
 	
 	auto VP = eng->projection * eng->view;
-	auto sp = shader_program();
-		sp.add_shader(a_loader->shader_lib["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
-		sp.add_shader(a_loader->shader_lib["frag.glsl"].c_str(), "frag.glsl", GL_FRAGMENT_SHADER);
-		sp.link_shaders();
+	auto sp = eng->make_shader({"basic.vertex", "frag.glsl"});
 		sp.use_shaders();
-	auto wp = shader_program();
-		wp.add_shader(a_loader->shader_lib["basic.glsl"].c_str(), "basic.glsl", GL_VERTEX_SHADER);
-		wp.add_shader(a_loader->shader_lib["all_white.glsl"].c_str(), "all_white.glsl", GL_FRAGMENT_SHADER);
-		wp.link_shaders();
+	auto wp = eng->make_shader({"basic.vertex", "all_white.glsl"});
 	auto tile_buffer = eng->prepare_for(mymap);
     
 
@@ -154,7 +149,7 @@ int main(int argc, char *argv[]) {
 		if (glx::done) {
 			glx::clean_x();
 			return 0;
-		}		
+		}
 		start = time(NULL);
 		if (keys[XK_Up])	pany += float(MAG);
 		if (keys[XK_Down])	pany -= float(MAG);

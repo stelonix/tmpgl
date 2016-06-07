@@ -5,6 +5,7 @@
 #include "generators.h"
 #include "helpers.h"
 #include "logging.h"
+#include "util.h"
 #include "cfg.h"
 using namespace cfg;
 
@@ -42,7 +43,19 @@ void game_engine::load_shaders() {
 		a_loader->load_shader(SHADER_DIR+"/"+s);
 	}
 }
+shader_program game_engine::make_shader(std::vector<string> files)
+{
+	auto sp = shader_program();
+	for (int i = 0; i < files.size(); i++)
+	{
 
+		GLenum shader_type = util::endswith(files[i], ".vertex") ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER;
+		sp.add_shader(a_loader->shader_lib[files[i].c_str()].c_str(), files[i].c_str(), shader_type);
+		
+	}
+	sp.link_shaders();
+	return sp;
+}
 vbo game_engine::prepare_for(game_map mymap) {
 	auto vb = gen::vertex_grid(20, 15, 1);
 	//printf("vb[0]=%f\n", vb[3]);

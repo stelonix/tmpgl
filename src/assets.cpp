@@ -2,6 +2,8 @@
 #include "assets.h"
 #include "helpers.h"
 
+
+
 std::map<string, std::vector<string>> dir_filetypes = {
 	{ "fonts",		{ ".ttf", ".otf" } },
 	{ "maps",		{ ".json" } },

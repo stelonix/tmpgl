@@ -7,6 +7,8 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
 PROJECT(${PROJECTNAME})
 
 set(main_SRCS
+		include/imgui/imgui_draw.cpp
+		include/imgui/imgui.cpp
 		util.cpp
 		cfg.cpp
 		vbo.cpp

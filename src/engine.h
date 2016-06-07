@@ -6,9 +6,10 @@
 #include <glm/glm.hpp>
 #include "game_map.h"
 #include "string"
+#include "shader.h"
 #include "text_engine.h"
 #include "vbo.h"
-
+using shader_program = scene::shader_program;
 struct eng_object {
 	int x, y, z;
 	int w, h;
@@ -46,6 +47,7 @@ struct game_engine {
 	void init();
 	void load_shaders();
 	void load_project(string base_dir);
+	shader_program make_shader(std::vector<string> files);
 	vbo prepare_for(game_map mymap);
 	void setup(int w, int h);
 	void setup_linux();

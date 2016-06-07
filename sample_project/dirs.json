@@ -1,0 +1,37 @@
+{
+	"fonts":
+	{
+		"exts": [".ttf", ".otf"],
+		"type": "font"
+	},
+	"maps":
+	{
+		"exts": [".json"],
+		"type": "map"
+	},
+	"scripts":
+	{
+		"exts": [".lua"],
+		"type": "string"
+	},
+	"shaders":
+	{
+		"exts": [".glsl", ".vertex", ".frag"],
+		"type": "string"
+	},
+	"sprites":
+	{
+		"exts": [".json"],
+		"type": "sprite"
+	},
+	"textures":
+	{
+		"exts": [".png"],
+		"type": "texture"
+	},
+	"tiles":
+	{
+		"exts": [".json"],
+		"type": "tileset"
+	}
+}
