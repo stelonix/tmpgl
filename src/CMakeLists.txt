@@ -9,6 +9,8 @@ PROJECT(${PROJECTNAME})
 set(main_SRCS
 		include/imgui/imgui_draw.cpp
 		include/imgui/imgui.cpp
+		loader.cpp
+		data_transform.cpp
 		util.cpp
 		cfg.cpp
 		vbo.cpp

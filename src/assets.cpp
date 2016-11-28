@@ -1,22 +1,10 @@
 #include <libgen.h>
 #include "assets.h"
 #include "helpers.h"
-
-
-
-std::map<string, std::vector<string>> dir_filetypes = {
-	{ "fonts",		{ ".ttf", ".otf" } },
-	{ "maps",		{ ".json" } },
-	{ "scripts",	{ ".lua" } },
-	{ "shaders",	{ ".glsl" } },
-	{ "sprites",	{ ".json" } },
-	{ "textures",	{ ".png" } },
-	{ "tiles",		{".json" } }
-};
+#include "util.h"
 
 extern GLuint png_texture_load(const char* file_name, int* width, int* height,
 								int* real_w=NULL, int* real_h=NULL);
-
 
 GLuint texture(string filename) {
 	int ww, hh;
@@ -24,7 +12,7 @@ GLuint texture(string filename) {
 	return retval;
 }
 
-eng_texture asset_loader::load_texture(string filename) {
+eng_texture asset_loader::load_as_texture(string filename) {
 	int w, h, rw, rh;
 	auto tx = png_texture_load(filename.c_str(),&w,&h, &rw, &rh);
 	auto retval = eng_texture(tx, w, h, rw, rh);
@@ -36,9 +24,8 @@ eng_texture asset_loader::load_texture(string filename) {
 }
 
 string asset_loader::load_shader(string filename) {
-	auto ptr = const_cast<char*>(filename.c_str());
 	auto file_c = read_file<string>(filename);
-	shader_lib[basename(ptr)] = file_c;
+	shader_lib[filename] = file_c;
 	return file_c;
 }
 
@@ -55,9 +42,13 @@ game_sprite asset_loader::load_sprite(string filename) {
 }
 
 game_tileset asset_loader::load_tileset(string filename) {
-	printf("Loading tileset: %s\n", filename.c_str());
 	loaded_tilesets[filename] = game_tileset::from_json(
 		read_file<string>(filename));
 	return loaded_tilesets[filename];
+}
+
+void  asset_loader::require(string filepath)
+{
+	printf("%s\n", util::dirname_s(filepath).c_str());
 }
 

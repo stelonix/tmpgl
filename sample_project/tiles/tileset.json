@@ -8,7 +8,7 @@
 			[
 				
 				{
-					"image" : "indoor_free_tileset__by_thegreatblaid-d5x95zt.png",
+					"image" : "tiles/img/indoor_free_tileset__by_thegreatblaid-d5x95zt.png",
 					"interval" : 200,
 					"pass" : "pass",
 					"u" : 0,
@@ -16,7 +16,7 @@
 				},
 				
 				{
-					"image" : "indoor_free_tileset__by_thegreatblaid-d5x95zt.png",
+					"image" : "tiles/img/indoor_free_tileset__by_thegreatblaid-d5x95zt.png",
 					"interval" : 100,
 					"pass" : "block",
 					"u" : 1,
@@ -30,7 +30,7 @@
 			[
 				
 				{
-					"image" : "indoor_free_tileset__by_thegreatblaid-d5x95zt.png",
+					"image" : "tiles/img/indoor_free_tileset__by_thegreatblaid-d5x95zt.png",
 					"interval" : 200,
 					"pass" : "pass",
 					"u" : 2,
@@ -38,7 +38,7 @@
 				},
 				
 				{
-					"image" : "indoor_free_tileset__by_thegreatblaid-d5x95zt.png",
+					"image" : "tiles/img/indoor_free_tileset__by_thegreatblaid-d5x95zt.png",
 					"interval" : 100,
 					"pass" : "block",
 					"u" : 1,

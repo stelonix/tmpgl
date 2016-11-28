@@ -45,7 +45,6 @@ struct game_map
 	void set_tile(int layer, int x, int y, map_tile tile);
 	
 	// Data format
-	game_tilemap flatten_layer(int z);
 	map_tile get_tile(int layer, int x, int y);
 
 	// Real constructor

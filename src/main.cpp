@@ -3,6 +3,7 @@
 #include "string"
 #include <iostream>
 #include <map>
+#include <stack>
 #include <vector>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -17,7 +18,7 @@
 #include <X11/Xlib.h>
 #include "include/json.hpp"
 #include "include/alphanum.hpp"
-//#include "include/prettyprint.hpp"
+#include "include/prettyprint.hpp"
 #include "assets.h"
 #include "cfg.h"
 #include "boilerplate.h"
@@ -41,6 +42,7 @@
 #include <dirent.h>
 #include "util.h"
 #include "include/imgui/imgui.h"
+#include "loader.h"
 
 #define FONT "./Sevastopol-Interface.ttf"
 #define FONT_SIZE 36
@@ -49,7 +51,6 @@ using namespace cfg;
 using json = nlohmann::json;
 using shader_program = scene::shader_program;
 
-asset_loader* a_loader;
 shader_program* current_program;
 std::map<int, int> keys;
 
@@ -59,61 +60,16 @@ float panx, pany;
 void pan_view(float x, float y) {
 	pan = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0.0f));
 }
-
+loader p_loader;
 vbo texture_viewer;
 game_engine* eng;
-typedef std::map<std::string, std::vector<string>, doj::alphanum_less<string> > m_t;
-m_t files_to_load;
-int fn(	const char* path,
-		const struct stat* st,
-		const int type,
-		struct FTW* path_info)
-{
-	auto cd = util::dirname_s(path);
-	auto entry_bname = util::basename_s(path);
-	switch (type) {
-		case FTW_F:
-		{
-			files_to_load[cd].push_back(entry_bname);
-			break;
-		}
-		case FTW_D:
-		{
-			if (path_info->level > 1) break;
-			if (files_to_load.find(entry_bname) == files_to_load.end())
-				files_to_load[entry_bname] = std::vector<string>();
-			break;
-		}
-	}
-	return 0;
-}
 
 int main(int argc, char *argv[]) {
 	panx = 0.0f;pany = 0.0f;
 	eng = new game_engine(HORZ_RES, VERT_RES);
-	nftw("./sample_project", fn, 20, FTW_PHYS);
-	
-	for (auto it = files_to_load.begin(); it != files_to_load.end(); it++)
-	{
-		std::sort(it->second.begin(), it->second.end(), doj::alphanum_less<string>());
-	}
-	for (auto it = files_to_load.begin(); it != files_to_load.end(); it++)
-	{
-		printf("dir %s has\n", it->first.c_str());
-		for (int i = 0; i < it->second.size(); i++)
-			printf("\t%s\n", it->second[i].c_str());
-	}
-	printf("map size %d\n", files_to_load.size());
-	//exit(0);
-	//printf("In %s/\n", dirname("sample_project/"));
-	a_loader = new asset_loader();
-	auto mymap = game_map::from_json(read_file<string>(ASSETS_DIR+"map.json"));
-	a_loader->load_tileset(ASSETS_DIR+"tileset.json");
-	game_sprite::from_json(read_file<string>(ASSETS_DIR+"sprite.json"));
-	
-	eng->load_shaders();
-	
-	auto t = a_loader->load_texture(ASSETS_DIR+"indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
+	p_loader.load_project("./sample_project/dirs.json");
+	auto mymap = p_loader.get_map("maps/map.json");
+	auto t = p_loader.get_texture("tiles/img/indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
 	
 	auto VP = eng->projection * eng->view;
 	auto sp = eng->make_shader({"basic.vertex", "frag.glsl"});
@@ -121,13 +77,11 @@ int main(int argc, char *argv[]) {
 	auto wp = eng->make_shader({"basic.vertex", "all_white.glsl"});
 	auto tile_buffer = eng->prepare_for(mymap);
     
-
 	text_engine te;
 	te.init();
 	te.load_font(FONT, FONT_SIZE);
 	auto txt = te.draw_text(FONT, "Teste magnífico de encapsulamento de text_rendering né? ÇAÇABA!");
 
-	//eng_texture hb_tb(texture, tex_w, tex_h,tex_w, tex_h);
 	texture_viewer.init();
 		texture_viewer.buffer(eng->texture_viewer(txt,"texview1", 300,200,9));
 		texture_viewer

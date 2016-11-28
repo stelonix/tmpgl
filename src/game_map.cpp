@@ -52,8 +52,7 @@ game_map game_map::from_json(string j) {
 	for (auto it = l_node.begin(); it != l_node.end(); it++) {
 		auto cln = l_node[it.key().c_str()];
 		auto tmp = map_layer();
-			tmp.name = it.key();
-			//printf("%s\n", tmp.name.c_str());
+			tmp.name = it.key();;
 			tmp.z = cln["z"];
 
 		for (auto i = 0; i < cln["tiles"].size(); i++) {
@@ -71,25 +70,6 @@ game_map game_map::from_json(string j) {
 			tmp.objects.push_back(dec);
 		}
 		retval.layers.push_back(tmp);
-	}
-	return retval;
-}
-extern asset_loader* a_loader;
-
-
-// convert map_tilemap to game_tilemap for a given layer
-game_tilemap game_map::flatten_layer(int z)
-{
-	auto tiles = layers[z].tiles;
-	auto retval = game_tilemap();
-
-	auto tmaps = gen::flatten_tilesets(tilesets, a_loader);
-	for (auto i = 0; i < tiles.size(); i++) {
-		//printf("inserting at %d: %d,%d\n", i, get<0>(tiles[i]), get<1>(tiles[i]));
-		retval.push_back(	tmaps[get<0>(tiles[i])].tiles
-								 [get<1>(tiles[i])]);
-		/*printf("which is %s\n", tmaps[get<0>(tiles[i])].tiles
-								 [get<1>(tiles[i])].img.c_str());*/
 	}
 	return retval;
 }

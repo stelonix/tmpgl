@@ -74,3 +74,14 @@ void init_crt() {
   signal(SIGSEGV, handler);
   setvbuf(stdout, NULL, _IONBF, 0);
 }
+
+
+string trim(string const& str, string chars) {
+    if(str.empty())
+        return str;
+
+    std::size_t firstScan = str.find_first_not_of(chars);
+    std::size_t first     = firstScan == string::npos ? str.length() : firstScan;
+    std::size_t last      = str.find_last_not_of(chars);
+    return str.substr(first, last-first+1);
+}

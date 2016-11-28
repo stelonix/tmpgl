@@ -2,36 +2,47 @@
 	"fonts":
 	{
 		"exts": [".ttf", ".otf"],
-		"type": "font"
+		"type": "FNT"
 	},
 	"maps":
 	{
 		"exts": [".json"],
-		"type": "map"
+		"type": "MAP"
 	},
 	"scripts":
 	{
 		"exts": [".lua"],
-		"type": "string"
+		"type": "LUA"
 	},
 	"shaders":
 	{
 		"exts": [".glsl", ".vertex", ".frag"],
-		"type": "string"
+		"type": "SHD"
 	},
 	"sprites":
 	{
 		"exts": [".json"],
-		"type": "sprite"
+		"type": "SPR",
+		"/img": {
+			"exts": [".png"],
+			"type": "IMG",
+			"lazy": true
+		}
 	},
 	"textures":
 	{
 		"exts": [".png"],
-		"type": "texture"
+		"lazy": true,
+		"type": "TEX"
 	},
 	"tiles":
 	{
 		"exts": [".json"],
-		"type": "tileset"
+		"type": "TIL",
+		"/img": {
+			"exts": [".png"],
+			"type": "TEX",
+			"lazy": false
+		}
 	}
 }

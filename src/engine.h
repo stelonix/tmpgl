@@ -31,6 +31,7 @@ struct eng_animation {
 struct game_engine {
 	// Data
 	std::vector<eng_object> objects;
+	
 	string root_dir;
 	eng_object* selected;
 	text_engine te;
@@ -42,10 +43,14 @@ struct game_engine {
 	game_engine(int w, int h);
 
 	// Functions
+	
 	void click_event(int x, int y);
 	void draw_text(string text);
+
+	void* get_asset(string name);
+	font get_font(string name);
+	
 	void init();
-	void load_shaders();
 	void load_project(string base_dir);
 	shader_program make_shader(std::vector<string> files);
 	vbo prepare_for(game_map mymap);

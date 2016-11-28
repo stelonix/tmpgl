@@ -48,14 +48,15 @@ game_tilemap gen::flatten_tilemap(map_tilemap tiles,
 	return retval;	
 }
 
-coord_grid gen::texture_map(game_tilemap tiles, asset_loader* a_loader)
+coord_grid gen::texture_map(game_tilemap tiles, loader* p_loader)
 {
 	coord_grid retval;
 	int i = 0;
 	for (auto it = tiles.begin(); it != tiles.end(); it++)
 	{
 		auto frame = (*it)[0];
-		auto tex = a_loader->loaded_tex[ASSETS_DIR+frame.img];
+		auto tex = p_loader->get_texture(frame.img);
+
 		auto values = std::array<float, 12>(
 		{
 			tex.normalized_x[frame.u],		tex.normalized_y[frame.v],
@@ -102,12 +103,12 @@ coord_grid gen::texview(eng_texture tex, int l)
 }
 
 res_map<game_tileset> gen::flatten_tilesets(
-	std::vector<string> tsets, asset_loader* a_loader)
+	std::vector<string> tsets, loader* p_loader)
 {
 	auto retval = res_map<game_tileset>();
 	for (auto i = 0; i < tsets.size(); i++)
 	{
-		retval[i] = a_loader->loaded_tilesets[ASSETS_DIR+tsets[i]];
+		retval[i] = p_loader->get_tileset(tsets[i]);
 	}
 	return retval;
 }

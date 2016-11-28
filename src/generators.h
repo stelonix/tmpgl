@@ -4,12 +4,13 @@
 #include <string.h>
 #include <vector>
 #include "assets.h"
+#include "loader.h"
 
 namespace gen {
 	coord_grid vertex_grid(int w, int h, int l);
-	coord_grid texture_map(game_tilemap tiles, asset_loader* a_loader);
+	coord_grid texture_map(game_tilemap tiles, loader* p_loader);
 	game_tilemap flatten_tilemap(map_tilemap tiles,	res_map<game_tileset> tilesets);
-	res_map<game_tileset> flatten_tilesets(std::vector<string> tsets, asset_loader* a_loader);
+	res_map<game_tileset> flatten_tilesets(std::vector<string> tsets, loader* p_loader);
 	coord_grid texview(eng_texture tex, int l);
 
 	template <int N, int M> coord_grid intercalate(coord_grid verts, coord_grid uvs)
