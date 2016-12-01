@@ -25,6 +25,27 @@ game_engine::game_engine(int w, int h)
 	te.load_font(FONT, FONT_SIZE);
 }
 
+void game_engine::add_sprite(game_sprite* spr, int x, int y, int layer)
+{
+	eng_sprite s;
+	s.spr = spr;
+	s.x = x;
+	s.y = y;
+	s.z = layer/100.0f;
+	s.state = "walking";
+	s.frame = 0;
+	sprites.push_back(s);
+	build_sprites();
+	/*vbo tile_buffer;
+    tile_buffer.init(GL_DYNAMIC_DRAW);
+	    tile_buffer.buffer(vertex_data);
+	    tile_buffer
+	    	.add_pointer("position", 3, GL_FLOAT)
+	    	.add_pointer("tex_coord", 2, GL_FLOAT)
+	    .attach(tile_buffer);
+	return tile_buffer;*/
+}
+
 void game_engine::init() {
 	projection = glm::ortho( 0.f, float(screen_w), float(screen_h), 0.0f, 0.0f, 100.f );
 	view = glm::lookAt(
@@ -50,6 +71,11 @@ shader_program game_engine::make_shader(std::vector<string> files) {
 	return sp;
 }
 
+// eng_texture game_engine::make_tmap_texture()
+// {
+// 	build_cache(cfg::TILE_SIZE, cfg::mag);
+// }
+
 vbo game_engine::prepare_for(game_map mymap) {
 	auto vb = gen::vertex_grid(20, 15, 1);
 	//printf("vb[0]=%f\n", vb[3]);
@@ -67,6 +93,22 @@ vbo game_engine::prepare_for(game_map mymap) {
 	    	.add_pointer("tex_coord", 2, GL_FLOAT)
 	    .attach(tile_buffer);
 	return tile_buffer;
+}
+
+void game_engine::build_sprites() {
+	auto vb = gen::sprite_vertex(sprites, 2);
+	//printf("vb[0]=%f\n", vb[3]);
+    auto tc = gen::sprite_texture_map(sprites, &p_loader);
+    
+    //printf("dt[5]=%f\n", dt[5]);
+    auto vertex_data = gen::intercalate<3,2>(vb, tc);
+
+    sprite_vbo.init(GL_DYNAMIC_DRAW);
+	    sprite_vbo.buffer(vertex_data);
+	    sprite_vbo
+	    	.add_pointer("position", 3, GL_FLOAT)
+	    	.add_pointer("tex_coord", 2, GL_FLOAT)
+	    .attach(sprite_vbo);
 }
 
 void game_engine::setup(int w, int h)

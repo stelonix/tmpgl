@@ -4,9 +4,12 @@
 #include <string.h>
 #include <vector>
 #include "assets.h"
+#include "eng_sprite.h"
 #include "loader.h"
 
 namespace gen {
+	coord_grid sprite_vertex(std::vector<eng_sprite> sprs, int l);
+	coord_grid sprite_texture_map(std::vector<eng_sprite> sprs, loader* p_loader);
 	coord_grid vertex_grid(int w, int h, int l);
 	coord_grid texture_map(game_tilemap tiles, loader* p_loader);
 	game_tilemap flatten_tilemap(map_tilemap tiles,	res_map<game_tileset> tilesets);

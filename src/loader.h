@@ -29,9 +29,11 @@ struct loader {
 	void enum_files(string cur_dir);
 
 	game_sprite get_sprite(string name);
+	game_sprite* get_sprite_ptr(string name);
 	game_map get_map(string name);
 	string get_shader(string name);
 	eng_texture get_texture(string name);
+	eng_texture* get_texture_ptr(string name);
 	game_tileset get_tileset(string name);
 
 	void load(string file, string type);

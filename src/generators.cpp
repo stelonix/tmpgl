@@ -10,6 +10,68 @@
 using namespace cfg;
 using namespace std;
 
+coord_grid gen::sprite_vertex(std::vector<eng_sprite> sprs, int l)
+{
+	const int PER_VERTEX = 3;
+	const int NUM_VERTEX = 6;
+	const int NUM_ELEMENTS = NUM_VERTEX*PER_VERTEX;
+	coord_grid retval; retval.resize(sprs.size()*NUM_ELEMENTS);
+	auto z = l/100.0f;
+	int i = 0;
+	for (auto it = sprs.begin(); it != sprs.end(); it ++)
+	{
+		auto spr = *it;
+		auto fr = spr.spr->states[spr.state][spr.frame];
+		printf("%s\n", spr.spr->name.c_str());
+		float vertices[] =
+		{
+			spr.x,			spr.y,			z,
+			spr.x + fr.w,	spr.y,			z,
+			spr.x + fr.w,	spr.y + fr.h,	z,
+			spr.x,			spr.y,			z,
+			spr.x,			spr.y + fr.h,	z,
+			spr.x + fr.w,	spr.y + fr.h,	z,
+		};
+		for (int i = 0; i < sizeof(vertices)/sizeof(float); i++) vertices[i] *= cfg::MAG;
+		memcpy(retval.data() + i * NUM_ELEMENTS,
+				vertices, sizeof(vertices));
+		i++;
+	}
+	return retval;	
+}
+
+coord_grid gen::sprite_texture_map(std::vector<eng_sprite> sprs, loader* p_loader)
+{
+	coord_grid retval;
+	int i = 0;
+	for (auto it = sprs.begin(); it != sprs.end(); it++)
+	{
+		auto spr = *it;
+		auto frame = spr.spr->states[spr.state][spr.frame];
+		auto tex = p_loader->get_texture_ptr(frame.img);
+		printf("%s\n", frame.img.c_str());
+		auto values = std::array<float, 12>(
+		{
+			tex->normalized_x[frame.u],				tex->normalized_y[frame.v],
+			tex->normalized_x[frame.u + frame.w],	tex->normalized_y[frame.v],
+			tex->normalized_x[frame.u + frame.w],	tex->normalized_y[frame.v + frame.h],
+			tex->normalized_x[frame.u],				tex->normalized_y[frame.v],
+			tex->normalized_x[frame.u],				tex->normalized_y[frame.v + frame.h],
+			tex->normalized_x[frame.u + frame.w],	tex->normalized_y[frame.v + frame.h],
+		});
+		printf("%d u v w h: %d %d %d %d (%f %f %f %f)\n", tex->w, frame.u,frame.v,frame.w,frame.h,
+			tex->normalized_x[frame.u],
+			tex->normalized_y[frame.v],
+			tex->normalized_x[frame.u + frame.w],
+			tex->normalized_y[frame.v + frame.h]
+			);
+
+		retval.insert(retval.end(), values.begin(), values.end());
+		i++;
+	}
+	return retval;
+}
+
 coord_grid gen::vertex_grid(int w, int h, int l)
 {
 	const int PER_VERTEX = 3;

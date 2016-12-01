@@ -25,8 +25,8 @@
 		"type": "SPR",
 		"/img": {
 			"exts": [".png"],
-			"type": "IMG",
-			"lazy": true
+			"type": "TEX",
+			"lazy": false
 		}
 	},
 	"textures":

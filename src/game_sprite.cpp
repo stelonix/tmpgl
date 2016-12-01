@@ -11,9 +11,10 @@ game_sprite game_sprite::from_json(string j) {
 
 	for (auto it = json["states"].begin();
 		it != json["states"].end(); it++) {
-		auto spr = sprite_anim();
+		auto spr = std::vector<sprite_frame>();
 		for (auto fr = (*it).begin(); fr != (*it).end(); fr++) {
 			auto tmp = sprite_frame();
+			tmp.img = (*fr)["img"];
 			tmp.u = (*fr)["u"];
 			tmp.v = (*fr)["v"];
 			tmp.w = (*fr)["w"];
@@ -34,3 +35,12 @@ game_sprite game_sprite::from_json(string j) {
 	return retval;
 }
 
+std::vector<sprite_frame> game_sprite::get_frame_array()
+{
+	std::vector<sprite_frame> retval;
+	for (auto it = states.begin(); it != states.end(); it++)
+	{
+		retval.insert(retval.end(), it->second.begin(), it->second.end());
+	}
+	return retval;
+}

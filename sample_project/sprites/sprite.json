@@ -6,11 +6,11 @@
 				"walking":
 						[
 							{
-								"image": "warrior.png",
-								"u": 0,
-								"v": 0,
-								"w": 16,
-								"h": 24,
+								"img": "sprite_sheet___aege_by_destructionseries-d5dg2g2.png",
+								"u": 7,
+								"v": 8,
+								"w": 25,
+								"h": 28,
 								"ox": 0,
 								"oy": 0,
 								"interval": 200,

@@ -18,7 +18,7 @@ namespace engine {
 		this->texture_id = texture_id;
 		x_unit = 1.0f/rw;
 		y_unit = 1.0f/rh;
-		build_cache();
+		build_cache(cfg::ATILE);
 	}
 
 	float eng_texture::normalize_u(int u)
@@ -31,16 +31,30 @@ namespace engine {
 		return engine::normalize(v, y_unit);
 	}
 
-	void eng_texture::build_cache()
+	void eng_texture::build_cache(int size)
 	{
-		for (int x = 0; x < (w / TILE_SIZE) + 1; x++)
+		printf("building cache tile\n");
+		normalized_x.clear(); normalized_y.clear();
+		for (int x = 0; x < (w / size * cfg::MAG) + 1; x++)
 		{
-			normalized_x.push_back(normalize_u(x*ATILE));
+			normalized_x[x] = normalize_u(x * size);
 		}
-		for (int y = 0; y < (h / TILE_SIZE) + 1; y++)
+		for (int y = 0; y < (h / size * cfg::MAG) + 1; y++)
 		{
-			normalized_y.push_back(normalize_v(y*ATILE));
-			//printf("%f -> %f \n", y*ATILE, normalize_v(y*ATILE));
+			normalized_y[y] = normalize_v(y * size);
+		}
+	}
+
+	void eng_texture::build_cache(std::vector<sprite_frame> frames)
+	{
+		printf("building cache sprite\n");
+		normalized_x.clear(); normalized_y.clear();
+		for (auto it = frames.begin(); it != frames.end(); it++)
+		{
+			normalized_x[(*it).u] = normalize_u((*it).u);
+			normalized_y[(*it).v] = normalize_v((*it).v);
+			normalized_x[(*it).u + (*it).w] = normalize_u((*it).u + (*it).w);
+			normalized_y[(*it).v + (*it).h] = normalize_v((*it).v + (*it).h);
 		}
 	}
 

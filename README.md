@@ -5,7 +5,7 @@ fix asset_dir
 
 logging			✅
 
-loader			✅
+loader			✅ ✅
 
 linker
 

@@ -4,7 +4,9 @@
 #include <functional>
 #include <vector>
 #include <glm/glm.hpp>
+#include "eng_sprite.h"
 #include "game_map.h"
+#include "game_sprite.h"
 #include "string"
 #include "shader.h"
 #include "text_engine.h"
@@ -31,7 +33,9 @@ struct eng_animation {
 struct game_engine {
 	// Data
 	std::vector<eng_object> objects;
-	
+	std::vector<eng_sprite> sprites;
+	vbo sprite_vbo;
+
 	string root_dir;
 	eng_object* selected;
 	text_engine te;
@@ -43,7 +47,8 @@ struct game_engine {
 	game_engine(int w, int h);
 
 	// Functions
-	
+	void add_sprite(game_sprite* spr, int x, int y, int layer);
+	void build_sprites();
 	void click_event(int x, int y);
 	void draw_text(string text);
 

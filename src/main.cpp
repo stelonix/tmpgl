@@ -92,12 +92,15 @@ int main(int argc, char *argv[]) {
 	eng->objects[0].click_function = [](eng_object* t, int x, int y)
 	{
 		eng->selected = t;
-		printf("%s\n", t->name.c_str());
+		//printf("%s\n", t->name.c_str());
 	};
 	
 	auto mat_move = glm::vec3(300,200,0);
 	time_t start, end;
 	long frames = 0;
+	auto s = p_loader.get_texture_ptr("sprites/img/sprite_sheet___aege_by_destructionseries-d5dg2g2.png");
+	s->build_cache(p_loader.get_sprite_ptr("sprite.json")->states["walking"]);
+	eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 0, 0, 9);
 	while (1) {
 		glx::poll();
 		if (glx::done) {
@@ -124,7 +127,8 @@ int main(int argc, char *argv[]) {
 			sp.uniform("model", pan);
 		}
 		sp.draw(tile_buffer);
-
+		glBindTexture(GL_TEXTURE_2D, s->texture_id);
+		sp.draw(eng->sprite_vbo);
 		glBindTexture(GL_TEXTURE_2D, txt.texture_id);
 			sp.uniform("model", glm::mat4());
 			sp.uniform("v_trans", mat_move);

@@ -99,8 +99,16 @@ game_sprite loader::get_sprite(string file) {
 	return a_loader.loaded_sprites[resolve_file(file, "SPR")];
 }
 
+game_sprite* loader::get_sprite_ptr(string file) {
+	return &a_loader.loaded_sprites[resolve_file(file, "SPR")];
+}
+
 eng_texture loader::get_texture(string file) {
 	return a_loader.loaded_tex[resolve_file(file, "TEX")];
+}
+
+eng_texture* loader::get_texture_ptr(string file) {
+	return &a_loader.loaded_tex[resolve_file(file, "TEX")];
 }
 
 game_tileset loader::get_tileset(string file) {

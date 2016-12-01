@@ -1,5 +1,6 @@
 #include <libgen.h>
 #include "assets.h"
+#include "cfg.h"
 #include "helpers.h"
 #include "util.h"
 
@@ -20,6 +21,7 @@ eng_texture asset_loader::load_as_texture(string filename) {
 	printf("Texture id: %d\nw: %d (%d)\nh: %d (%d)\n",
 			retval.texture_id,retval.w, retval.internal_w,
 									retval.h, retval.internal_h);
+	
 	return retval;
 }
 

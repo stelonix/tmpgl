@@ -20,9 +20,10 @@ struct sprite_frame {
 struct game_sprite {
 	int id;
 	string name;
-	std::map<string, sprite_anim> states;
+	std::map<string, std::vector<sprite_frame>> states;
 	
 	static game_sprite from_json(string j);
+	std::vector<sprite_frame> get_frame_array();
 };
 
 #endif

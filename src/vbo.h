@@ -24,6 +24,7 @@ struct vbo {
 	// Data
 	std::vector<float>* _stream_cache;
 	unsigned int num_els;
+	int max_size;
 	vao_pointer pointers;
 	GLenum usage;
 	unsigned int vao_id;

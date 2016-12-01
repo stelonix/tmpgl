@@ -2,6 +2,7 @@
 #define ENG_TEXTURE_H
 
 #include "aliases.hpp"
+#include "game_sprite.h"
 #include <vector>
 #include <GL/glew.h>
 #include <GL/gl.h>
@@ -10,8 +11,8 @@ namespace engine {
 	float normalize(int v, float unit);
 
 	struct eng_texture {
-		std::vector<float> normalized_x;
-		std::vector<float> normalized_y;
+		std::map<int, float> normalized_x;
+		std::map<int, float> normalized_y;
 		int w, h;
 		int internal_w, internal_h;
 		float x_unit, y_unit;
@@ -21,7 +22,10 @@ namespace engine {
 		eng_texture();
 		float normalize_u(int u);
 		float normalize_v(int v);
-		void build_cache();
+		float normalize_s(int s);
+		float normalize_t(int t);
+		void build_cache(int size);
+		void build_cache(std::vector<sprite_frame> frames);
 	};
 }
 
