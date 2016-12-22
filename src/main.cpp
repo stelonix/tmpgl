@@ -67,20 +67,16 @@ game_engine* eng;
 timespec diff(timespec start, timespec end)
 {
     timespec temp;
-
-    if ((end.tv_nsec-start.tv_nsec)<0)
+    temp.tv_sec = end.tv_sec-start.tv_sec;
+    temp.tv_nsec = end.tv_nsec-start.tv_nsec;
+    if ((end.tv_nsec - start.tv_nsec) < 0)
     {
-            temp.tv_sec = end.tv_sec-start.tv_sec-1;
-            temp.tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
-    }
-    else 
-    {
-            temp.tv_sec = end.tv_sec-start.tv_sec;
-            temp.tv_nsec = end.tv_nsec-start.tv_nsec;
+            temp.tv_sec -= 1;
+            temp.tv_nsec += 1000000000;
     }
     return temp;
 }
-
+int tick_count = 0;
 int main(int argc, char *argv[]) {
 	panx = 0.0f;pany = 0.0f;
 	eng = new game_engine(HORZ_RES, VERT_RES);
@@ -113,21 +109,20 @@ int main(int argc, char *argv[]) {
 	};
 	
 	auto mat_move = glm::vec3(300,200,0);
-	time_t start, end;
 	long frames = 0;
 	auto s = p_loader.get_texture_ptr("sprites/img/sprite_sheet___aege_by_destructionseries-d5dg2g2.png");
 	s->build_cache(p_loader.get_sprite_ptr("sprite.json")->states["walking"]);
 	eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 1, 0, 9);
 	eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 10, 20, 9);
 	while (1) {
-		struct timespec spec;
+		struct timespec start, end;
 		glx::poll();
 		if (glx::done) {
 			glx::clean_x();
 			return 0;
 		}
-		clock_gettime(CLOCK_MONOTONIC, &spec);
-		start = round(spec.tv_nsec/1.0e6);
+		clock_gettime(CLOCK_MONOTONIC, &start);
+
 		if (keys[XK_Up])	pany += float(MAG);
 		if (keys[XK_Down])	pany -= float(MAG);
 		if (keys[XK_Left])	panx += float(MAG);
@@ -138,7 +133,6 @@ int main(int argc, char *argv[]) {
 		glx::clear_buffers();
 		// draw tiles
 		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-		//glDepthFunc( GL_LEQUAL );
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, t.texture_id);
 		sp.use_shaders();
@@ -166,26 +160,22 @@ int main(int argc, char *argv[]) {
 		sp.use_shaders();
 		sp.uniform("v_trans", glm::vec3(0.,0.,0.));
 		glx::swap();
-		clock_gettime(CLOCK_MONOTONIC, &spec);
-		end = round(spec.tv_nsec/1.0e6);
+
+		clock_gettime(CLOCK_MONOTONIC, &end);
+		auto msecs = int(diff(start, end).tv_nsec/1.0e6);
 		float fps;
 		frames++;
-		if (eng->tick(end - start)) eng->build_sprites();
-
-		if (end - start > 0.25 )
+		if (eng->tick(msecs)) eng->build_sprites();
+		tick_count += msecs;
+		if (tick_count >= 1000)
 		{
-		    fps = float(frames) / float(end - start);
-		    //printf("%d / %d-%d (%d) = %f\n", frames, end,start,end-start, fps);
-		    
-		    start = end;
+		    fps = float(frames) / float(msecs)*1000;
 		    frames = 0;
+		    char buf[200];
+			sprintf(buf, "gl3 %.1f", fps);
+			tick_count = 0;
+			glx::set_title(buf);
 		}
-
-		
-		//printf("%f\n", float(end - start));
-		char buf[200];
-		sprintf(buf, "gl3 %.1f", fps);
-		glx::set_title(buf);
 	}
 	glx::clean_x();
 	return 0;
