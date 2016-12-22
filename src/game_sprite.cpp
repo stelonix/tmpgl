@@ -21,7 +21,7 @@ game_sprite game_sprite::from_json(string j) {
 			tmp.h = (*fr)["h"];
 			tmp.ox = (*fr)["ox"];
 			tmp.oy = (*fr)["oy"];
-			tmp.interval = (*fr)["u"];
+			tmp.interval = (*fr)["interval"];
 			for (auto hb = (*fr)["hitbox"].begin(); hb != (*fr)["hitbox"].end(); hb++) {
 				auto cur_hb = hitbox();
 				cur_hb.x = (*hb)["x"];cur_hb.w = (*hb)["w"];

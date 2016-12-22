@@ -185,7 +185,7 @@ namespace scene {
 		return std::string(infoLog.begin(), infoLog.end());
 	}
 
-	void shader_program::draw(vbo target)
+	void shader_program::draw(vbo& target)
 	{
 		target.draw();
 	}

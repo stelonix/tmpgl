@@ -63,7 +63,7 @@ struct game_engine {
 	void setup_linux();
 	void setup_gui(int w, int h);
 	coord_grid texture_viewer(eng_texture txt, string name, int x = 0, int y = 0, int z = 0);
-
+	bool tick(int val);
 	
 };
 

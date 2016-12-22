@@ -200,3 +200,14 @@ coord_grid game_engine::texture_viewer(eng_texture txt, string name, int x, int 
 	//printf("object size %d\n", objects.size());
 	return gen::texview(txt,9);
 }
+
+bool game_engine::tick(int val)
+{
+	if (val < 0) return false; // gambiarra trash
+	auto new_frame = false;
+	for (auto it = sprites.begin(); it != sprites.end(); it++)
+	{
+		if ((*it).tick(val) == true) new_frame = true;
+	}
+	return new_frame;
+}

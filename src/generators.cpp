@@ -22,15 +22,15 @@ coord_grid gen::sprite_vertex(std::vector<eng_sprite> sprs, int l)
 	{
 		auto spr = *it;
 		auto fr = spr.spr->states[spr.state][spr.frame];
-		printf("%s\n", spr.spr->name.c_str());
+		//printf("%s\n", spr.spr->name.c_str());
 		float vertices[] =
 		{
-			spr.x,			spr.y,			z,
-			spr.x + fr.w,	spr.y,			z,
-			spr.x + fr.w,	spr.y + fr.h,	z,
-			spr.x,			spr.y,			z,
-			spr.x,			spr.y + fr.h,	z,
-			spr.x + fr.w,	spr.y + fr.h,	z,
+			spr.x,			spr.y,			z+i/100.0f,
+			spr.x + fr.w,	spr.y,			z+i/100.0f,
+			spr.x + fr.w,	spr.y + fr.h,	z+i/100.0f,
+			spr.x,			spr.y,			z+i/100.0f,
+			spr.x,			spr.y + fr.h,	z+i/100.0f,
+			spr.x + fr.w,	spr.y + fr.h,	z+i/100.0f,
 		};
 		for (int i = 0; i < sizeof(vertices)/sizeof(float); i++) vertices[i] *= cfg::MAG;
 		memcpy(retval.data() + i * NUM_ELEMENTS,
@@ -49,7 +49,7 @@ coord_grid gen::sprite_texture_map(std::vector<eng_sprite> sprs, loader* p_loade
 		auto spr = *it;
 		auto frame = spr.spr->states[spr.state][spr.frame];
 		auto tex = p_loader->get_texture_ptr(frame.img);
-		printf("%s\n", frame.img.c_str());
+		//printf("-%s\n", frame.img.c_str());
 		auto values = std::array<float, 12>(
 		{
 			tex->normalized_x[frame.u],				tex->normalized_y[frame.v],
@@ -59,12 +59,12 @@ coord_grid gen::sprite_texture_map(std::vector<eng_sprite> sprs, loader* p_loade
 			tex->normalized_x[frame.u],				tex->normalized_y[frame.v + frame.h],
 			tex->normalized_x[frame.u + frame.w],	tex->normalized_y[frame.v + frame.h],
 		});
-		printf("%d u v w h: %d %d %d %d (%f %f %f %f)\n", tex->w, frame.u,frame.v,frame.w,frame.h,
+		/*printf("%d u v w h: %d %d %d %d (%f %f %f %f)\n", tex->w, frame.u,frame.v,frame.w,frame.h,
 			tex->normalized_x[frame.u],
 			tex->normalized_y[frame.v],
 			tex->normalized_x[frame.u + frame.w],
 			tex->normalized_y[frame.v + frame.h]
-			);
+			);*/
 
 		retval.insert(retval.end(), values.begin(), values.end());
 		i++;

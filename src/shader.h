@@ -31,7 +31,7 @@ namespace scene {
 		void link_shaders();
 		void use_shaders();
 		int attrib(string attrib);
-		void draw(vbo target);
+		void draw(vbo& target);
 
 		// uniforms
 
@@ -39,6 +39,8 @@ namespace scene {
 		void uniform(string uni, glm::vec3 value);
 		void uniform(string uni, std::vector<glm::mat4> values, GLenum transpose = GL_FALSE);
 		void uniform(string uni, glm::mat4 value, GLenum transpose = GL_FALSE);
+
+		
 	};
 
 }
