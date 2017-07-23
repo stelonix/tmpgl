@@ -3,16 +3,18 @@
 
 using json = nlohmann::json;
 
-game_sprite game_sprite::from_json(string j) {
+game_sprite game_sprite::from_json(string j, string path) {
 	auto json = json::parse(j);
 	auto retval = game_sprite();
+	retval.path = path;
 	retval.name = json["name"];
 	retval.id = json["id"];
 
 	for (auto it = json["states"].begin();
 		it != json["states"].end(); it++) {
 		auto spr = std::vector<sprite_frame>();
-		for (auto fr = (*it).begin(); fr != (*it).end(); fr++) {
+		auto index = 0;
+		for (auto fr = (*it).begin(); fr != (*it).end(); fr++, index++) {
 			auto tmp = sprite_frame();
 			tmp.img = (*fr)["img"];
 			tmp.u = (*fr)["u"];
@@ -21,6 +23,7 @@ game_sprite game_sprite::from_json(string j) {
 			tmp.h = (*fr)["h"];
 			tmp.ox = (*fr)["ox"];
 			tmp.oy = (*fr)["oy"];
+			tmp.index = index;
 			tmp.interval = (*fr)["interval"];
 			for (auto hb = (*fr)["hitbox"].begin(); hb != (*fr)["hitbox"].end(); hb++) {
 				auto cur_hb = hitbox();

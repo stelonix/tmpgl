@@ -37,9 +37,9 @@ void loader::load(string file, string type) {
 	if (type == "FNT") {
 		//a_loader.
 	} else if (type == "IMG") {
-		
+
 	} else if (type == "LUA") {
-		
+
 	} else if (type == "MAP") {
 		a_loader.load_map(file);
 	} else if (type == "SHD") {
@@ -55,19 +55,24 @@ void loader::load(string file, string type) {
 	}
 }
 
-void loader::enum_files(string cur_dir) {
+void loader::enum_files(string cur_dir)
+{
 	struct dirent *dp;
 	std::vector<string> dirs_to_enter;
 
 	auto replaced = ReplaceString(cur_dir, project_path, "");
-	
+
 	auto dir = opendir(cur_dir.c_str());
-	while ((dp = readdir(dir)) != NULL) {
-		if ('.' != dp->d_name[0]) {
-			if (dp->d_type == DT_DIR) {
+	while ((dp = readdir(dir)) != NULL)
+	{
+		if ('.' != dp->d_name[0])
+		{
+			if (dp->d_type == DT_DIR)
+			{
 				dirs_to_enter.push_back(cur_dir + '/' + dp->d_name);
 			}
-			else if (cur_dir != project_path) {
+			else if (cur_dir != project_path)
+			{
 				fld_opts opts = get_dir_opts(find_dir(replaced));
 				add_file(cur_dir + '/' + dp->d_name, opts.loader_type, opts.lazy);
 				printf("[%s] %s/%s\n", opts.loader_type.c_str(), cur_dir.c_str(), dp->d_name);
@@ -75,21 +80,24 @@ void loader::enum_files(string cur_dir) {
 		}
 	}
 	closedir(dir);
-	for (auto it = dirs_to_enter.begin(); it != dirs_to_enter.end(); it++) {
+	for (auto it = dirs_to_enter.begin(); it != dirs_to_enter.end(); it++)
+	{
 		enum_files((*it).c_str());
 	}
-
-	
 }
 
-void loader::add_dir(string dir, json data) {
+void loader::add_dir(string dir, json data)
+{
 	fld_opts cur_opt;
-	for (auto it = data["exts"].begin(); it != data["exts"].end(); it++) {
+	for (auto it = data["exts"].begin(); it != data["exts"].end(); it++)
+	{
 		cur_opt.exts.push_back(*it);
 	}
 	cur_opt.loader_type = data["type"];
 	dir_opts[dir] = cur_opt;
 }
+
+/*			assets		*/
 
 game_map loader::get_map(string file) {
 	return a_loader.loaded_maps[resolve_file(file, "MAP")];
@@ -100,7 +108,11 @@ game_sprite loader::get_sprite(string file) {
 }
 
 game_sprite* loader::get_sprite_ptr(string file) {
-	return &a_loader.loaded_sprites[resolve_file(file, "SPR")];
+    try {
+       return &a_loader.loaded_sprites[resolve_file(file, "SPR")];
+   } catch (...) {
+       printf("exception thrown\n");
+   }
 }
 
 eng_texture loader::get_texture(string file) {
@@ -111,45 +123,63 @@ eng_texture* loader::get_texture_ptr(string file) {
 	return &a_loader.loaded_tex[resolve_file(file, "TEX")];
 }
 
-game_tileset loader::get_tileset(string file) {
+game_tileset loader::get_tileset(string file)
+{
 	return a_loader.loaded_tilesets[resolve_file(file, "TIL")];
 }
 
-string loader::get_shader(string file) {
+game_tileset* loader::get_tileset_ptr(string file)
+{
+	return &a_loader.loaded_tilesets[resolve_file(file, "TIL")];
+}
+
+string loader::get_shader(string file)
+{
 	return a_loader.shader_lib[resolve_file(file, "SHD")];
 }
 
-void loader::load_project(string dirs_path) {
+/*			project		*/
+
+void loader::load_project(string dirs_path)
+{
 	project_path = util::dirname_s(dirs_path);
 	auto json = json::parse(read_file<string>(dirs_path));
-	for (auto it = json.begin(); it != json.end(); it++) {
+	for (auto it = json.begin(); it != json.end(); it++)
+	{
 		process_dir("", it);
 	}
 	enum_files(project_path);
-	for (auto it = dir_opts.begin(); it != dir_opts.end(); it++) {
-		if (default_dirs.find(it->second.loader_type) == default_dirs.end()) {
+	for (auto it = dir_opts.begin(); it != dir_opts.end(); it++)
+	{
+		if (default_dirs.find(it->second.loader_type) == default_dirs.end())
+		{
 			default_dirs[it->second.loader_type] = it->first;
+			dir_types[it->first] = it->second.loader_type;
 			//printf("default for %s is %s\n", it->second.loader_type.c_str(), it->first.c_str());
 		}
 	}
-	for (auto it = project_files.begin(); it != project_files.end(); it++) {
+	for (auto it = project_files.begin(); it != project_files.end(); it++)
+	{
 		if (!it->second.lazy) load(it->first, it->second.type);
 	}
 }
 
-void loader::process_dir(string dir, json::iterator data) {
-	if (dir == "") {
-		
+void loader::process_dir(string dir, json::iterator data)
+{
+	if (dir == "")
+	{
 		add_dir(data.key(), *data);
 	}
-	for (auto it = (*data).begin(); it != (*data).end(); it++) {
+	for (auto it = (*data).begin(); it != (*data).end(); it++)
+	{
 		if (it.key() == "exts" || it.key() == "type" || it.key() == "lazy") continue;
 		add_dir(data.key()+it.key(), *it);
 		process_dir(data.key()+it.key(), it);
 	}
 }
 
-string loader::resolve_file(string file, string type) {
+string loader::resolve_file(string file, string type)
+{
 	auto retval = project_path;
 	auto def_dir = default_dirs[type];
 	//printf("for file %s\n", file.c_str());
@@ -159,4 +189,10 @@ string loader::resolve_file(string file, string type) {
 	//printf("with type = %s and default dir = %s\n", type.c_str(), def_dir.c_str());
 	//printf("retval: %s\n", (retval + "/" + file).c_str());
 	return retval + "/" + file;
+}
+
+string loader::resolve_type(string file)
+{
+	if (file[0] == '/') file = file.substr(1);
+	return dir_types[file.substr(0, file.find_first_of('/'))];
 }

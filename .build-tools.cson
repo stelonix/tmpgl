@@ -1,0 +1,48 @@
+providers: [
+  {
+    key: "bt"
+    config:
+      commands: [
+        {
+          project: "/home/stel/code/ogllx"
+          source: "/home/stel/code/ogllx/.build-tools.cson"
+          name: "gl3"
+          command: "./run"
+          wd: "."
+          env: {}
+          modifier:
+            save_all: {}
+          environment:
+            name: "child_process"
+            config:
+              stdoe: "both"
+          stdout:
+            pipeline: [
+              {
+                name: "profile"
+                config:
+                  profile: "gcc_clang"
+              }
+            ]
+          stderr:
+            pipeline: [
+              {
+                name: "profile"
+                config:
+                  profile: "gcc_clang"
+              }
+              {
+                name: "all"
+              }
+            ]
+          output:
+            console:
+              close_success: false
+              queue_in_buffer: true
+              colors: true
+              stdin: true
+          version: 2
+        }
+      ]
+  }
+]

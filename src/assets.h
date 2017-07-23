@@ -8,7 +8,6 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include "aliases.hpp"
-#include "boost_enum.hpp"
 #include "string"
 #include "eng_texture.h"
 #include "game_map.h"

@@ -21,8 +21,11 @@ coord_grid gen::sprite_vertex(std::vector<eng_sprite> sprs, int l)
 	for (auto it = sprs.begin(); it != sprs.end(); it ++)
 	{
 		auto spr = *it;
-		auto fr = spr.spr->states[spr.state][spr.frame];
+		printf("state %s frame %d\n", spr.state.c_str(), spr.frame);
+		auto fr = spr.states[spr.state][spr.frame].coords;
 		//printf("%s\n", spr.spr->name.c_str());
+		#pragma GCC diagnostic push
+		#pragma GCC diagnostic ignored "-Wnarrowing"
 		float vertices[] =
 		{
 			spr.x,			spr.y,			z+i/100.0f,
@@ -32,32 +35,33 @@ coord_grid gen::sprite_vertex(std::vector<eng_sprite> sprs, int l)
 			spr.x,			spr.y + fr.h,	z+i/100.0f,
 			spr.x + fr.w,	spr.y + fr.h,	z+i/100.0f,
 		};
+		#pragma GCC diagnostic pop
 		for (int i = 0; i < sizeof(vertices)/sizeof(float); i++) vertices[i] *= cfg::MAG;
 		memcpy(retval.data() + i * NUM_ELEMENTS,
 				vertices, sizeof(vertices));
 		i++;
 	}
-	return retval;	
+	return retval;
 }
 
-coord_grid gen::sprite_texture_map(std::vector<eng_sprite> sprs, loader* p_loader)
+coord_grid gen::sprite_texture_map(std::vector<eng_sprite> sprs, tex_map& textures)
 {
 	coord_grid retval;
 	int i = 0;
 	for (auto it = sprs.begin(); it != sprs.end(); it++)
 	{
 		auto spr = *it;
-		auto frame = spr.spr->states[spr.state][spr.frame];
-		auto tex = p_loader->get_texture_ptr(frame.img);
+		auto frame = spr.states[spr.state][spr.frame].coords;
+		auto tex = textures[spr.states[spr.state][spr.frame].tex];
 		//printf("-%s\n", frame.img.c_str());
 		auto values = std::array<float, 12>(
 		{
-			tex->normalized_x[frame.u],				tex->normalized_y[frame.v],
-			tex->normalized_x[frame.u + frame.w],	tex->normalized_y[frame.v],
-			tex->normalized_x[frame.u + frame.w],	tex->normalized_y[frame.v + frame.h],
-			tex->normalized_x[frame.u],				tex->normalized_y[frame.v],
-			tex->normalized_x[frame.u],				tex->normalized_y[frame.v + frame.h],
-			tex->normalized_x[frame.u + frame.w],	tex->normalized_y[frame.v + frame.h],
+			tex.normalized_x[frame.x],				tex.normalized_y[frame.y],
+			tex.normalized_x[frame.x + frame.w],	tex.normalized_y[frame.y],
+			tex.normalized_x[frame.x + frame.w],	tex.normalized_y[frame.y + frame.h],
+			tex.normalized_x[frame.x],				tex.normalized_y[frame.y],
+			tex.normalized_x[frame.x],				tex.normalized_y[frame.y + frame.h],
+			tex.normalized_x[frame.x + frame.w],	tex.normalized_y[frame.y + frame.h],
 		});
 		/*printf("%d u v w h: %d %d %d %d (%f %f %f %f)\n", tex->w, frame.u,frame.v,frame.w,frame.h,
 			tex->normalized_x[frame.u],
@@ -96,7 +100,7 @@ coord_grid gen::vertex_grid(int w, int h, int l)
 					vertices, sizeof(vertices));
 		}
 	}
-	return retval;	
+	return retval;
 }
 
 game_tilemap gen::flatten_tilemap(map_tilemap tiles,
@@ -107,7 +111,7 @@ game_tilemap gen::flatten_tilemap(map_tilemap tiles,
 	{
 		retval.push_back(tilesets[get<0>(*it)].tiles[get<1>(*it)]);
 	}
-	return retval;	
+	return retval;
 }
 
 coord_grid gen::texture_map(game_tilemap tiles, loader* p_loader)
@@ -160,7 +164,7 @@ coord_grid gen::texview(eng_texture tex, int l)
 		t.normalize_u(0),			t.normalize_v(internal_h),
 		t.normalize_u(internal_w),	t.normalize_v(internal_h),
 	});
-	
+
 	return intercalate<3,2>(verts,uvs);
 }
 

@@ -3,9 +3,10 @@
 
 using json = nlohmann::json;
 
-game_tileset game_tileset::from_json(string j) {
+game_tileset game_tileset::from_json(string j, string path) {
 	auto json = json::parse(j);
 	auto retval = game_tileset();
+	retval.path = path;
 	retval.name = json["name"];
 	for (auto it = json["tiles"].begin();it != json["tiles"].end(); it++) {
 		auto key = (*it)["id"];

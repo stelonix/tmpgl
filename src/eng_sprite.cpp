@@ -4,7 +4,7 @@ bool eng_sprite::tick(int val)
 {
 
 	auto retval = false;
-	auto c_spr = spr->states[state];
+	auto c_spr = states[state];
 	//printf("sprite tick %d into %d/%d\n", val, cur_tick, c_spr[frame].interval);
 	if (c_spr.size() == 1) return false;
 	cur_tick += val;

@@ -10,14 +10,13 @@
 #include "cfg.h"
 using namespace cfg;
 
-extern loader p_loader;
-
 #define FONT "./Sevastopol-Interface.ttf"
 #define FONT_SIZE 36
 
-game_engine::game_engine(int w, int h)
+game_engine::game_engine(int w, int h, loader* p_loader)
 {
 	screen_w = w; screen_h = h;
+	game_loader = p_loader;
 	setup(w, h);
 	init();
 	selected = NULL;
@@ -28,22 +27,15 @@ game_engine::game_engine(int w, int h)
 void game_engine::add_sprite(game_sprite* spr, int x, int y, int layer)
 {
 	eng_sprite s;
-	s.spr = spr;
+	s.states = templates.sprites[spr->path];
 	s.x = x;
 	s.y = y;
 	s.z = layer/100.0f;
 	s.state = "walking";
 	s.frame = 0;
+	s.tex = textures[mapped_textures[spr->path]];
 	sprites.push_back(s);
 	build_sprites();
-	/*vbo tile_buffer;
-    tile_buffer.init(GL_DYNAMIC_DRAW);
-	    tile_buffer.buffer(vertex_data);
-	    tile_buffer
-	    	.add_pointer("position", 3, GL_FLOAT)
-	    	.add_pointer("tex_coord", 2, GL_FLOAT)
-	    .attach(tile_buffer);
-	return tile_buffer;*/
 }
 
 void game_engine::init() {
@@ -57,7 +49,7 @@ void game_engine::init() {
 
 void game_engine::load_project(string base_dir)
 {
-	
+
 }
 
 shader_program game_engine::make_shader(std::vector<string> files) {
@@ -65,7 +57,7 @@ shader_program game_engine::make_shader(std::vector<string> files) {
 	for (int i = 0; i < files.size(); i++)
 	{
 		GLenum shader_type = util::endswith(files[i], ".vertex") ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER;
-		sp.add_shader(p_loader.get_shader(files[i]).c_str(), files[i].c_str(), shader_type);
+		sp.add_shader(game_loader->get_shader(files[i]).c_str(), files[i].c_str(), shader_type);
 	}
 	sp.link_shaders();
 	return sp;
@@ -80,8 +72,8 @@ vbo game_engine::prepare_for(game_map mymap) {
 	auto vb = gen::vertex_grid(20, 15, 1);
 	//printf("vb[0]=%f\n", vb[3]);
     auto gt = data::flatten_layer(mymap, 0);
-    auto tc = gen::texture_map(gt, &p_loader);
-    
+    auto tc = gen::texture_map(gt, game_loader);
+
     //printf("dt[5]=%f\n", dt[5]);
     auto vertex_data = gen::intercalate<3,2>(vb, tc);
 
@@ -97,9 +89,9 @@ vbo game_engine::prepare_for(game_map mymap) {
 
 void game_engine::build_sprites() {
 	auto vb = gen::sprite_vertex(sprites, 2);
-	//printf("vb[0]=%f\n", vb[3]);
-    auto tc = gen::sprite_texture_map(sprites, &p_loader);
-    
+	//printf("vb[0]=%f\çn", vb[3]);
+    auto tc = gen::sprite_texture_map(sprites, textures);
+
     //printf("dt[5]=%f\n", dt[5]);
     auto vertex_data = gen::intercalate<3,2>(vb, tc);
 
@@ -136,7 +128,7 @@ void game_engine::draw_text(string text)
 
 }
 
-bool point_in_rect(int x, int y, rect r)
+bool point_in_rect(int x, int y, eng_coord r)
 {
 	// printf("rect: %d, %d, %d, %d | point: %d, %d\n",
 	// 	r.x,r.y,r.w,r.h,x,y);
@@ -209,4 +201,64 @@ bool game_engine::tick(int val)
 		if ((*it).tick(val) == true) new_frame = true;
 	}
 	return new_frame;
+}
+
+std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
+{
+	// add all assets
+	atlas_builder ab;
+	for (auto path = paths.begin(); path != paths.end(); path++)
+	{
+		printf("%s\n", (*path).c_str());
+		auto p_type = game_loader->resolve_type(*path);
+
+		if (p_type == "SPR")
+		{
+			printf("adding sprite %s\n", (*path).c_str());
+			ab.add(game_loader->get_sprite_ptr(*path));
+		} else if (p_type == "TIL")
+		{
+			printf("adding tile   %s\n", (*path).c_str());
+			ab.add(game_loader->get_tileset_ptr(*path));
+		} else {
+			// error
+		}
+	}
+
+	// pack in N atlasses where N is the minimum possible number of rectangles
+	// needed to compose the added assets
+	printf("before pack\n");
+	return vector<eng_texture>();
+	auto atlas = ab.pack(1024, 1024);
+	printf("packed\n");
+	for (auto at = atlas.begin(); at != atlas.end(); at++)
+	{
+		for (auto pcs = (*at).pieces.begin(); pcs != (*at).pieces.end(); pcs++)
+		{
+			auto cur_tile = (*pcs);
+			auto path = cur_tile.src;
+			if ((*pcs).act == "")
+			{
+				auto qc = ab.ap_to_qc(cur_tile);
+				// add to templates
+				//cur_tile.
+				//templates.tiles[path][cur_tile.tile_id].push_back(qc);
+				printf("tile packed\n");
+				//game_loader->get_sprite_ptr(path)->states[cur_tile.act]
+				//ab.add(game_loader->get_sprite_ptr(*path));
+			} else
+			{
+				printf("Piece %0d\nx: %d y: %d w: %d h: %d\n", cur_tile.tile_id,
+						cur_tile.x, cur_tile.y, cur_tile.w, cur_tile.h );
+			}
+		}
+	}
+	printf("done\n");
+}
+
+eng_texture game_engine::blank_texture(int w, int h)
+{
+	auto tex = eng_texture::blank_texture(w, h);
+	textures[tex.texture_id] = tex;
+	return tex;
 }

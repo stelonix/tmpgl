@@ -9,7 +9,7 @@ loader			✅ ✅
 
 linker
 
-animation
+animation		✅
 
 lut_cache
 
@@ -32,5 +32,9 @@ wireframe
 camera			✅
 
 load entire vbo
+
+imgui
+
+	console
 
 ```

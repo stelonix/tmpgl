@@ -39,13 +39,13 @@ game_map asset_loader::load_map(string filename) {
 
 game_sprite asset_loader::load_sprite(string filename) {
 	loaded_sprites[filename] = game_sprite::from_json(
-		read_file<string>(filename));
+		read_file<string>(filename), filename);
 	return loaded_sprites[filename];
 }
 
 game_tileset asset_loader::load_tileset(string filename) {
 	loaded_tilesets[filename] = game_tileset::from_json(
-		read_file<string>(filename));
+		read_file<string>(filename), filename);
 	return loaded_tilesets[filename];
 }
 

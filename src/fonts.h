@@ -10,7 +10,6 @@
 #include <tuple>
 
 typedef std::tuple<int, int> wh_size_t;
-using eng_texture = engine::eng_texture;
 
 struct font {
 	// Logical fonts

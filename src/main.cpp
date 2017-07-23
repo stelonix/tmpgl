@@ -43,6 +43,7 @@
 #include "util.h"
 #include "include/imgui/imgui.h"
 #include "loader.h"
+#include "texture_atlas.h"
 
 #define FONT "./Sevastopol-Interface.ttf"
 #define FONT_SIZE 36
@@ -57,7 +58,8 @@ std::map<int, int> keys;
 glm::mat4 pan;
 float panx, pany;
 
-void pan_view(float x, float y) {
+void pan_view(float x, float y)
+{
 	pan = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0.0f));
 }
 loader p_loader;
@@ -66,30 +68,31 @@ game_engine* eng;
 
 timespec diff(timespec start, timespec end)
 {
-    timespec temp;
-    temp.tv_sec = end.tv_sec-start.tv_sec;
-    temp.tv_nsec = end.tv_nsec-start.tv_nsec;
-    if ((end.tv_nsec - start.tv_nsec) < 0)
-    {
-            temp.tv_sec -= 1;
-            temp.tv_nsec += 1000000000;
-    }
-    return temp;
+	timespec temp;
+	temp.tv_sec = end.tv_sec-start.tv_sec;
+	temp.tv_nsec = end.tv_nsec-start.tv_nsec;
+	if ((end.tv_nsec - start.tv_nsec) < 0)
+	{
+			temp.tv_sec -= 1;
+			temp.tv_nsec += 1000000000;
+	}
+	return temp;
 }
 int tick_count = 0;
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	panx = 0.0f;pany = 0.0f;
-	eng = new game_engine(HORZ_RES, VERT_RES);
+	eng = new game_engine(HORZ_RES, VERT_RES, &p_loader);
 	p_loader.load_project("./sample_project/dirs.json");
 	auto mymap = p_loader.get_map("maps/map.json");
 	auto t = p_loader.get_texture("tiles/img/indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
-	
+
 	auto VP = eng->projection * eng->view;
 	auto sp = eng->make_shader({"basic.vertex", "frag.glsl"});
 		sp.use_shaders();
 	auto wp = eng->make_shader({"basic.vertex", "all_white.glsl"});
 	auto tile_buffer = eng->prepare_for(mymap);
-    
+
 	text_engine te;
 	te.init();
 	te.load_font(FONT, FONT_SIZE);
@@ -101,20 +104,31 @@ int main(int argc, char *argv[]) {
 			.add_pointer("position", 3, GL_FLOAT)
 			.add_pointer("tex_coord", 2, GL_FLOAT)
 	.attach(texture_viewer);
-	
+
 	eng->objects[0].click_function = [](eng_object* t, int x, int y)
 	{
 		eng->selected = t;
 		//printf("%s\n", t->name.c_str());
 	};
-	
+	texture_atlas atlas;
+
+	eng->make_atlas({"sprites/sprite.json"});
+	printf("ffff\n");
+	glx::done = true;
+	auto tmps = p_loader.get_sprite_ptr("sprite.json");
+	//atlas.add(tmps->states["walking"][0]);
+	//atlas.add(tmps->states["walking"][1]);
+	auto tframe = p_loader.get_tileset_ptr("tileset.json")->tiles[0][0];
+	//atlas.add(tframe.img, tframe.u, tframe.v, cfg::ATILE, cfg::ATILE);
+	//atlas.pack(1024, 1024);
 	auto mat_move = glm::vec3(300,200,0);
 	long frames = 0;
 	auto s = p_loader.get_texture_ptr("sprites/img/sprite_sheet___aege_by_destructionseries-d5dg2g2.png");
 	s->build_cache(p_loader.get_sprite_ptr("sprite.json")->states["walking"]);
 	eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 1, 0, 9);
 	eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 10, 20, 9);
-	while (1) {
+	while (1)
+	{
 		struct timespec start, end;
 		glx::poll();
 		if (glx::done) {
@@ -169,9 +183,9 @@ int main(int argc, char *argv[]) {
 		tick_count += msecs;
 		if (tick_count >= 1000)
 		{
-		    fps = float(frames) / float(msecs)*1000;
-		    frames = 0;
-		    char buf[200];
+			fps = float(frames) / float(msecs)*1000;
+			frames = 0;
+			char buf[200];
 			sprintf(buf, "gl3 %.1f", fps);
 			tick_count = 0;
 			glx::set_title(buf);

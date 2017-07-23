@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 2.6)
- 
+
 SET(PROJECTNAME gl3)
-SET(CMAKE_C_COMPILER /usr/bin/gcc)
-SET(CMAKE_CXX_COMPILER /usr/bin/g++)
+SET(CMAKE_C_COMPILER /usr/bin/clang)
+SET(CMAKE_CXX_COMPILER /usr/bin/clang++)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
 PROJECT(${PROJECTNAME})
 
 set(main_SRCS
+		texture_atlas.cpp
 		include/imgui/imgui_draw.cpp
 		include/imgui/imgui.cpp
 		loader.cpp
@@ -31,9 +32,9 @@ set(main_SRCS
 		boilerplate.cpp
 		main.cpp
 		debug.cpp
-		
+
    )
- 
+
 SET(LIBRARIES ${LIBRARIES})
 
 # libpng
@@ -70,14 +71,14 @@ SET(LIBRARIES ${LIBRARIES} ${FREETYPE_LIBRARIES}
 	${HARFBUZZ_LIBRARIES}
 	${OPENGL_LIBRARIES} ${GLEW_LIBRARY}
 	${PNG_LIBRARIES}
-	${UNWIND_SHARED_LIB} 
+	${UNWIND_SHARED_LIB}
 	${X11_LIBRARIES}
 	)
- 
+
 INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR} )
- 
+
 ADD_EXECUTABLE(${PROJECTNAME} ${main_SRCS})
 
-set(CMAKE_CXX_FLAGS "-std=c++11")
- 
+set(CMAKE_CXX_FLAGS "-std=c++11 -g")
+
 TARGET_LINK_LIBRARIES(${PROJECTNAME} ${LIBRARIES})
