@@ -10,7 +10,7 @@ int pipefd[2];
 
 void setup_stdout() {
 	auto num = dup(fileno(stdout));
-	
+
 	pipe2(pipefd, O_NONBLOCK);
 	// What used to be stdout will now go to the pipe.
 	dup2(pipefd[1], fileno(stdout));
@@ -40,6 +40,7 @@ void *poll_stdout(void *ptr) {
 		} else if (ret == -1) {
 			fprintf(stdout_bk,"errno: %d\n", errno);
 		}
+		usleep(500000);
 	}
 }
 

@@ -228,13 +228,14 @@ std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
 	// pack in N atlasses where N is the minimum possible number of rectangles
 	// needed to compose the added assets
 	printf("before pack\n");
-	return vector<eng_texture>();
-	auto atlas = ab.pack(1024, 1024);
+	//return vector<eng_texture>();
+	auto atlas = ab.pack(29, 1024);
 	printf("packed\n");
 	for (auto at = atlas.begin(); at != atlas.end(); at++)
 	{
 		for (auto pcs = (*at).pieces.begin(); pcs != (*at).pieces.end(); pcs++)
 		{
+
 			auto cur_tile = (*pcs);
 			auto path = cur_tile.src;
 			if ((*pcs).act == "")
@@ -254,6 +255,7 @@ std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
 		}
 	}
 	printf("done\n");
+	return vector<eng_texture>();
 }
 
 eng_texture game_engine::blank_texture(int w, int h)

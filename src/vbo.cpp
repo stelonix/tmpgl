@@ -2,13 +2,13 @@
 #include "vbo.h"
 
 
-vbo::vbo (std::vector<float> data) {
+vbo::vbo (std::vector<float> data) : usage(GL_INVALID_VALUE) {
 	setup_vao();
 	buffer(data);
-	
+
 }
 
-vbo::vbo()
+vbo::vbo() : usage(GL_INVALID_VALUE)
 {
 
 }
@@ -79,6 +79,7 @@ void vao_pointer::attach(vbo targ) {
 
 void vbo::draw()
 {
+	if (usage == GL_INVALID_VALUE) return;
 	glBindVertexArray(vao_id);
 	glDrawArrays(GL_TRIANGLES, 0, num_els);
 }

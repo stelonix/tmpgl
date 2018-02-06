@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
 
 	eng->make_atlas({"sprites/sprite.json"});
 	printf("ffff\n");
-	glx::done = true;
+	//glx::done = true;
 	auto tmps = p_loader.get_sprite_ptr("sprite.json");
 	//atlas.add(tmps->states["walking"][0]);
 	//atlas.add(tmps->states["walking"][1]);
@@ -124,9 +124,9 @@ int main(int argc, char *argv[])
 	auto mat_move = glm::vec3(300,200,0);
 	long frames = 0;
 	auto s = p_loader.get_texture_ptr("sprites/img/sprite_sheet___aege_by_destructionseries-d5dg2g2.png");
-	s->build_cache(p_loader.get_sprite_ptr("sprite.json")->states["walking"]);
-	eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 1, 0, 9);
-	eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 10, 20, 9);
+	//s->build_cache(p_loader.get_sprite_ptr("sprite.json")->states["walking"]);
+	//eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 1, 0, 9);
+	//eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 10, 20, 9);
 	while (1)
 	{
 		struct timespec start, end;
@@ -188,7 +188,7 @@ int main(int argc, char *argv[])
 			char buf[200];
 			sprintf(buf, "gl3 %.1f", fps);
 			tick_count = 0;
-			glx::set_title(buf);
+			//glx::set_title(buf);
 		}
 	}
 	glx::clean_x();

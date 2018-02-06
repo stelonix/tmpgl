@@ -31,9 +31,9 @@ namespace glx {
 	bool done = false;
 	void poll () {
 		XEvent event;
-		
+
 		int len;
-		
+
 		while ( XPending(display) > 0 ){
 			XNextEvent(display, &event);
 			switch (event.type)
@@ -60,7 +60,7 @@ namespace glx {
 					keys[keysym_return] = 0;
 					XFlush(display);
 					//printf("release %d\n", event.xkey.keycode);
-					
+
 					for (auto it = keys.begin(); it != keys.end(); it++) {
 						//std::cout << it->first << ": " << it->second << std::endl;
 					}
@@ -217,14 +217,14 @@ namespace glx {
 		//printf("Chosen visual ID = 0x%x\n", vi->visualid);
 
 		//printf("Creating colormap\n");
-		
+
 		swa.colormap = cmap = XCreateColormap(
 				display, RootWindow(display, vi->screen), vi->visual, AllocNone);
 		swa.background_pixmap = None;
 		swa.border_pixel = 0;
 		swa.event_mask = StructureNotifyMask;
-		Atom WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", False); 
-		
+		Atom WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", False);
+
 
 		//printf("Creating window\n");
 		win = XCreateWindow(display, RootWindow(display, vi->screen), 0, 0,
@@ -257,7 +257,7 @@ namespace glx {
 				(glXCreateContextAttribsARBProc)glXGetProcAddressARB(
 						(const GLubyte *)"glXCreateContextAttribsARB");
 
-		
+
 
 		// Install an X error handler so the application won't exit if GL 3.0
 		// context allocation fails.

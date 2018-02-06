@@ -18,12 +18,13 @@ coord_grid gen::sprite_vertex(std::vector<eng_sprite> sprs, int l)
 	coord_grid retval; retval.resize(sprs.size()*NUM_ELEMENTS);
 	auto z = l/100.0f;
 	int i = 0;
+	printf("fdfdsf\n");
 	for (auto it = sprs.begin(); it != sprs.end(); it ++)
 	{
 		auto spr = *it;
 		printf("state %s frame %d\n", spr.state.c_str(), spr.frame);
 		auto fr = spr.states[spr.state][spr.frame].coords;
-		//printf("%s\n", spr.spr->name.c_str());
+		printf("--> %d\n", fr.x);
 		#pragma GCC diagnostic push
 		#pragma GCC diagnostic ignored "-Wnarrowing"
 		float vertices[] =

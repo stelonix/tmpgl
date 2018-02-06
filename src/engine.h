@@ -34,7 +34,7 @@ struct game_engine {
 		path_map<action_map> sprites;
 		path_map<tile_map> tiles;
 	} templates;
-	
+
 	std::vector<eng_object> objects;
 	std::vector<eng_sprite> sprites;
 	std::map<int, eng_texture> textures;
@@ -48,7 +48,7 @@ struct game_engine {
 	glm::mat4 projection;
 	glm::mat4 view;
 	int screen_w, screen_h;
-	
+
 	// Constructors
 	game_engine(int w, int h, loader* p_loader);
 
@@ -61,7 +61,7 @@ struct game_engine {
 	// Assets
 	void* get_asset(string name);
 	font get_font(string name);
-	
+
 	// Setup
 	void init();
 	void load_project(string base_dir);
@@ -76,7 +76,7 @@ struct game_engine {
 	void setup_gui(int w, int h);
 	coord_grid texture_viewer(eng_texture txt, string name, int x = 0, int y = 0, int z = 0);
 	bool tick(int val);
-	
+
 };
 
 
