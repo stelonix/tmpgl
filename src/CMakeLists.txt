@@ -7,28 +7,28 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
 PROJECT(${PROJECTNAME})
 
 set(main_SRCS
-		texture_atlas.cpp
+		engine/texture_atlas.cpp
 		include/imgui/imgui_draw.cpp
 		include/imgui/imgui.cpp
-		loader.cpp
-		eng_sprite.cpp
+		loader/loader.cpp
+		engine/rt/eng_sprite.cpp
 		data_transform.cpp
-		util.cpp
+		helpers/util.cpp
 		cfg.cpp
-		vbo.cpp
+		engine/vbo.cpp
 		logging.cpp
-		engine.cpp
-		text_engine.cpp
-		fonts.cpp
-		generators.cpp
+		engine/engine.cpp
+		engine/text/text_engine.cpp
+		engine/text/fonts.cpp
+		helpers/generators.cpp
 		png_texture.cpp
-		eng_texture.cpp
-		assets.cpp
-		game_map.cpp
-		game_sprite.cpp
-		game_tileset.cpp
-		helpers.cpp
-		shader.cpp
+		engine/rt/eng_texture.cpp
+		loader/assets.cpp
+		engine/datatypes/game_map.cpp
+		engine/datatypes/game_sprite.cpp
+		engine/datatypes/game_tileset.cpp
+		helpers/helpers.cpp
+		engine/shader.cpp
 		boilerplate.cpp
 		main.cpp
 		debug.cpp
@@ -76,7 +76,7 @@ SET(LIBRARIES ${LIBRARIES} ${FREETYPE_LIBRARIES}
 	)
 
 INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR} )
-
+include_directories(${CMAKE_SOURCE_DIR})
 ADD_EXECUTABLE(${PROJECTNAME} ${main_SRCS})
 
 set(CMAKE_CXX_FLAGS "-std=c++11 -pg -pthread")

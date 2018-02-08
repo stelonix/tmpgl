@@ -4,15 +4,15 @@
 #include <functional>
 #include <vector>
 #include <glm/glm.hpp>
-#include "eng_sprite.h"
-#include "game_map.h"
-#include "game_sprite.h"
-#include "loader.h"
-#include "string"
-#include "shader.h"
-#include "texture_atlas.h"
-#include "text_engine.h"
-#include "vbo.h"
+#include "engine/rt/eng_sprite.h"
+#include "engine/datatypes/game_map.h"
+#include "engine/datatypes/game_sprite.h"
+#include "loader/loader.h"
+#include "helpers/string"
+#include "engine/shader.h"
+#include "engine/texture_atlas.h"
+#include "engine/text/text_engine.h"
+#include "engine/vbo.h"
 using shader_program = scene::shader_program;
 using namespace std;
 struct eng_object {

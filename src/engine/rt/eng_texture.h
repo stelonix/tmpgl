@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include "aliases.hpp"
-#include "game_sprite.h"
+#include "engine/datatypes/game_sprite.h"
 #include <vector>
 
 
@@ -12,7 +12,7 @@
 namespace engine {
 	float normalize(int v, float unit);
 
-	
+
 }
 
 struct eng_texture {

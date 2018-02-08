@@ -1,12 +1,12 @@
 #include <glm/gtc/matrix_transform.hpp>
-#include "assets.h"
+#include "loader/assets.h"
 #include "boilerplate.h"
 #include "data_transform.h"
-#include "engine.h"
-#include "generators.h"
-#include "helpers.h"
+#include "engine/engine.h"
+#include "helpers/generators.h"
+#include "helpers/helpers.h"
 #include "logging.h"
-#include "util.h"
+#include "helpers/util.h"
 #include "cfg.h"
 using namespace cfg;
 

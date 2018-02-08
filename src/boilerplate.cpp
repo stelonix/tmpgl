@@ -1,7 +1,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include "string"
+#include "helpers/string"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,7 +11,7 @@
 #include <X11/Xutil.h>
 #include <X11/XKBlib.h>
 #include "boilerplate.h"
-#include "engine.h"
+#include "engine/engine.h"
 
 #include "cfg.h"
 using namespace cfg;

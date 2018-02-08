@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <string.h>
 #include <unistd.h>
-#include "helpers.h"
+#include "helpers/helpers.h"
 
 FILE* stdout_bk;
 int pipefd[2];

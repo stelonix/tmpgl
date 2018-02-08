@@ -1,8 +1,8 @@
 #include <libgen.h>
-#include "assets.h"
+#include "loader/assets.h"
 #include "cfg.h"
-#include "helpers.h"
-#include "util.h"
+#include "helpers/helpers.h"
+#include "helpers/util.h"
 
 extern GLuint png_texture_load(const char* file_name, int* width, int* height,
 								int* real_w=NULL, int* real_h=NULL);
@@ -21,7 +21,7 @@ eng_texture asset_loader::load_as_texture(string filename) {
 	printf("Texture id: %d\nw: %d (%d)\nh: %d (%d)\n",
 			retval.texture_id,retval.w, retval.internal_w,
 									retval.h, retval.internal_h);
-	
+
 	return retval;
 }
 

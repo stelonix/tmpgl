@@ -1,7 +1,7 @@
 #include "aliases.hpp"
-#include "assets.h"
-#include "generators.h"
-#include "game_map.h"
+#include "loader/assets.h"
+#include "helpers/generators.h"
+#include "engine/datatypes/game_map.h"
 #include <cassert>
 #include <vector>
 #include <string.h>

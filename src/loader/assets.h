@@ -8,12 +8,12 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include "aliases.hpp"
-#include "string"
-#include "eng_texture.h"
-#include "game_map.h"
-#include "game_sprite.h"
-#include "game_tileset.h"
-#include "helpers.h"
+#include "helpers/string"
+#include "engine/rt/eng_texture.h"
+#include "engine/datatypes/game_map.h"
+#include "engine/datatypes/game_sprite.h"
+#include "engine/datatypes/game_tileset.h"
+#include "helpers/helpers.h"
 
 using namespace engine;
 using namespace std;
@@ -21,12 +21,12 @@ using namespace std;
 GLuint texture(string filename);
 
 struct loaded_asset;
-using ase_load_fn = 
+using ase_load_fn =
 	std::function<loaded_asset(string)>;
 
 struct asset_loader {
 	// Folder scraping options
-	
+
 	// Pointer so we can have the same approach
 	struct loaded_asset {
 		void* data;
@@ -40,7 +40,7 @@ struct asset_loader {
 	path_map<game_sprite> loaded_sprites;
 	path_map<game_tileset> loaded_tilesets;
 
-	
+
 
 	eng_texture load_as_texture(string filename);
 
@@ -50,10 +50,10 @@ struct asset_loader {
 	game_tileset load_tileset(string filename);
 
 	void load_hook();
-	
+
 	int sweep_load(string directory);
 	void require(string filepath);
-	
+
 
 };
 /*template <typename T, LoadFunc, typename AsType = string>

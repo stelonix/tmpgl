@@ -1,8 +1,8 @@
 #ifndef FONTS_H
 #define FONTS_H
 #include <vector>
-#include "string"
-#include "eng_texture.h"
+#include "helpers/string"
+#include "engine/rt/eng_texture.h"
 #include <hb.h>
 #include <hb-ft.h>
 #include <cairo.h>
@@ -16,7 +16,7 @@ struct font {
 	cairo_font_face_t* 		cairo_font;
 	FT_Face					ft_face;
 	hb_font_t* 				hb_font;
-	
+
 	// Cairo
 	cairo_surface_t*		cairo_surface;
 	cairo_t*				cr;
@@ -24,7 +24,7 @@ struct font {
 	// HB
 	hb_glyph_info_t*		infos;
 	hb_glyph_position_t*	pos;
-	
+
 	// Constructors
 	font();
 	font(FT_Face ft, hb_font_t* hb, cairo_font_face_t* cf);

@@ -1,7 +1,7 @@
 #include "include/json.hpp"
 #include "debug.h"
-#include "fonts.h"
-#include "generators.h"
+#include "engine/text/fonts.h"
+#include "helpers/generators.h"
 
 string font::to_json()
 {
@@ -75,7 +75,7 @@ void font::render(string text)
 {
 	auto hb_buffer = shape(text);
 	auto direction = hb_buffer_get_direction(hb_buffer);
-	
+
 	unsigned int len = hb_buffer_get_length (hb_buffer);
 	infos = hb_buffer_get_glyph_infos (hb_buffer, NULL);
 	pos = hb_buffer_get_glyph_positions (hb_buffer, NULL);
@@ -95,7 +95,7 @@ void font::render_nowrap(string text)
 {
 	auto hb_buffer = shape(text);
 	auto direction = hb_buffer_get_direction(hb_buffer);
-	
+
 	unsigned int len = hb_buffer_get_length (hb_buffer);
 	infos = hb_buffer_get_glyph_infos (hb_buffer, NULL);
 	pos = hb_buffer_get_glyph_positions (hb_buffer, NULL);
@@ -158,7 +158,7 @@ eng_texture font::upload_texture()
 	unsigned char* data = cairo_image_surface_get_data(cairo_surface);
 	int tex_w = cairo_image_surface_get_width(cairo_surface);
 	int tex_h = cairo_image_surface_get_height(cairo_surface);
-	
+
 	GLuint texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);

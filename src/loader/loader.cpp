@@ -1,9 +1,9 @@
 #include <dirent.h>
-#include "assets.h"
-#include "engine.h"
-#include "loader.h"
-#include "helpers.h"
-#include "util.h"
+#include "loader/assets.h"
+#include "engine/engine.h"
+#include "loader/loader.h"
+#include "helpers/helpers.h"
+#include "helpers/util.h"
 
 std::string ReplaceString(std::string subject, const std::string& search,
                           const std::string& replace) {

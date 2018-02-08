@@ -1,14 +1,14 @@
 #include <tuple>
 #include <vector>
-#include "game_map.h"
-#include "generators.h"
-#include "loader.h"
+#include "engine/datatypes/game_map.h"
+#include "helpers/generators.h"
+#include "loader/loader.h"
 
 using namespace std;
 extern loader p_loader;
 namespace data {
 	game_tilemap flatten_layer(game_map map, int z) {
-		
+
 		auto tiles = map.layers[z].tiles;
 
 		auto retval = game_tilemap();

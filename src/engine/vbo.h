@@ -1,6 +1,6 @@
 #ifndef VBO_H
 #define VBO_H
-#include "string"
+#include "helpers/string"
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <vector>

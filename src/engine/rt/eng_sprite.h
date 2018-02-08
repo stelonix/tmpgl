@@ -5,8 +5,8 @@
 #include <GL/gl.h>
 #include "eng_texture.h"
 #include "eng_types.h"
-#include "string"
-#include "game_sprite.h"
+#include "helpers/string"
+#include "engine/datatypes/game_sprite.h"
 
 struct eng_sprite {
 	int x,y,z;

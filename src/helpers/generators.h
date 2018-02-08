@@ -3,9 +3,9 @@
 #include <assert.h>
 #include <string.h>
 #include <vector>
-#include "assets.h"
-#include "eng_sprite.h"
-#include "loader.h"
+#include "loader/assets.h"
+#include "engine/rt/eng_sprite.h"
+#include "loader/loader.h"
 
 using tex_map = std::map<int, eng_texture>;
 
@@ -31,11 +31,11 @@ namespace gen {
 			retval.push_back(verts[i*N]);
 			retval.push_back(verts[i*N+1]);
 			retval.push_back(verts[i*N+2]);
-			
+
 			// uv
 			retval.push_back(uvs[i*M]);
 			retval.push_back(uvs[i*M+1]);
-			
+
 			// printf("x,y,z: %f,%f,%f | u,v: %f %f\n",
 			// 	retval[i],
 			// 	retval[i+1],

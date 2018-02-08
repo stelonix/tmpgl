@@ -1,11 +1,11 @@
 #ifndef TEXT_ENGINE_H
 #define TEXT_ENGINE_H
 
-#include "string"
+#include "helpers/string"
 #include <vector>
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include "fonts.h"
+#include "engine/text/fonts.h"
 
 struct text_engine {
 	FT_Library ft_library;

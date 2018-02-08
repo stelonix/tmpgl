@@ -1,6 +1,6 @@
 #define _XOPEN_SOURCE 500			/* Required under GLIBC for nftw() */
 //#define _XOPEN_SOURCE_EXTENDED 1	/* Same */
-#include "string"
+#include "helpers/string"
 #include <iostream>
 #include <map>
 #include <stack>
@@ -19,19 +19,19 @@
 #include "include/json.hpp"
 #include "include/alphanum.hpp"
 #include "include/prettyprint.hpp"
-#include "assets.h"
+#include "loader/assets.h"
 #include "cfg.h"
 #include "boilerplate.h"
 #include "debug.h"
-#include "engine.h"
-#include "fonts.h"
-#include "game_map.h"
-#include "generators.h"
-#include "game_sprite.h"
-#include "helpers.h"
-#include "shader.h"
-#include "text_engine.h"
-#include "vbo.h"
+#include "engine/engine.h"
+#include "engine/text/fonts.h"
+#include "engine/datatypes/game_map.h"
+#include "helpers/generators.h"
+#include "engine/datatypes/game_sprite.h"
+#include "helpers/helpers.h"
+#include "engine/shader.h"
+#include "engine/text/text_engine.h"
+#include "engine/vbo.h"
 #include <hb.h>
 #include <hb-ft.h>
 #include <cairo.h>
@@ -40,10 +40,10 @@
 #include <libgen.h>
 #include <ftw.h>
 #include <dirent.h>
-#include "util.h"
+#include "helpers/util.h"
 #include "include/imgui/imgui.h"
-#include "loader.h"
-#include "texture_atlas.h"
+#include "loader/loader.h"
+#include "engine/texture_atlas.h"
 
 #define FONT "./Sevastopol-Interface.ttf"
 #define FONT_SIZE 36

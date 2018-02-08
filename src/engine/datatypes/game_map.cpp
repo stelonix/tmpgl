@@ -1,9 +1,8 @@
 #include <tuple>
-#include "assets.h"
+#include "loader/assets.h"
 #include "game_map.h"
 #include "include/json.hpp"
-#include "assets.h"
-#include "generators.h"
+#include "helpers/generators.h"
 
 using json = nlohmann::json;
 using namespace std;

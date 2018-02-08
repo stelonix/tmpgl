@@ -1,10 +1,10 @@
 #ifndef TEXTURE_ATLAS_H
 #define TEXTURE_ATLAS_H
 #include <tuple>
-#include "string"
-#include "eng_types.h"
-#include "game_sprite.h"
-#include "game_tileset.h"
+#include "helpers/string"
+#include "engine/rt/eng_types.h"
+#include "engine/datatypes/game_sprite.h"
+#include "engine/datatypes/game_tileset.h"
 #include "include/imgui/stb_rect_pack.h"
 
 using namespace std;
