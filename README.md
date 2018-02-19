@@ -1,7 +1,7 @@
 ```
 fonts			✅
 
-fix asset_dir			✅ ✅ ✅
+fix asset_dir	✅ ✅ ✅
 
 logging			✅
 
@@ -9,7 +9,7 @@ loader			✅ ✅
 
 linker
 
-animation			✅
+animation		✅
 
 lut_cache
 
@@ -19,13 +19,13 @@ vbo			✅
 
 sprites			✅
 
-text input			✅
+text input		✅
 
 lua
 
 octree
 
-texture packing			✅
+texture packing		✅
 
 wireframe
 
