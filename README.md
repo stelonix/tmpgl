@@ -1,7 +1,7 @@
 ```
 fonts			✅
 
-fix asset_dir	✅ ✅ ✅
+fix asset_dir		✅ ✅ ✅
 
 logging			✅
 
