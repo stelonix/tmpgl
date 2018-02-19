@@ -1,7 +1,7 @@
 ```
 fonts			✅
 
-fix asset_dir	✅ ✅ ✅
+fix asset_dir			✅ ✅ ✅
 
 logging			✅
 
@@ -9,23 +9,23 @@ loader			✅ ✅
 
 linker
 
-animation		✅
+animation			✅
 
 lut_cache
 
 shaders			✅
 
-vbo				✅
+vbo			✅
 
 sprites			✅
 
-text input
+text input			✅
 
 lua
 
 octree
 
-texture packing
+texture packing			✅
 
 wireframe
 
@@ -35,6 +35,6 @@ load entire vbo
 
 imgui
 
-	console
+console
 
 ```
