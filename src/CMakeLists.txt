@@ -7,7 +7,8 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
 PROJECT(${PROJECTNAME})
 
 set(main_SRCS
-		engine/texture_atlas.cpp
+		engine/atlas/texture_atlas.cpp
+		engine/atlas/atlas_builder.cpp
 		include/imgui/imgui_draw.cpp
 		include/imgui/imgui.cpp
 		loader/loader.cpp
@@ -79,6 +80,6 @@ INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR} )
 include_directories(${CMAKE_SOURCE_DIR})
 ADD_EXECUTABLE(${PROJECTNAME} ${main_SRCS})
 
-set(CMAKE_CXX_FLAGS "-std=c++11 -pg -pthread")
+set(CMAKE_CXX_FLAGS "-std=c++11 -g -pthread")
 
 TARGET_LINK_LIBRARIES(${PROJECTNAME} ${LIBRARIES})

@@ -1,44 +1,36 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <functional>
 #include <vector>
 #include <glm/glm.hpp>
 #include "engine/rt/eng_sprite.h"
+#include "engine/rt/eng_object.h"
 #include "engine/datatypes/game_map.h"
 #include "engine/datatypes/game_sprite.h"
 #include "loader/loader.h"
 #include "helpers/string"
 #include "engine/shader.h"
-#include "engine/texture_atlas.h"
+#include "engine/atlas/atlas_builder.h"
 #include "engine/text/text_engine.h"
 #include "engine/vbo.h"
 using shader_program = scene::shader_program;
 using namespace std;
-struct eng_object {
-	int x, y, z;
-	int w, h;
-	string name;
-	std::function<void(eng_object*, int, int)> click_function;
-	eng_object(string name);
-	eng_object();
-	void click_event(int x, int y);
-};
+
 
 struct game_engine {
 	// Data
-	std::map<int, vector<vbo>> render_list;
+	map<int, vector<vbo>> render_list;
 	struct templs {
-		using action_map = std::map<string, std::vector<quad_coords>>;
-		using tile_map = std::map<int, std::vector<quad_coords>>;
+		using action_map = map<string, vector<quad_coords>>;
+		using tile_map = map<int, vector<quad_coords>>;
 		path_map<action_map> sprites;
 		path_map<tile_map> tiles;
 	} templates;
 
-	std::vector<eng_object> objects;
-	std::vector<eng_sprite> sprites;
-	std::map<int, eng_texture> textures;
-	std::map<string, GLint> mapped_textures;
+	vector<eng_object> objects;
+	vector<eng_sprite> sprites;
+	map<int, eng_texture> textures;
+	map<string, GLint> mapped_textures;
 	loader* game_loader;
 	vbo sprite_vbo;
 

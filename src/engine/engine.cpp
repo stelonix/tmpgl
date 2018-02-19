@@ -3,6 +3,7 @@
 #include "boilerplate.h"
 #include "data_transform.h"
 #include "engine/engine.h"
+#include "engine/atlas/atlas_builder.h"
 #include "helpers/generators.h"
 #include "helpers/helpers.h"
 #include "logging.h"
@@ -229,13 +230,13 @@ std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
 	// needed to compose the added assets
 	printf("before pack\n");
 	//return vector<eng_texture>();
-	auto atlas = ab.pack(29, 1024);
+	auto atlas = ab.compile(29, 1024);
 	printf("packed\n");
+	/*
 	for (auto at = atlas.begin(); at != atlas.end(); at++)
 	{
 		for (auto pcs = (*at).pieces.begin(); pcs != (*at).pieces.end(); pcs++)
 		{
-
 			auto cur_tile = (*pcs);
 			auto path = cur_tile.src;
 			if ((*pcs).act == "")
@@ -253,7 +254,7 @@ std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
 						cur_tile.x, cur_tile.y, cur_tile.w, cur_tile.h );
 			}
 		}
-	}
+	}*/
 	printf("done\n");
 	return vector<eng_texture>();
 }

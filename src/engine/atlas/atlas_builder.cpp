@@ -1,8 +1,10 @@
 #include <algorithm>
-#include "texture_atlas.h"
-#include "cfg.h"
+#include "engine/atlas/atlas_builder.h"
 #define STB_RECT_PACK_IMPLEMENTATION
 #include "include/imgui/stb_rect_pack.h"
+#include "cfg.h"
+
+using namespace std;
 
 void atlas_builder::add(sprite_frame frame, string act, string src)
 {
@@ -111,7 +113,7 @@ vector<atlas_piece> atlas_builder::stb_to_ap(vector<stbrp_rect>& rects)
 	return retval;
 }
 
-vector<texture_atlas> atlas_builder::pack(int max_w, int max_h)
+map<string, map<string, seq_piece_t>> atlas_builder::compile(int max_w, int max_h)
 {
 	stbrp_context context;
 	vector<stbrp_rect> tmp_rects;
@@ -143,7 +145,7 @@ vector<texture_atlas> atlas_builder::pack(int max_w, int max_h)
 
 	// sort so we have ids back
 
-
+	map<string, map<string, seq_piece_t>> retval = requests;
 	std::sort(tmp_rects.begin(), tmp_rects.end(),[&](const stbrp_rect & a, const stbrp_rect & b) -> bool
 	{
 		return a.id < b.id;
@@ -151,31 +153,12 @@ vector<texture_atlas> atlas_builder::pack(int max_w, int max_h)
 	id = 0;
 	for (auto s : requests) {
 		for (auto pcs : s.second) {
-			requests[s.first][pcs.first][id].x = tmp_rects[id].x;
-			requests[s.first][pcs.first][id].y = tmp_rects[id].y;
+			retval[s.first][pcs.first][id].x = tmp_rects[id].x;
+			retval[s.first][pcs.first][id].y = tmp_rects[id].y;
 			id++;
 		}
 	}
-
-	// output logical texture atlases
-	vector<texture_atlas> retval;
-	texture_atlas atlas;
-	//atlas.pieces = tmp_rects;
-	//retval.push_back(atlas);
-
-
 	return retval;
-}
-
-void texture_atlas::calc_dimensions()
-{
-	w = 0; h = 0;
-	for (auto it = pieces.begin(); it != pieces.end(); it++)
-	{
-		auto r = *it;
-		if (r.x + r.w > w) w = r.x+r.w;
-		if (r.y + r.h > h) h = r.y+r.h;
-	}
 }
 
 vector<stbrp_rect> atlas_builder::remove_packed(vector<stbrp_rect> rects)

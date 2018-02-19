@@ -1,27 +1,14 @@
-#ifndef TEXTURE_ATLAS_H
-#define TEXTURE_ATLAS_H
-#include <tuple>
-#include "helpers/string"
+#ifndef ATLAS_BUILDER_H
+#define ATLAS_BUILDER_H
+#include <map>
+#include <vector>
+#include "engine/atlas/atlas_piece.h"
 #include "engine/rt/eng_types.h"
 #include "engine/datatypes/game_sprite.h"
 #include "engine/datatypes/game_tileset.h"
 #include "include/imgui/stb_rect_pack.h"
 
 using namespace std;
-
-struct atlas_piece : public eng_coord {
-	string act, img, src;
-	int index, tile_id;
-};
-
-struct texture_atlas {
-	// data
-	int w, h;
-	std::map<string, atlas_piece* const> by_file;
-	vector<atlas_piece> pieces;
-	void calc_dimensions();
-};
-
 typedef vector<atlas_piece> seq_piece_t;
 
 struct atlas_builder {
@@ -39,8 +26,7 @@ struct atlas_builder {
 	vector<stbrp_rect > ap_to_stb(vector<atlas_piece>& piece_arr, int& _in_id);
 	quad_coords ap_to_qc(atlas_piece piece);
 	vector<atlas_piece> stb_to_ap(vector<stbrp_rect>& rects);
-	vector<texture_atlas> pack(int max_w, int max_h);
+	map<string, map<string, seq_piece_t>> compile(int max_w, int max_h);
 	vector<stbrp_rect> remove_packed(vector<stbrp_rect> rects);
 };
-
 #endif

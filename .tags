@@ -38,82 +38,6 @@ queue_in_buffer	/home/stel/code/ogllx/.build-tools.cson	/^              queue_in
 colors	/home/stel/code/ogllx/.build-tools.cson	/^              colors: true$/;"	function	line:42
 stdin	/home/stel/code/ogllx/.build-tools.cson	/^              stdin: true$/;"	function	line:43
 version	/home/stel/code/ogllx/.build-tools.cson	/^          version: 2$/;"	function	line:44
-GAME_SPRITE_H	/home/stel/code/ogllx/src/game_sprite.h	/^#define GAME_SPRITE_H$/;"	macro	line:2
-hitbox	/home/stel/code/ogllx/src/game_sprite.h	/^struct hitbox {$/;"	struct	line:9
-x	/home/stel/code/ogllx/src/game_sprite.h	/^	int x,y,w,h;$/;"	member	line:10	struct:hitbox
-y	/home/stel/code/ogllx/src/game_sprite.h	/^	int x,y,w,h;$/;"	member	line:10	struct:hitbox
-w	/home/stel/code/ogllx/src/game_sprite.h	/^	int x,y,w,h;$/;"	member	line:10	struct:hitbox
-h	/home/stel/code/ogllx/src/game_sprite.h	/^	int x,y,w,h;$/;"	member	line:10	struct:hitbox
-sprite_frame	/home/stel/code/ogllx/src/game_sprite.h	/^struct sprite_frame {$/;"	struct	line:13
-index	/home/stel/code/ogllx/src/game_sprite.h	/^	int index;$/;"	member	line:14	struct:sprite_frame
-img	/home/stel/code/ogllx/src/game_sprite.h	/^	string img;$/;"	member	line:15	struct:sprite_frame
-u	/home/stel/code/ogllx/src/game_sprite.h	/^	int u,v,w,h,ox,oy;$/;"	member	line:16	struct:sprite_frame
-v	/home/stel/code/ogllx/src/game_sprite.h	/^	int u,v,w,h,ox,oy;$/;"	member	line:16	struct:sprite_frame
-w	/home/stel/code/ogllx/src/game_sprite.h	/^	int u,v,w,h,ox,oy;$/;"	member	line:16	struct:sprite_frame
-h	/home/stel/code/ogllx/src/game_sprite.h	/^	int u,v,w,h,ox,oy;$/;"	member	line:16	struct:sprite_frame
-ox	/home/stel/code/ogllx/src/game_sprite.h	/^	int u,v,w,h,ox,oy;$/;"	member	line:16	struct:sprite_frame
-oy	/home/stel/code/ogllx/src/game_sprite.h	/^	int u,v,w,h,ox,oy;$/;"	member	line:16	struct:sprite_frame
-interval	/home/stel/code/ogllx/src/game_sprite.h	/^	int interval;$/;"	member	line:17	struct:sprite_frame
-hitboxes	/home/stel/code/ogllx/src/game_sprite.h	/^	std::vector<hitbox> hitboxes;$/;"	member	line:18	struct:sprite_frame
-game_sprite	/home/stel/code/ogllx/src/game_sprite.h	/^struct game_sprite {$/;"	struct	line:21
-id	/home/stel/code/ogllx/src/game_sprite.h	/^	int id;$/;"	member	line:22	struct:game_sprite
-name	/home/stel/code/ogllx/src/game_sprite.h	/^	string name;$/;"	member	line:23	struct:game_sprite
-path	/home/stel/code/ogllx/src/game_sprite.h	/^	string path;$/;"	member	line:24	struct:game_sprite
-states	/home/stel/code/ogllx/src/game_sprite.h	/^	std::map<string, std::vector<sprite_frame>> states;$/;"	member	line:25	struct:game_sprite
-GENERATORS_H	/home/stel/code/ogllx/src/generators.h	/^#define GENERATORS_H$/;"	macro	line:2
-gen	/home/stel/code/ogllx/src/generators.h	/^namespace gen {$/;"	namespace	line:12
-intercalate	/home/stel/code/ogllx/src/generators.h	/^	template <int N, int M> coord_grid intercalate(coord_grid verts, coord_grid uvs)$/;"	function	line:21	namespace:gen	signature:(coord_grid verts, coord_grid uvs)
-type_set	/home/stel/code/ogllx/src/shader.cpp	/^glsl_type_set type_set [] = {$/;"	variable	line:9
-scene	/home/stel/code/ogllx/src/shader.cpp	/^namespace scene {$/;"	namespace	line:118	file:
-get_attrib_loc	/home/stel/code/ogllx/src/shader.cpp	/^	int get_attrib_loc(char const* attrib, int program) {$/;"	function	line:120	namespace:scene	signature:(char const* attrib, int program)
-get_attrib_loc	/home/stel/code/ogllx/src/shader.cpp	/^	int get_attrib_loc(const char* attrib, GLuint program) {$/;"	function	line:123	namespace:scene	signature:(const char* attrib, GLuint program)
-get_uniform_loc	/home/stel/code/ogllx/src/shader.cpp	/^	int get_uniform_loc(const char* attrib, GLuint program) {$/;"	function	line:127	namespace:scene	signature:(const char* attrib, GLuint program)
-shader_program	/home/stel/code/ogllx/src/shader.cpp	/^	shader_program::shader_program() {$/;"	function	line:131	class:scene::shader_program	signature:()
-new_scene	/home/stel/code/ogllx/src/shader.cpp	/^	void shader_program::new_scene() {$/;"	function	line:135	class:scene::shader_program	signature:()
-uniform	/home/stel/code/ogllx/src/shader.cpp	/^	int shader_program::uniform(string identifier) {$/;"	function	line:139	class:scene::shader_program	signature:(string identifier)
-add_shader	/home/stel/code/ogllx/src/shader.cpp	/^	void shader_program::add_shader(const char* shader, const char* fname, GLenum type) {$/;"	function	line:143	class:scene::shader_program	signature:(const char* shader, const char* fname, GLenum type)
-link_shaders	/home/stel/code/ogllx/src/shader.cpp	/^	void shader_program::link_shaders() {$/;"	function	line:159	class:scene::shader_program	signature:()
-use_shaders	/home/stel/code/ogllx/src/shader.cpp	/^	void shader_program::use_shaders() {$/;"	function	line:168	class:scene::shader_program	signature:()
-attrib	/home/stel/code/ogllx/src/shader.cpp	/^	int shader_program::attrib(string attrib) {$/;"	function	line:173	class:scene::shader_program	signature:(string attrib)
-get_shader_log	/home/stel/code/ogllx/src/shader.cpp	/^	string get_shader_log(unsigned int shaderID) {$/;"	function	line:177	namespace:scene	signature:(unsigned int shaderID)
-draw	/home/stel/code/ogllx/src/shader.cpp	/^	void shader_program::draw(vbo& target)$/;"	function	line:188	class:scene::shader_program	signature:(vbo& target)
-uniform	/home/stel/code/ogllx/src/shader.cpp	/^	void shader_program::uniform(string uni, std::vector<glm::vec3> value) {$/;"	function	line:193	class:scene::shader_program	signature:(string uni, std::vector<glm::vec3> value)
-uniform	/home/stel/code/ogllx/src/shader.cpp	/^	void shader_program::uniform(string uni, glm::vec3 value)$/;"	function	line:200	class:scene::shader_program	signature:(string uni, glm::vec3 value)
-uniform	/home/stel/code/ogllx/src/shader.cpp	/^	void shader_program::uniform(string uni, std::vector<glm::mat4> values, GLenum transpose) {$/;"	function	line:208	class:scene::shader_program	signature:(string uni, std::vector<glm::mat4> values, GLenum transpose)
-uniform	/home/stel/code/ogllx/src/shader.cpp	/^	void shader_program::uniform(string uni, glm::mat4 value, GLenum transpose) {$/;"	function	line:216	class:scene::shader_program	signature:(string uni, glm::mat4 value, GLenum transpose)
-eTB_GLSL__print_uniforms	/home/stel/code/ogllx/src/shader.cpp	/^eTB_GLSL__print_uniforms (GLuint program)$/;"	function	line:226	signature:(GLuint program)
-init	/home/stel/code/ogllx/src/text_engine.cpp	/^void text_engine::init() {$/;"	function	line:3	class:text_engine	signature:()
-load_font	/home/stel/code/ogllx/src/text_engine.cpp	/^void text_engine::load_font(string filename, int size) {$/;"	function	line:9	class:text_engine	signature:(string filename, int size)
-draw_text	/home/stel/code/ogllx/src/text_engine.cpp	/^eng_texture text_engine::draw_text(string font, string text) {$/;"	function	line:21	class:text_engine	signature:(string font, string text)
-ENG_TEXTURE_H	/home/stel/code/ogllx/src/eng_texture.h	/^#define ENG_TEXTURE_H$/;"	macro	line:2
-engine	/home/stel/code/ogllx/src/eng_texture.h	/^namespace engine {$/;"	namespace	line:12
-eng_texture	/home/stel/code/ogllx/src/eng_texture.h	/^struct eng_texture {$/;"	struct	line:18
-normalized_x	/home/stel/code/ogllx/src/eng_texture.h	/^	std::map<int, float> normalized_x;$/;"	member	line:19	struct:eng_texture
-normalized_y	/home/stel/code/ogllx/src/eng_texture.h	/^	std::map<int, float> normalized_y;$/;"	member	line:20	struct:eng_texture
-w	/home/stel/code/ogllx/src/eng_texture.h	/^	int w, h;$/;"	member	line:21	struct:eng_texture
-h	/home/stel/code/ogllx/src/eng_texture.h	/^	int w, h;$/;"	member	line:21	struct:eng_texture
-internal_w	/home/stel/code/ogllx/src/eng_texture.h	/^	int internal_w, internal_h;$/;"	member	line:22	struct:eng_texture
-internal_h	/home/stel/code/ogllx/src/eng_texture.h	/^	int internal_w, internal_h;$/;"	member	line:22	struct:eng_texture
-x_unit	/home/stel/code/ogllx/src/eng_texture.h	/^	float x_unit, y_unit;$/;"	member	line:23	struct:eng_texture
-y_unit	/home/stel/code/ogllx/src/eng_texture.h	/^	float x_unit, y_unit;$/;"	member	line:23	struct:eng_texture
-texture_id	/home/stel/code/ogllx/src/eng_texture.h	/^	GLuint texture_id;$/;"	member	line:24	struct:eng_texture
-TEXT_ENGINE_H	/home/stel/code/ogllx/src/text_engine.h	/^#define TEXT_ENGINE_H$/;"	macro	line:2
-text_engine	/home/stel/code/ogllx/src/text_engine.h	/^struct text_engine {$/;"	struct	line:10
-ft_library	/home/stel/code/ogllx/src/text_engine.h	/^	FT_Library ft_library;$/;"	member	line:11	struct:text_engine
-ft_error	/home/stel/code/ogllx/src/text_engine.h	/^	FT_Error ft_error;$/;"	member	line:12	struct:text_engine
-fonts	/home/stel/code/ogllx/src/text_engine.h	/^	std::map<string, font> fonts;$/;"	member	line:13	struct:text_engine
-tick	/home/stel/code/ogllx/src/eng_sprite.cpp	/^bool eng_sprite::tick(int val)$/;"	function	line:3	class:eng_sprite	signature:(int val)
-eng_sprite	/home/stel/code/ogllx/src/eng_sprite.cpp	/^eng_sprite::eng_sprite()$/;"	function	line:23	class:eng_sprite	signature:()
-FONTS_H	/home/stel/code/ogllx/src/fonts.h	/^#define FONTS_H$/;"	macro	line:2
-wh_size_t	/home/stel/code/ogllx/src/fonts.h	/^typedef std::tuple<int, int> wh_size_t;$/;"	typedef	line:12
-font	/home/stel/code/ogllx/src/fonts.h	/^struct font {$/;"	struct	line:14
-cairo_font	/home/stel/code/ogllx/src/fonts.h	/^	cairo_font_face_t* 		cairo_font;$/;"	member	line:16	struct:font
-ft_face	/home/stel/code/ogllx/src/fonts.h	/^	FT_Face					ft_face;$/;"	member	line:17	struct:font
-hb_font	/home/stel/code/ogllx/src/fonts.h	/^	hb_font_t* 				hb_font;$/;"	member	line:18	struct:font
-cairo_surface	/home/stel/code/ogllx/src/fonts.h	/^	cairo_surface_t*		cairo_surface;$/;"	member	line:21	struct:font
-cr	/home/stel/code/ogllx/src/fonts.h	/^	cairo_t*				cr;$/;"	member	line:22	struct:font
-infos	/home/stel/code/ogllx/src/fonts.h	/^	hb_glyph_info_t*		infos;$/;"	member	line:25	struct:font
-pos	/home/stel/code/ogllx/src/fonts.h	/^	hb_glyph_position_t*	pos;$/;"	member	line:26	struct:font
 ALIASES_HPP	/home/stel/code/ogllx/src/aliases.hpp	/^#define ALIASES_HPP$/;"	macro	line:2
 coord_grid	/home/stel/code/ogllx/src/aliases.hpp	/^typedef std::vector<float> coord_grid;$/;"	typedef	line:16
 game_tile	/home/stel/code/ogllx/src/aliases.hpp	/^typedef std::vector<game_tile_frame> game_tile;$/;"	typedef	line:17
@@ -121,8 +45,6 @@ game_tilemap	/home/stel/code/ogllx/src/aliases.hpp	/^typedef std::vector<game_ti
 map_tile	/home/stel/code/ogllx/src/aliases.hpp	/^typedef std::tuple<int, int> map_tile;$/;"	typedef	line:19
 map_tilemap	/home/stel/code/ogllx/src/aliases.hpp	/^typedef std::vector<map_tile> map_tilemap;$/;"	typedef	line:20
 uv_coord	/home/stel/code/ogllx/src/aliases.hpp	/^typedef std::array<float,2> uv_coord;$/;"	typedef	line:26
-from_json	/home/stel/code/ogllx/src/game_sprite.cpp	/^game_sprite game_sprite::from_json(string j, string path) {$/;"	function	line:6	class:game_sprite	signature:(string j, string path)
-get_frame_array	/home/stel/code/ogllx/src/game_sprite.cpp	/^std::vector<sprite_frame> game_sprite::get_frame_array()$/;"	function	line:41	class:game_sprite	signature:()
 DEBUG_H	/home/stel/code/ogllx/src/debug.h	/^#define DEBUG_H$/;"	macro	line:2
 DEBUG_PRINT	/home/stel/code/ogllx/src/debug.h	/^#define DEBUG_PRINT /;"	macro	line:9
 dbg_notice_cnt	/home/stel/code/ogllx/src/debug.h	/^struct dbg_notice_cnt {};$/;"	struct	line:10
@@ -131,43 +53,23 @@ dbgprint	/home/stel/code/ogllx/src/debug.h	/^#define dbgprint(/;"	macro	line:12
 png_texture_load	/home/stel/code/ogllx/src/png_texture.cpp	/^GLuint png_texture_load(const char *file_name, int *width, int *height,$/;"	function	line:10	signature:(const char *file_name, int *width, int *height, int *real_w = NULL, int *real_h = NULL)
 X_DEFINE_ENUM_WITH_STRING_CONVERSIONS_TOSTRING_CASE	/home/stel/code/ogllx/src/boost_enum.hpp	/^#define X_DEFINE_ENUM_WITH_STRING_CONVERSIONS_TOSTRING_CASE(/;"	macro	line:3
 DEFINE_ENUM_WITH_STRING_CONVERSIONS	/home/stel/code/ogllx/src/boost_enum.hpp	/^#define DEFINE_ENUM_WITH_STRING_CONVERSIONS(/;"	macro	line:6
-ReplaceString	/home/stel/code/ogllx/src/loader.cpp	/^std::string ReplaceString(std::string subject, const std::string& search,$/;"	function	line:8	signature:(std::string subject, const std::string& search, const std::string& replace)
-add_file	/home/stel/code/ogllx/src/loader.cpp	/^void loader::add_file(string file, string loader_type, bool lazy = false) {$/;"	function	line:18	class:loader	signature:(string file, string loader_type, bool lazy = false)
-find_dir	/home/stel/code/ogllx/src/loader.cpp	/^string loader::find_dir(string dir) {$/;"	function	line:22	class:loader	signature:(string dir)
-get_dir_opts	/home/stel/code/ogllx/src/loader.cpp	/^fld_opts loader::get_dir_opts(string dir) {$/;"	function	line:31	class:loader	signature:(string dir)
-load	/home/stel/code/ogllx/src/loader.cpp	/^void loader::load(string file, string type) {$/;"	function	line:35	class:loader	signature:(string file, string type)
-enum_files	/home/stel/code/ogllx/src/loader.cpp	/^void loader::enum_files(string cur_dir)$/;"	function	line:58	class:loader	signature:(string cur_dir)
-add_dir	/home/stel/code/ogllx/src/loader.cpp	/^void loader::add_dir(string dir, json data)$/;"	function	line:89	class:loader	signature:(string dir, json data)
-get_map	/home/stel/code/ogllx/src/loader.cpp	/^game_map loader::get_map(string file) {$/;"	function	line:102	class:loader	signature:(string file)
-get_sprite	/home/stel/code/ogllx/src/loader.cpp	/^game_sprite loader::get_sprite(string file) {$/;"	function	line:106	class:loader	signature:(string file)
-get_sprite_ptr	/home/stel/code/ogllx/src/loader.cpp	/^game_sprite* loader::get_sprite_ptr(string file) {$/;"	function	line:110	class:loader	signature:(string file)
-get_texture	/home/stel/code/ogllx/src/loader.cpp	/^eng_texture loader::get_texture(string file) {$/;"	function	line:118	class:loader	signature:(string file)
-get_texture_ptr	/home/stel/code/ogllx/src/loader.cpp	/^eng_texture* loader::get_texture_ptr(string file) {$/;"	function	line:122	class:loader	signature:(string file)
-get_tileset	/home/stel/code/ogllx/src/loader.cpp	/^game_tileset loader::get_tileset(string file)$/;"	function	line:126	class:loader	signature:(string file)
-get_tileset_ptr	/home/stel/code/ogllx/src/loader.cpp	/^game_tileset* loader::get_tileset_ptr(string file)$/;"	function	line:131	class:loader	signature:(string file)
-get_shader	/home/stel/code/ogllx/src/loader.cpp	/^string loader::get_shader(string file)$/;"	function	line:136	class:loader	signature:(string file)
-load_project	/home/stel/code/ogllx/src/loader.cpp	/^void loader::load_project(string dirs_path)$/;"	function	line:143	class:loader	signature:(string dirs_path)
-process_dir	/home/stel/code/ogllx/src/loader.cpp	/^void loader::process_dir(string dir, json::iterator data)$/;"	function	line:167	class:loader	signature:(string dir, json::iterator data)
-resolve_file	/home/stel/code/ogllx/src/loader.cpp	/^string loader::resolve_file(string file, string type)$/;"	function	line:181	class:loader	signature:(string file, string type)
-resolve_type	/home/stel/code/ogllx/src/loader.cpp	/^string loader::resolve_type(string file)$/;"	function	line:194	class:loader	signature:(string file)
 DATA_TRANSFORM_H	/home/stel/code/ogllx/src/data_transform.h	/^#define DATA_TRANSFORM_H$/;"	macro	line:2
 data	/home/stel/code/ogllx/src/data_transform.h	/^namespace data {$/;"	namespace	line:6
-HELPERS_H	/home/stel/code/ogllx/src/helpers.h	/^#define HELPERS_H$/;"	macro	line:2
-read_file	/home/stel/code/ogllx/src/helpers.h	/^T read_file(std::string filename, size_t* read_bytes = NULL) {$/;"	function	line:12	signature:(std::string filename, size_t* read_bytes = NULL)
-ArrayDeleter	/home/stel/code/ogllx/src/helpers.h	/^template <typename T> class ArrayDeleter {$/;"	class	line:28
-operator ()	/home/stel/code/ogllx/src/helpers.h	/^    void operator () (T* d) const$/;"	function	line:30	class:ArrayDeleter	signature:(T* d) const
-helpers	/home/stel/code/ogllx/src/helpers.h	/^namespace helpers$/;"	namespace	line:39
-STB_RECT_PACK_IMPLEMENTATION	/home/stel/code/ogllx/src/texture_atlas.cpp	/^#define STB_RECT_PACK_IMPLEMENTATION$/;"	macro	line:4	file:
-add	/home/stel/code/ogllx/src/texture_atlas.cpp	/^void atlas_builder::add(sprite_frame frame, string act, string src)$/;"	function	line:7	class:atlas_builder	signature:(sprite_frame frame, string act, string src)
-add	/home/stel/code/ogllx/src/texture_atlas.cpp	/^void atlas_builder::add(string img, int u, int v, int w, int h, int tile_id, int index, string src)$/;"	function	line:24	class:atlas_builder	signature:(string img, int u, int v, int w, int h, int tile_id, int index, string src)
-add	/home/stel/code/ogllx/src/texture_atlas.cpp	/^void atlas_builder::add(game_sprite* spr)$/;"	function	line:39	class:atlas_builder	signature:(game_sprite* spr)
-add	/home/stel/code/ogllx/src/texture_atlas.cpp	/^void atlas_builder::add(game_tileset* ts)$/;"	function	line:56	class:atlas_builder	signature:(game_tileset* ts)
-ap_to_stb	/home/stel/code/ogllx/src/texture_atlas.cpp	/^vector<stbrp_rect> atlas_builder::ap_to_stb(vector<atlas_piece>& piece_arr, int& _in_id)$/;"	function	line:72	class:atlas_builder	signature:(vector<atlas_piece>& piece_arr, int& _in_id)
-ap_to_qc	/home/stel/code/ogllx/src/texture_atlas.cpp	/^quad_coords atlas_builder::ap_to_qc(atlas_piece piece)$/;"	function	line:89	class:atlas_builder	signature:(atlas_piece piece)
-stb_to_ap	/home/stel/code/ogllx/src/texture_atlas.cpp	/^vector<atlas_piece> atlas_builder::stb_to_ap(vector<stbrp_rect>& rects)$/;"	function	line:99	class:atlas_builder	signature:(vector<stbrp_rect>& rects)
-pack	/home/stel/code/ogllx/src/texture_atlas.cpp	/^vector<texture_atlas> atlas_builder::pack(int max_w, int max_h)$/;"	function	line:114	class:atlas_builder	signature:(int max_w, int max_h)
-calc_dimensions	/home/stel/code/ogllx/src/texture_atlas.cpp	/^void texture_atlas::calc_dimensions()$/;"	function	line:170	class:texture_atlas	signature:()
-remove_packed	/home/stel/code/ogllx/src/texture_atlas.cpp	/^vector<stbrp_rect> atlas_builder::remove_packed(vector<stbrp_rect> rects)$/;"	function	line:181	class:atlas_builder	signature:(vector<stbrp_rect> rects)
+_XOPEN_SOURCE	/home/stel/code/ogllx/src/main.cpp	/^#define _XOPEN_SOURCE /;"	macro	line:1	file:
+FONT	/home/stel/code/ogllx/src/main.cpp	/^#define FONT /;"	macro	line:48	file:
+FONT_SIZE	/home/stel/code/ogllx/src/main.cpp	/^#define FONT_SIZE /;"	macro	line:49	file:
+MARGIN	/home/stel/code/ogllx/src/main.cpp	/^#define MARGIN /;"	macro	line:50	file:
+keys	/home/stel/code/ogllx/src/main.cpp	/^std::map<int, int> keys;$/;"	variable	line:56
+pan	/home/stel/code/ogllx/src/main.cpp	/^glm::mat4 pan;$/;"	variable	line:58
+panx	/home/stel/code/ogllx/src/main.cpp	/^float panx, pany;$/;"	variable	line:59
+pany	/home/stel/code/ogllx/src/main.cpp	/^float panx, pany;$/;"	variable	line:59
+pan_view	/home/stel/code/ogllx/src/main.cpp	/^void pan_view(float x, float y)$/;"	function	line:61	signature:(float x, float y)
+p_loader	/home/stel/code/ogllx/src/main.cpp	/^loader p_loader;$/;"	variable	line:65
+texture_viewer	/home/stel/code/ogllx/src/main.cpp	/^vbo texture_viewer;$/;"	variable	line:66
+eng	/home/stel/code/ogllx/src/main.cpp	/^game_engine* eng;$/;"	variable	line:67
+diff	/home/stel/code/ogllx/src/main.cpp	/^timespec diff(timespec start, timespec end)$/;"	function	line:69	signature:(timespec start, timespec end)
+tick_count	/home/stel/code/ogllx/src/main.cpp	/^int tick_count = 0;$/;"	variable	line:81
+main	/home/stel/code/ogllx/src/main.cpp	/^int main(int argc, char *argv[])$/;"	function	line:82	signature:(int argc, char *argv[])
 NLOHMANN_JSON_HPP	/home/stel/code/ogllx/src/include/json.hpp	/^#define NLOHMANN_JSON_HPP$/;"	macro	line:39
 nlohmann	/home/stel/code/ogllx/src/include/json.hpp	/^namespace nlohmann$/;"	namespace	line:88
 has_mapped_type	/home/stel/code/ogllx/src/include/json.hpp	/^struct has_mapped_type$/;"	struct	line:103	namespace:nlohmann::__anon1
@@ -2543,16 +2445,11 @@ rect_original_order	/home/stel/code/ogllx/src/include/stb/stb_rect_pack.h	/^stat
 STBRP__MAXVAL	/home/stel/code/ogllx/src/include/stb/stb_rect_pack.h	/^#define STBRP__MAXVAL /;"	macro	line:542
 STBRP__MAXVAL	/home/stel/code/ogllx/src/include/stb/stb_rect_pack.h	/^#define STBRP__MAXVAL /;"	macro	line:544
 stbrp_pack_rects	/home/stel/code/ogllx/src/include/stb/stb_rect_pack.h	/^STBRP_DEF void stbrp_pack_rects(stbrp_context *context, stbrp_rect *rects, int num_rects)$/;"	function	line:547	signature:(stbrp_context *context, stbrp_rect *rects, int num_rects)
-eng_texture	/home/stel/code/ogllx/src/eng_texture.cpp	/^eng_texture::eng_texture()$/;"	function	line:8	class:eng_texture	signature:()
-eng_texture	/home/stel/code/ogllx/src/eng_texture.cpp	/^eng_texture::eng_texture(GLuint texture_id, int w, int h, int rw, int rh)$/;"	function	line:13	class:eng_texture	signature:(GLuint texture_id, int w, int h, int rw, int rh)
-normalize_u	/home/stel/code/ogllx/src/eng_texture.cpp	/^float eng_texture::normalize_u(int u)$/;"	function	line:25	class:eng_texture	signature:(int u)
-normalize_v	/home/stel/code/ogllx/src/eng_texture.cpp	/^float eng_texture::normalize_v(int v)$/;"	function	line:30	class:eng_texture	signature:(int v)
-build_cache	/home/stel/code/ogllx/src/eng_texture.cpp	/^void eng_texture::build_cache(int size)$/;"	function	line:35	class:eng_texture	signature:(int size)
-build_cache	/home/stel/code/ogllx/src/eng_texture.cpp	/^void eng_texture::build_cache(std::vector<sprite_frame> frames)$/;"	function	line:49	class:eng_texture	signature:(std::vector<sprite_frame> frames)
-blank_texture	/home/stel/code/ogllx/src/eng_texture.cpp	/^eng_texture eng_texture::blank_texture(int w, int h)$/;"	function	line:62	class:eng_texture	signature:(int w, int h)
-engine	/home/stel/code/ogllx/src/eng_texture.cpp	/^namespace engine {$/;"	namespace	line:87	file:
-normalize	/home/stel/code/ogllx/src/eng_texture.cpp	/^	float normalize(int v, float unit)$/;"	function	line:88	namespace:engine	signature:(int v, float unit)
-from_json	/home/stel/code/ogllx/src/game_tileset.cpp	/^game_tileset game_tileset::from_json(string j, string path) {$/;"	function	line:6	class:game_tileset	signature:(string j, string path)
+stdout_bk	/home/stel/code/ogllx/src/logging.cpp	/^FILE* stdout_bk;$/;"	variable	line:8
+pipefd	/home/stel/code/ogllx/src/logging.cpp	/^int pipefd[2];$/;"	variable	line:9
+setup_stdout	/home/stel/code/ogllx/src/logging.cpp	/^void setup_stdout() {$/;"	function	line:11	signature:()
+poll_stdout	/home/stel/code/ogllx/src/logging.cpp	/^void *poll_stdout(void *ptr) {$/;"	function	line:23	signature:(void *ptr)
+setup_threads	/home/stel/code/ogllx/src/logging.cpp	/^void setup_threads() {$/;"	function	line:47	signature:()
 UNW_LOCAL_ONLY	/home/stel/code/ogllx/src/debug.cpp	/^#define UNW_LOCAL_ONLY$/;"	macro	line:7	file:
 handler	/home/stel/code/ogllx/src/debug.cpp	/^void handler(int sig) {$/;"	function	line:10	signature:(int sig)
 real_dbgprint	/home/stel/code/ogllx/src/debug.cpp	/^void real_dbgprint(int counter, const char* msg_type, const char* format, ...) {$/;"	function	line:17	signature:(int counter, const char* msg_type, const char* format, ...)
@@ -2564,173 +2461,394 @@ foo	/home/stel/code/ogllx/src/debug.cpp	/^void foo(T t, U u) {$/;"	function	line
 Klass	/home/stel/code/ogllx/src/debug.cpp	/^struct Klass {$/;"	struct	line:145	file:
 t	/home/stel/code/ogllx/src/debug.cpp	/^  T t;$/;"	member	line:146	struct:Klass	file:
 bar	/home/stel/code/ogllx/src/debug.cpp	/^  void bar() {$/;"	function	line:147	struct:Klass	signature:()
-ASSETS_H	/home/stel/code/ogllx/src/assets.h	/^#define ASSETS_H$/;"	macro	line:2
-asset_loader	/home/stel/code/ogllx/src/assets.h	/^struct asset_loader {$/;"	struct	line:27
-loaded_asset	/home/stel/code/ogllx/src/assets.h	/^	struct loaded_asset {$/;"	struct	line:31	struct:asset_loader
-data	/home/stel/code/ogllx/src/assets.h	/^		void* data;$/;"	member	line:32	struct:asset_loader::loaded_asset
-size	/home/stel/code/ogllx/src/assets.h	/^		int size;$/;"	member	line:33	struct:asset_loader::loaded_asset
-assets	/home/stel/code/ogllx/src/assets.h	/^	path_map<loaded_asset> assets;$/;"	member	line:36	struct:asset_loader
-shader_lib	/home/stel/code/ogllx/src/assets.h	/^	path_map<string> shader_lib;$/;"	member	line:37	struct:asset_loader
-loaded_tex	/home/stel/code/ogllx/src/assets.h	/^	path_map<eng_texture> loaded_tex;$/;"	member	line:38	struct:asset_loader
-loaded_maps	/home/stel/code/ogllx/src/assets.h	/^	path_map<game_map> loaded_maps;$/;"	member	line:39	struct:asset_loader
-loaded_sprites	/home/stel/code/ogllx/src/assets.h	/^	path_map<game_sprite> loaded_sprites;$/;"	member	line:40	struct:asset_loader
-loaded_tilesets	/home/stel/code/ogllx/src/assets.h	/^	path_map<game_tileset> loaded_tilesets;$/;"	member	line:41	struct:asset_loader
-util	/home/stel/code/ogllx/src/util.cpp	/^namespace util {$/;"	namespace	line:5	file:
-dirname_s	/home/stel/code/ogllx/src/util.cpp	/^	string dirname_s(const char *path)$/;"	function	line:6	namespace:util	signature:(const char *path)
-dirname_s	/home/stel/code/ogllx/src/util.cpp	/^	string dirname_s(string path)$/;"	function	line:14	namespace:util	signature:(string path)
-basename_s	/home/stel/code/ogllx/src/util.cpp	/^	string basename_s(const char *path)$/;"	function	line:19	namespace:util	signature:(const char *path)
-basename_s	/home/stel/code/ogllx/src/util.cpp	/^	string basename_s(string path)$/;"	function	line:28	namespace:util	signature:(string path)
-endswith	/home/stel/code/ogllx/src/util.cpp	/^	bool endswith(string const & value, string const & ending)$/;"	function	line:33	namespace:util	signature:(string const & value, string const & ending)
-UTIL_H	/home/stel/code/ogllx/src/util.h	/^#define UTIL_H$/;"	macro	line:2
-util	/home/stel/code/ogllx/src/util.h	/^namespace util {$/;"	namespace	line:7
-GAME_MAP_H	/home/stel/code/ogllx/src/game_map.h	/^#define GAME_MAP_H$/;"	macro	line:2
-map_decal	/home/stel/code/ogllx/src/game_map.h	/^struct map_decal$/;"	struct	line:10
-name	/home/stel/code/ogllx/src/game_map.h	/^	string name;$/;"	member	line:12	struct:map_decal
-sprite	/home/stel/code/ogllx/src/game_map.h	/^	string sprite;$/;"	member	line:13	struct:map_decal
-x	/home/stel/code/ogllx/src/game_map.h	/^	int x;$/;"	member	line:14	struct:map_decal
-y	/home/stel/code/ogllx/src/game_map.h	/^	int y;$/;"	member	line:15	struct:map_decal
-z	/home/stel/code/ogllx/src/game_map.h	/^	int z;$/;"	member	line:16	struct:map_decal
-map_layer	/home/stel/code/ogllx/src/game_map.h	/^struct map_layer$/;"	struct	line:19
-name	/home/stel/code/ogllx/src/game_map.h	/^	string name;$/;"	member	line:21	struct:map_layer
-objects	/home/stel/code/ogllx/src/game_map.h	/^	std::vector<map_decal> objects;$/;"	member	line:22	struct:map_layer
-tiles	/home/stel/code/ogllx/src/game_map.h	/^	map_tilemap tiles;$/;"	member	line:23	struct:map_layer
-z	/home/stel/code/ogllx/src/game_map.h	/^	int z;$/;"	member	line:24	struct:map_layer
-game_map	/home/stel/code/ogllx/src/game_map.h	/^struct game_map$/;"	struct	line:27
-w	/home/stel/code/ogllx/src/game_map.h	/^	int w, h;$/;"	member	line:31	struct:game_map
-h	/home/stel/code/ogllx/src/game_map.h	/^	int w, h;$/;"	member	line:31	struct:game_map
-layers	/home/stel/code/ogllx/src/game_map.h	/^	std::vector<map_layer> layers;$/;"	member	line:32	struct:game_map
-name	/home/stel/code/ogllx/src/game_map.h	/^	string name;$/;"	member	line:33	struct:game_map
-tilesets	/home/stel/code/ogllx/src/game_map.h	/^	std::vector<string> tilesets;$/;"	member	line:34	struct:game_map
-VBO_H	/home/stel/code/ogllx/src/vbo.h	/^#define VBO_H$/;"	macro	line:2
-vap_desc	/home/stel/code/ogllx/src/vbo.h	/^struct vap_desc {$/;"	struct	line:10
-attr	/home/stel/code/ogllx/src/vbo.h	/^	string attr;$/;"	member	line:11	struct:vap_desc
-num	/home/stel/code/ogllx/src/vbo.h	/^	size_t num;$/;"	member	line:12	struct:vap_desc
-type	/home/stel/code/ogllx/src/vbo.h	/^	GLenum type;$/;"	member	line:13	struct:vap_desc
-vao_pointer	/home/stel/code/ogllx/src/vbo.h	/^struct vao_pointer {$/;"	struct	line:16
-pointers	/home/stel/code/ogllx/src/vbo.h	/^	std::vector<vap_desc> pointers;$/;"	member	line:17	struct:vao_pointer
-vbo	/home/stel/code/ogllx/src/vbo.h	/^struct vbo {$/;"	struct	line:23
-_stream_cache	/home/stel/code/ogllx/src/vbo.h	/^	std::vector<float>* _stream_cache;$/;"	member	line:25	struct:vbo
-num_els	/home/stel/code/ogllx/src/vbo.h	/^	unsigned int num_els;$/;"	member	line:26	struct:vbo
-max_size	/home/stel/code/ogllx/src/vbo.h	/^	int max_size;$/;"	member	line:27	struct:vbo
-pointers	/home/stel/code/ogllx/src/vbo.h	/^	vao_pointer pointers;$/;"	member	line:28	struct:vbo
-usage	/home/stel/code/ogllx/src/vbo.h	/^	GLenum usage;$/;"	member	line:29	struct:vbo
-vao_id	/home/stel/code/ogllx/src/vbo.h	/^	unsigned int vao_id;$/;"	member	line:30	struct:vbo
-vbo_id	/home/stel/code/ogllx/src/vbo.h	/^	unsigned int vbo_id;$/;"	member	line:31	struct:vbo
-SHADER_H	/home/stel/code/ogllx/src/shader.h	/^#define SHADER_H$/;"	macro	line:2
-glm_addr	/home/stel/code/ogllx/src/shader.h	/^float* glm_addr(T* ptr) {$/;"	function	line:13	signature:(T* ptr)
-scene	/home/stel/code/ogllx/src/shader.h	/^namespace scene {$/;"	namespace	line:17
-shader_program	/home/stel/code/ogllx/src/shader.h	/^	struct shader_program {$/;"	struct	line:24	namespace:scene
-attached	/home/stel/code/ogllx/src/shader.h	/^		std::vector<GLuint> attached;$/;"	member	line:25	struct:scene::shader_program
-program_id	/home/stel/code/ogllx/src/shader.h	/^		GLuint program_id;$/;"	member	line:26	struct:scene::shader_program
-glsl_type_set	/home/stel/code/ogllx/src/shader.h	/^struct glsl_type_set {$/;"	struct	line:49
-type	/home/stel/code/ogllx/src/shader.h	/^  GLenum      type;$/;"	member	line:50	struct:glsl_type_set
-name	/home/stel/code/ogllx/src/shader.h	/^  const char* name;$/;"	member	line:51	struct:glsl_type_set
-texture	/home/stel/code/ogllx/src/assets.cpp	/^GLuint texture(string filename) {$/;"	function	line:10	signature:(string filename)
-load_as_texture	/home/stel/code/ogllx/src/assets.cpp	/^eng_texture asset_loader::load_as_texture(string filename) {$/;"	function	line:16	class:asset_loader	signature:(string filename)
-load_shader	/home/stel/code/ogllx/src/assets.cpp	/^string asset_loader::load_shader(string filename) {$/;"	function	line:28	class:asset_loader	signature:(string filename)
-load_map	/home/stel/code/ogllx/src/assets.cpp	/^game_map asset_loader::load_map(string filename) {$/;"	function	line:34	class:asset_loader	signature:(string filename)
-load_sprite	/home/stel/code/ogllx/src/assets.cpp	/^game_sprite asset_loader::load_sprite(string filename) {$/;"	function	line:40	class:asset_loader	signature:(string filename)
-load_tileset	/home/stel/code/ogllx/src/assets.cpp	/^game_tileset asset_loader::load_tileset(string filename) {$/;"	function	line:46	class:asset_loader	signature:(string filename)
-require	/home/stel/code/ogllx/src/assets.cpp	/^void  asset_loader::require(string filepath)$/;"	function	line:52	class:asset_loader	signature:(string filepath)
+type_set	/home/stel/code/ogllx/src/engine/shader.cpp	/^glsl_type_set type_set [] = {$/;"	variable	line:9
+scene	/home/stel/code/ogllx/src/engine/shader.cpp	/^namespace scene {$/;"	namespace	line:118	file:
+get_attrib_loc	/home/stel/code/ogllx/src/engine/shader.cpp	/^	int get_attrib_loc(char const* attrib, int program) {$/;"	function	line:120	namespace:scene	signature:(char const* attrib, int program)
+get_attrib_loc	/home/stel/code/ogllx/src/engine/shader.cpp	/^	int get_attrib_loc(const char* attrib, GLuint program) {$/;"	function	line:123	namespace:scene	signature:(const char* attrib, GLuint program)
+get_uniform_loc	/home/stel/code/ogllx/src/engine/shader.cpp	/^	int get_uniform_loc(const char* attrib, GLuint program) {$/;"	function	line:127	namespace:scene	signature:(const char* attrib, GLuint program)
+shader_program	/home/stel/code/ogllx/src/engine/shader.cpp	/^	shader_program::shader_program() {$/;"	function	line:131	class:scene::shader_program	signature:()
+new_scene	/home/stel/code/ogllx/src/engine/shader.cpp	/^	void shader_program::new_scene() {$/;"	function	line:135	class:scene::shader_program	signature:()
+uniform	/home/stel/code/ogllx/src/engine/shader.cpp	/^	int shader_program::uniform(string identifier) {$/;"	function	line:139	class:scene::shader_program	signature:(string identifier)
+add_shader	/home/stel/code/ogllx/src/engine/shader.cpp	/^	void shader_program::add_shader(const char* shader, const char* fname, GLenum type) {$/;"	function	line:143	class:scene::shader_program	signature:(const char* shader, const char* fname, GLenum type)
+link_shaders	/home/stel/code/ogllx/src/engine/shader.cpp	/^	void shader_program::link_shaders() {$/;"	function	line:159	class:scene::shader_program	signature:()
+use_shaders	/home/stel/code/ogllx/src/engine/shader.cpp	/^	void shader_program::use_shaders() {$/;"	function	line:168	class:scene::shader_program	signature:()
+attrib	/home/stel/code/ogllx/src/engine/shader.cpp	/^	int shader_program::attrib(string attrib) {$/;"	function	line:173	class:scene::shader_program	signature:(string attrib)
+get_shader_log	/home/stel/code/ogllx/src/engine/shader.cpp	/^	string get_shader_log(unsigned int shaderID) {$/;"	function	line:177	namespace:scene	signature:(unsigned int shaderID)
+draw	/home/stel/code/ogllx/src/engine/shader.cpp	/^	void shader_program::draw(vbo& target)$/;"	function	line:188	class:scene::shader_program	signature:(vbo& target)
+uniform	/home/stel/code/ogllx/src/engine/shader.cpp	/^	void shader_program::uniform(string uni, std::vector<glm::vec3> value) {$/;"	function	line:193	class:scene::shader_program	signature:(string uni, std::vector<glm::vec3> value)
+uniform	/home/stel/code/ogllx/src/engine/shader.cpp	/^	void shader_program::uniform(string uni, glm::vec3 value)$/;"	function	line:200	class:scene::shader_program	signature:(string uni, glm::vec3 value)
+uniform	/home/stel/code/ogllx/src/engine/shader.cpp	/^	void shader_program::uniform(string uni, std::vector<glm::mat4> values, GLenum transpose) {$/;"	function	line:208	class:scene::shader_program	signature:(string uni, std::vector<glm::mat4> values, GLenum transpose)
+uniform	/home/stel/code/ogllx/src/engine/shader.cpp	/^	void shader_program::uniform(string uni, glm::mat4 value, GLenum transpose) {$/;"	function	line:216	class:scene::shader_program	signature:(string uni, glm::mat4 value, GLenum transpose)
+eTB_GLSL__print_uniforms	/home/stel/code/ogllx/src/engine/shader.cpp	/^eTB_GLSL__print_uniforms (GLuint program)$/;"	function	line:226	signature:(GLuint program)
+GAME_SPRITE_H	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^#define GAME_SPRITE_H$/;"	macro	line:2
+hitbox	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^struct hitbox {$/;"	struct	line:9
+x	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int x,y,w,h;$/;"	member	line:10	struct:hitbox
+y	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int x,y,w,h;$/;"	member	line:10	struct:hitbox
+w	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int x,y,w,h;$/;"	member	line:10	struct:hitbox
+h	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int x,y,w,h;$/;"	member	line:10	struct:hitbox
+sprite_frame	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^struct sprite_frame {$/;"	struct	line:13
+index	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int index;$/;"	member	line:14	struct:sprite_frame
+img	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	string img;$/;"	member	line:15	struct:sprite_frame
+u	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int u,v,w,h,ox,oy;$/;"	member	line:16	struct:sprite_frame
+v	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int u,v,w,h,ox,oy;$/;"	member	line:16	struct:sprite_frame
+w	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int u,v,w,h,ox,oy;$/;"	member	line:16	struct:sprite_frame
+h	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int u,v,w,h,ox,oy;$/;"	member	line:16	struct:sprite_frame
+ox	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int u,v,w,h,ox,oy;$/;"	member	line:16	struct:sprite_frame
+oy	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int u,v,w,h,ox,oy;$/;"	member	line:16	struct:sprite_frame
+interval	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int interval;$/;"	member	line:17	struct:sprite_frame
+hitboxes	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	std::vector<hitbox> hitboxes;$/;"	member	line:18	struct:sprite_frame
+game_sprite	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^struct game_sprite {$/;"	struct	line:21
+id	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	int id;$/;"	member	line:22	struct:game_sprite
+name	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	string name;$/;"	member	line:23	struct:game_sprite
+path	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	string path;$/;"	member	line:24	struct:game_sprite
+states	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.h	/^	std::map<string, std::vector<sprite_frame>> states;$/;"	member	line:25	struct:game_sprite
+from_json	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.cpp	/^game_sprite game_sprite::from_json(string j, string path) {$/;"	function	line:6	class:game_sprite	signature:(string j, string path)
+get_frame_array	/home/stel/code/ogllx/src/engine/datatypes/game_sprite.cpp	/^std::vector<sprite_frame> game_sprite::get_frame_array()$/;"	function	line:41	class:game_sprite	signature:()
+from_json	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.cpp	/^game_tileset game_tileset::from_json(string j, string path) {$/;"	function	line:6	class:game_tileset	signature:(string j, string path)
+GAME_MAP_H	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^#define GAME_MAP_H$/;"	macro	line:2
+map_decal	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^struct map_decal$/;"	struct	line:10
+name	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	string name;$/;"	member	line:12	struct:map_decal
+sprite	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	string sprite;$/;"	member	line:13	struct:map_decal
+x	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	int x;$/;"	member	line:14	struct:map_decal
+y	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	int y;$/;"	member	line:15	struct:map_decal
+z	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	int z;$/;"	member	line:16	struct:map_decal
+map_layer	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^struct map_layer$/;"	struct	line:19
+name	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	string name;$/;"	member	line:21	struct:map_layer
+objects	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	std::vector<map_decal> objects;$/;"	member	line:22	struct:map_layer
+tiles	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	map_tilemap tiles;$/;"	member	line:23	struct:map_layer
+z	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	int z;$/;"	member	line:24	struct:map_layer
+game_map	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^struct game_map$/;"	struct	line:27
+w	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	int w, h;$/;"	member	line:31	struct:game_map
+h	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	int w, h;$/;"	member	line:31	struct:game_map
+layers	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	std::vector<map_layer> layers;$/;"	member	line:32	struct:game_map
+name	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	string name;$/;"	member	line:33	struct:game_map
+tilesets	/home/stel/code/ogllx/src/engine/datatypes/game_map.h	/^	std::vector<string> tilesets;$/;"	member	line:34	struct:game_map
+game_map	/home/stel/code/ogllx/src/engine/datatypes/game_map.cpp	/^game_map::game_map()$/;"	function	line:10	class:game_map	signature:()
+game_map	/home/stel/code/ogllx/src/engine/datatypes/game_map.cpp	/^game_map::game_map(string name, int w, int h, int l) {$/;"	function	line:15	class:game_map	signature:(string name, int w, int h, int l)
+set_layers	/home/stel/code/ogllx/src/engine/datatypes/game_map.cpp	/^void game_map::set_layers(int l) {$/;"	function	line:21	class:game_map	signature:(int l)
+set_tile	/home/stel/code/ogllx/src/engine/datatypes/game_map.cpp	/^void game_map::set_tile(int layer, int x, int y, map_tile tile) {$/;"	function	line:25	class:game_map	signature:(int layer, int x, int y, map_tile tile)
+resize	/home/stel/code/ogllx/src/engine/datatypes/game_map.cpp	/^void game_map::resize(int w, int h) {$/;"	function	line:29	class:game_map	signature:(int w, int h)
+get_tile	/home/stel/code/ogllx/src/engine/datatypes/game_map.cpp	/^map_tile game_map::get_tile(int layer, int x, int y) {$/;"	function	line:37	class:game_map	signature:(int layer, int x, int y)
+from_json	/home/stel/code/ogllx/src/engine/datatypes/game_map.cpp	/^game_map game_map::from_json(string j) {$/;"	function	line:41	class:game_map	signature:(string j)
+GAME_TILESET_H	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.h	/^#define GAME_TILESET_H$/;"	macro	line:2
+tileid_t	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.h	/^typedef int tileid_t;$/;"	typedef	line:9
+game_tile_frame	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.h	/^struct game_tile_frame {$/;"	struct	line:11
+img	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.h	/^	string img;$/;"	member	line:12	struct:game_tile_frame
+interval	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.h	/^	int interval;$/;"	member	line:13	struct:game_tile_frame
+pass	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.h	/^	string pass;$/;"	member	line:14	struct:game_tile_frame
+u	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.h	/^	int u,v;$/;"	member	line:15	struct:game_tile_frame
+v	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.h	/^	int u,v;$/;"	member	line:15	struct:game_tile_frame
+game_tileset	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.h	/^struct game_tileset {$/;"	struct	line:18
+name	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.h	/^	string name;$/;"	member	line:19	struct:game_tileset
+path	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.h	/^	string path;$/;"	member	line:20	struct:game_tileset
+tiles	/home/stel/code/ogllx/src/engine/datatypes/game_tileset.h	/^	std::map<tileid_t, game_tile> tiles;$/;"	member	line:21	struct:game_tileset
+ENGINE_H	/home/stel/code/ogllx/src/engine/engine.h	/^#define ENGINE_H$/;"	macro	line:2
+eng_object	/home/stel/code/ogllx/src/engine/engine.h	/^struct eng_object {$/;"	struct	line:18
+x	/home/stel/code/ogllx/src/engine/engine.h	/^	int x, y, z;$/;"	member	line:19	struct:eng_object
+y	/home/stel/code/ogllx/src/engine/engine.h	/^	int x, y, z;$/;"	member	line:19	struct:eng_object
+z	/home/stel/code/ogllx/src/engine/engine.h	/^	int x, y, z;$/;"	member	line:19	struct:eng_object
+w	/home/stel/code/ogllx/src/engine/engine.h	/^	int w, h;$/;"	member	line:20	struct:eng_object
+h	/home/stel/code/ogllx/src/engine/engine.h	/^	int w, h;$/;"	member	line:20	struct:eng_object
+name	/home/stel/code/ogllx/src/engine/engine.h	/^	string name;$/;"	member	line:21	struct:eng_object
+click_function	/home/stel/code/ogllx/src/engine/engine.h	/^	std::function<void(eng_object*, int, int)> click_function;$/;"	member	line:22	struct:eng_object
+game_engine	/home/stel/code/ogllx/src/engine/engine.h	/^struct game_engine {$/;"	struct	line:28
+render_list	/home/stel/code/ogllx/src/engine/engine.h	/^	std::map<int, vector<vbo>> render_list;$/;"	member	line:30	struct:game_engine
+templs	/home/stel/code/ogllx/src/engine/engine.h	/^	struct templs {$/;"	struct	line:31	struct:game_engine
+tiles	/home/stel/code/ogllx/src/engine/engine.h	/^		path_map<tile_map> tiles;$/;"	member	line:35	struct:game_engine::templs
+templates	/home/stel/code/ogllx/src/engine/engine.h	/^	} templates;$/;"	member	line:36	struct:game_engine	typeref:struct:game_engine::templs
+objects	/home/stel/code/ogllx/src/engine/engine.h	/^	std::vector<eng_object> objects;$/;"	member	line:38	struct:game_engine
+sprites	/home/stel/code/ogllx/src/engine/engine.h	/^	std::vector<eng_sprite> sprites;$/;"	member	line:39	struct:game_engine
+textures	/home/stel/code/ogllx/src/engine/engine.h	/^	std::map<int, eng_texture> textures;$/;"	member	line:40	struct:game_engine
+mapped_textures	/home/stel/code/ogllx/src/engine/engine.h	/^	std::map<string, GLint> mapped_textures;$/;"	member	line:41	struct:game_engine
+game_loader	/home/stel/code/ogllx/src/engine/engine.h	/^	loader* game_loader;$/;"	member	line:42	struct:game_engine
+sprite_vbo	/home/stel/code/ogllx/src/engine/engine.h	/^	vbo sprite_vbo;$/;"	member	line:43	struct:game_engine
+root_dir	/home/stel/code/ogllx/src/engine/engine.h	/^	string root_dir;$/;"	member	line:45	struct:game_engine
+selected	/home/stel/code/ogllx/src/engine/engine.h	/^	eng_object* selected;$/;"	member	line:46	struct:game_engine
+te	/home/stel/code/ogllx/src/engine/engine.h	/^	text_engine te;$/;"	member	line:47	struct:game_engine
+projection	/home/stel/code/ogllx/src/engine/engine.h	/^	glm::mat4 projection;$/;"	member	line:48	struct:game_engine
+view	/home/stel/code/ogllx/src/engine/engine.h	/^	glm::mat4 view;$/;"	member	line:49	struct:game_engine
+screen_w	/home/stel/code/ogllx/src/engine/engine.h	/^	int screen_w, screen_h;$/;"	member	line:50	struct:game_engine
+screen_h	/home/stel/code/ogllx/src/engine/engine.h	/^	int screen_w, screen_h;$/;"	member	line:50	struct:game_engine
+STB_RECT_PACK_IMPLEMENTATION	/home/stel/code/ogllx/src/engine/texture_atlas.cpp	/^#define STB_RECT_PACK_IMPLEMENTATION$/;"	macro	line:4	file:
+add	/home/stel/code/ogllx/src/engine/texture_atlas.cpp	/^void atlas_builder::add(sprite_frame frame, string act, string src)$/;"	function	line:7	class:atlas_builder	signature:(sprite_frame frame, string act, string src)
+add	/home/stel/code/ogllx/src/engine/texture_atlas.cpp	/^void atlas_builder::add(string img, int u, int v, int w, int h, int tile_id, int index, string src)$/;"	function	line:24	class:atlas_builder	signature:(string img, int u, int v, int w, int h, int tile_id, int index, string src)
+add	/home/stel/code/ogllx/src/engine/texture_atlas.cpp	/^void atlas_builder::add(game_sprite* spr)$/;"	function	line:39	class:atlas_builder	signature:(game_sprite* spr)
+add	/home/stel/code/ogllx/src/engine/texture_atlas.cpp	/^void atlas_builder::add(game_tileset* ts)$/;"	function	line:56	class:atlas_builder	signature:(game_tileset* ts)
+ap_to_stb	/home/stel/code/ogllx/src/engine/texture_atlas.cpp	/^vector<stbrp_rect> atlas_builder::ap_to_stb(vector<atlas_piece>& piece_arr, int& _in_id)$/;"	function	line:72	class:atlas_builder	signature:(vector<atlas_piece>& piece_arr, int& _in_id)
+ap_to_qc	/home/stel/code/ogllx/src/engine/texture_atlas.cpp	/^quad_coords atlas_builder::ap_to_qc(atlas_piece piece)$/;"	function	line:89	class:atlas_builder	signature:(atlas_piece piece)
+stb_to_ap	/home/stel/code/ogllx/src/engine/texture_atlas.cpp	/^vector<atlas_piece> atlas_builder::stb_to_ap(vector<stbrp_rect>& rects)$/;"	function	line:99	class:atlas_builder	signature:(vector<stbrp_rect>& rects)
+pack	/home/stel/code/ogllx/src/engine/texture_atlas.cpp	/^vector<texture_atlas> atlas_builder::pack(int max_w, int max_h)$/;"	function	line:114	class:atlas_builder	signature:(int max_w, int max_h)
+calc_dimensions	/home/stel/code/ogllx/src/engine/texture_atlas.cpp	/^void texture_atlas::calc_dimensions()$/;"	function	line:170	class:texture_atlas	signature:()
+remove_packed	/home/stel/code/ogllx/src/engine/texture_atlas.cpp	/^vector<stbrp_rect> atlas_builder::remove_packed(vector<stbrp_rect> rects)$/;"	function	line:181	class:atlas_builder	signature:(vector<stbrp_rect> rects)
+vbo	/home/stel/code/ogllx/src/engine/vbo.cpp	/^vbo::vbo (std::vector<float> data) : usage(GL_INVALID_VALUE) {$/;"	function	line:5	class:vbo	signature:(std::vector<float> data)
+vbo	/home/stel/code/ogllx/src/engine/vbo.cpp	/^vbo::vbo() : usage(GL_INVALID_VALUE)$/;"	function	line:11	class:vbo	signature:()
+init	/home/stel/code/ogllx/src/engine/vbo.cpp	/^void vbo::init(GLenum usage) {$/;"	function	line:16	class:vbo	signature:(GLenum usage)
+setup_vao	/home/stel/code/ogllx/src/engine/vbo.cpp	/^void vbo::setup_vao() {$/;"	function	line:22	class:vbo	signature:()
+buffer	/home/stel/code/ogllx/src/engine/vbo.cpp	/^void vbo::buffer(std::vector<float> data) {$/;"	function	line:27	class:vbo	signature:(std::vector<float> data)
+buffer	/home/stel/code/ogllx/src/engine/vbo.cpp	/^void vbo::buffer(std::vector<float> data, int offset) {$/;"	function	line:37	class:vbo	signature:(std::vector<float> data, int offset)
+add_pointer	/home/stel/code/ogllx/src/engine/vbo.cpp	/^vao_pointer vao_pointer::add_pointer(string attrib, size_t num_elems, GLenum type) {$/;"	function	line:48	class:vao_pointer	signature:(string attrib, size_t num_elems, GLenum type)
+add_pointer	/home/stel/code/ogllx/src/engine/vbo.cpp	/^vao_pointer vbo::add_pointer(string attrib, size_t num_elems, GLenum type) {$/;"	function	line:53	class:vbo	signature:(string attrib, size_t num_elems, GLenum type)
+get_size	/home/stel/code/ogllx/src/engine/vbo.cpp	/^size_t vao_pointer::get_size(GLenum type) {$/;"	function	line:58	class:vao_pointer	signature:(GLenum type)
+attach	/home/stel/code/ogllx/src/engine/vbo.cpp	/^void vao_pointer::attach(vbo targ) {$/;"	function	line:64	class:vao_pointer	signature:(vbo targ)
+draw	/home/stel/code/ogllx/src/engine/vbo.cpp	/^void vbo::draw()$/;"	function	line:80	class:vbo	signature:()
+VBO_H	/home/stel/code/ogllx/src/engine/vbo.h	/^#define VBO_H$/;"	macro	line:2
+vap_desc	/home/stel/code/ogllx/src/engine/vbo.h	/^struct vap_desc {$/;"	struct	line:10
+attr	/home/stel/code/ogllx/src/engine/vbo.h	/^	string attr;$/;"	member	line:11	struct:vap_desc
+num	/home/stel/code/ogllx/src/engine/vbo.h	/^	size_t num;$/;"	member	line:12	struct:vap_desc
+type	/home/stel/code/ogllx/src/engine/vbo.h	/^	GLenum type;$/;"	member	line:13	struct:vap_desc
+vao_pointer	/home/stel/code/ogllx/src/engine/vbo.h	/^struct vao_pointer {$/;"	struct	line:16
+pointers	/home/stel/code/ogllx/src/engine/vbo.h	/^	std::vector<vap_desc> pointers;$/;"	member	line:17	struct:vao_pointer
+vbo	/home/stel/code/ogllx/src/engine/vbo.h	/^struct vbo {$/;"	struct	line:23
+_stream_cache	/home/stel/code/ogllx/src/engine/vbo.h	/^	std::vector<float>* _stream_cache;$/;"	member	line:25	struct:vbo
+num_els	/home/stel/code/ogllx/src/engine/vbo.h	/^	unsigned int num_els;$/;"	member	line:26	struct:vbo
+max_size	/home/stel/code/ogllx/src/engine/vbo.h	/^	int max_size;$/;"	member	line:27	struct:vbo
+pointers	/home/stel/code/ogllx/src/engine/vbo.h	/^	vao_pointer pointers;$/;"	member	line:28	struct:vbo
+usage	/home/stel/code/ogllx/src/engine/vbo.h	/^	GLenum usage;$/;"	member	line:29	struct:vbo
+vao_id	/home/stel/code/ogllx/src/engine/vbo.h	/^	unsigned int vao_id;$/;"	member	line:30	struct:vbo
+vbo_id	/home/stel/code/ogllx/src/engine/vbo.h	/^	unsigned int vbo_id;$/;"	member	line:31	struct:vbo
+FONT	/home/stel/code/ogllx/src/engine/engine.cpp	/^#define FONT /;"	macro	line:13	file:
+FONT_SIZE	/home/stel/code/ogllx/src/engine/engine.cpp	/^#define FONT_SIZE /;"	macro	line:14	file:
+game_engine	/home/stel/code/ogllx/src/engine/engine.cpp	/^game_engine::game_engine(int w, int h, loader* p_loader)$/;"	function	line:16	class:game_engine	signature:(int w, int h, loader* p_loader)
+add_sprite	/home/stel/code/ogllx/src/engine/engine.cpp	/^void game_engine::add_sprite(game_sprite* spr, int x, int y, int layer)$/;"	function	line:27	class:game_engine	signature:(game_sprite* spr, int x, int y, int layer)
+init	/home/stel/code/ogllx/src/engine/engine.cpp	/^void game_engine::init() {$/;"	function	line:41	class:game_engine	signature:()
+load_project	/home/stel/code/ogllx/src/engine/engine.cpp	/^void game_engine::load_project(string base_dir)$/;"	function	line:50	class:game_engine	signature:(string base_dir)
+make_shader	/home/stel/code/ogllx/src/engine/engine.cpp	/^shader_program game_engine::make_shader(std::vector<string> files) {$/;"	function	line:55	class:game_engine	signature:(std::vector<string> files)
+prepare_for	/home/stel/code/ogllx/src/engine/engine.cpp	/^vbo game_engine::prepare_for(game_map mymap) {$/;"	function	line:71	class:game_engine	signature:(game_map mymap)
+build_sprites	/home/stel/code/ogllx/src/engine/engine.cpp	/^void game_engine::build_sprites() {$/;"	function	line:90	class:game_engine	signature:()
+setup	/home/stel/code/ogllx/src/engine/engine.cpp	/^void game_engine::setup(int w, int h)$/;"	function	line:106	class:game_engine	signature:(int w, int h)
+setup_linux	/home/stel/code/ogllx/src/engine/engine.cpp	/^void game_engine::setup_linux()$/;"	function	line:112	class:game_engine	signature:()
+setup_gui	/home/stel/code/ogllx/src/engine/engine.cpp	/^void game_engine::setup_gui(int w, int h)$/;"	function	line:119	class:game_engine	signature:(int w, int h)
+draw_text	/home/stel/code/ogllx/src/engine/engine.cpp	/^void game_engine::draw_text(string text)$/;"	function	line:126	class:game_engine	signature:(string text)
+point_in_rect	/home/stel/code/ogllx/src/engine/engine.cpp	/^bool point_in_rect(int x, int y, eng_coord r)$/;"	function	line:131	signature:(int x, int y, eng_coord r)
+eng_object	/home/stel/code/ogllx/src/engine/engine.cpp	/^eng_object::eng_object(string name)$/;"	function	line:143	class:eng_object	signature:(string name)
+click_event	/home/stel/code/ogllx/src/engine/engine.cpp	/^void game_engine::click_event(int x, int y)$/;"	function	line:148	class:game_engine	signature:(int x, int y)
+click_event	/home/stel/code/ogllx/src/engine/engine.cpp	/^void eng_object::click_event(int x, int y)$/;"	function	line:173	class:eng_object	signature:(int x, int y)
+eng_object	/home/stel/code/ogllx/src/engine/engine.cpp	/^eng_object::eng_object()$/;"	function	line:178	class:eng_object	signature:()
+texture_viewer	/home/stel/code/ogllx/src/engine/engine.cpp	/^coord_grid game_engine::texture_viewer(eng_texture txt, string name, int x, int y, int z)$/;"	function	line:183	class:game_engine	signature:(eng_texture txt, string name, int x, int y, int z)
+tick	/home/stel/code/ogllx/src/engine/engine.cpp	/^bool game_engine::tick(int val)$/;"	function	line:196	class:game_engine	signature:(int val)
+make_atlas	/home/stel/code/ogllx/src/engine/engine.cpp	/^std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)$/;"	function	line:206	class:game_engine	signature:(std::vector<string> paths)
+blank_texture	/home/stel/code/ogllx/src/engine/engine.cpp	/^eng_texture game_engine::blank_texture(int w, int h)$/;"	function	line:261	class:game_engine	signature:(int w, int h)
+SHADER_H	/home/stel/code/ogllx/src/engine/shader.h	/^#define SHADER_H$/;"	macro	line:2
+glm_addr	/home/stel/code/ogllx/src/engine/shader.h	/^float* glm_addr(T* ptr) {$/;"	function	line:13	signature:(T* ptr)
+scene	/home/stel/code/ogllx/src/engine/shader.h	/^namespace scene {$/;"	namespace	line:17
+shader_program	/home/stel/code/ogllx/src/engine/shader.h	/^	struct shader_program {$/;"	struct	line:24	namespace:scene
+attached	/home/stel/code/ogllx/src/engine/shader.h	/^		std::vector<GLuint> attached;$/;"	member	line:25	struct:scene::shader_program
+program_id	/home/stel/code/ogllx/src/engine/shader.h	/^		GLuint program_id;$/;"	member	line:26	struct:scene::shader_program
+glsl_type_set	/home/stel/code/ogllx/src/engine/shader.h	/^struct glsl_type_set {$/;"	struct	line:49
+type	/home/stel/code/ogllx/src/engine/shader.h	/^  GLenum      type;$/;"	member	line:50	struct:glsl_type_set
+name	/home/stel/code/ogllx/src/engine/shader.h	/^  const char* name;$/;"	member	line:51	struct:glsl_type_set
+ENG_TEXTURE_H	/home/stel/code/ogllx/src/engine/rt/eng_texture.h	/^#define ENG_TEXTURE_H$/;"	macro	line:2
+engine	/home/stel/code/ogllx/src/engine/rt/eng_texture.h	/^namespace engine {$/;"	namespace	line:12
+eng_texture	/home/stel/code/ogllx/src/engine/rt/eng_texture.h	/^struct eng_texture {$/;"	struct	line:18
+normalized_x	/home/stel/code/ogllx/src/engine/rt/eng_texture.h	/^	std::map<int, float> normalized_x;$/;"	member	line:19	struct:eng_texture
+normalized_y	/home/stel/code/ogllx/src/engine/rt/eng_texture.h	/^	std::map<int, float> normalized_y;$/;"	member	line:20	struct:eng_texture
+w	/home/stel/code/ogllx/src/engine/rt/eng_texture.h	/^	int w, h;$/;"	member	line:21	struct:eng_texture
+h	/home/stel/code/ogllx/src/engine/rt/eng_texture.h	/^	int w, h;$/;"	member	line:21	struct:eng_texture
+internal_w	/home/stel/code/ogllx/src/engine/rt/eng_texture.h	/^	int internal_w, internal_h;$/;"	member	line:22	struct:eng_texture
+internal_h	/home/stel/code/ogllx/src/engine/rt/eng_texture.h	/^	int internal_w, internal_h;$/;"	member	line:22	struct:eng_texture
+x_unit	/home/stel/code/ogllx/src/engine/rt/eng_texture.h	/^	float x_unit, y_unit;$/;"	member	line:23	struct:eng_texture
+y_unit	/home/stel/code/ogllx/src/engine/rt/eng_texture.h	/^	float x_unit, y_unit;$/;"	member	line:23	struct:eng_texture
+texture_id	/home/stel/code/ogllx/src/engine/rt/eng_texture.h	/^	GLuint texture_id;$/;"	member	line:24	struct:eng_texture
+tick	/home/stel/code/ogllx/src/engine/rt/eng_sprite.cpp	/^bool eng_sprite::tick(int val)$/;"	function	line:3	class:eng_sprite	signature:(int val)
+eng_sprite	/home/stel/code/ogllx/src/engine/rt/eng_sprite.cpp	/^eng_sprite::eng_sprite()$/;"	function	line:23	class:eng_sprite	signature:()
+eng_texture	/home/stel/code/ogllx/src/engine/rt/eng_texture.cpp	/^eng_texture::eng_texture()$/;"	function	line:8	class:eng_texture	signature:()
+eng_texture	/home/stel/code/ogllx/src/engine/rt/eng_texture.cpp	/^eng_texture::eng_texture(GLuint texture_id, int w, int h, int rw, int rh)$/;"	function	line:13	class:eng_texture	signature:(GLuint texture_id, int w, int h, int rw, int rh)
+normalize_u	/home/stel/code/ogllx/src/engine/rt/eng_texture.cpp	/^float eng_texture::normalize_u(int u)$/;"	function	line:25	class:eng_texture	signature:(int u)
+normalize_v	/home/stel/code/ogllx/src/engine/rt/eng_texture.cpp	/^float eng_texture::normalize_v(int v)$/;"	function	line:30	class:eng_texture	signature:(int v)
+build_cache	/home/stel/code/ogllx/src/engine/rt/eng_texture.cpp	/^void eng_texture::build_cache(int size)$/;"	function	line:35	class:eng_texture	signature:(int size)
+build_cache	/home/stel/code/ogllx/src/engine/rt/eng_texture.cpp	/^void eng_texture::build_cache(std::vector<sprite_frame> frames)$/;"	function	line:49	class:eng_texture	signature:(std::vector<sprite_frame> frames)
+blank_texture	/home/stel/code/ogllx/src/engine/rt/eng_texture.cpp	/^eng_texture eng_texture::blank_texture(int w, int h)$/;"	function	line:62	class:eng_texture	signature:(int w, int h)
+engine	/home/stel/code/ogllx/src/engine/rt/eng_texture.cpp	/^namespace engine {$/;"	namespace	line:87	file:
+normalize	/home/stel/code/ogllx/src/engine/rt/eng_texture.cpp	/^	float normalize(int v, float unit)$/;"	function	line:88	namespace:engine	signature:(int v, float unit)
+ENG_SPRITE_H	/home/stel/code/ogllx/src/engine/rt/eng_sprite.h	/^#define ENG_SPRITE_H$/;"	macro	line:2
+eng_sprite	/home/stel/code/ogllx/src/engine/rt/eng_sprite.h	/^struct eng_sprite {$/;"	struct	line:11
+x	/home/stel/code/ogllx/src/engine/rt/eng_sprite.h	/^	int x,y,z;$/;"	member	line:12	struct:eng_sprite
+y	/home/stel/code/ogllx/src/engine/rt/eng_sprite.h	/^	int x,y,z;$/;"	member	line:12	struct:eng_sprite
+z	/home/stel/code/ogllx/src/engine/rt/eng_sprite.h	/^	int x,y,z;$/;"	member	line:12	struct:eng_sprite
+state	/home/stel/code/ogllx/src/engine/rt/eng_sprite.h	/^	string state;$/;"	member	line:13	struct:eng_sprite
+states	/home/stel/code/ogllx/src/engine/rt/eng_sprite.h	/^	std::map<string, std::vector<quad_coords>> states;$/;"	member	line:14	struct:eng_sprite
+frame	/home/stel/code/ogllx/src/engine/rt/eng_sprite.h	/^	int frame;$/;"	member	line:15	struct:eng_sprite
+cur_tick	/home/stel/code/ogllx/src/engine/rt/eng_sprite.h	/^	int cur_tick;$/;"	member	line:16	struct:eng_sprite
+tex	/home/stel/code/ogllx/src/engine/rt/eng_sprite.h	/^	eng_texture tex;$/;"	member	line:17	struct:eng_sprite
+ENG_TYPES_H	/home/stel/code/ogllx/src/engine/rt/eng_types.h	/^#define ENG_TYPES_H$/;"	macro	line:2
+eng_coord	/home/stel/code/ogllx/src/engine/rt/eng_types.h	/^struct eng_coord {$/;"	struct	line:4
+x	/home/stel/code/ogllx/src/engine/rt/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
+y	/home/stel/code/ogllx/src/engine/rt/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
+w	/home/stel/code/ogllx/src/engine/rt/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
+h	/home/stel/code/ogllx/src/engine/rt/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
+quad_coords	/home/stel/code/ogllx/src/engine/rt/eng_types.h	/^struct quad_coords {$/;"	struct	line:7
+coords	/home/stel/code/ogllx/src/engine/rt/eng_types.h	/^	eng_coord coords;$/;"	member	line:8	struct:quad_coords
+interval	/home/stel/code/ogllx/src/engine/rt/eng_types.h	/^    int interval;$/;"	member	line:9	struct:quad_coords
+tex	/home/stel/code/ogllx/src/engine/rt/eng_types.h	/^    int tex;$/;"	member	line:10	struct:quad_coords
+init	/home/stel/code/ogllx/src/engine/text/text_engine.cpp	/^void text_engine::init() {$/;"	function	line:3	class:text_engine	signature:()
+load_font	/home/stel/code/ogllx/src/engine/text/text_engine.cpp	/^void text_engine::load_font(string filename, int size) {$/;"	function	line:9	class:text_engine	signature:(string filename, int size)
+draw_text	/home/stel/code/ogllx/src/engine/text/text_engine.cpp	/^eng_texture text_engine::draw_text(string font, string text) {$/;"	function	line:21	class:text_engine	signature:(string font, string text)
+TEXT_ENGINE_H	/home/stel/code/ogllx/src/engine/text/text_engine.h	/^#define TEXT_ENGINE_H$/;"	macro	line:2
+text_engine	/home/stel/code/ogllx/src/engine/text/text_engine.h	/^struct text_engine {$/;"	struct	line:10
+ft_library	/home/stel/code/ogllx/src/engine/text/text_engine.h	/^	FT_Library ft_library;$/;"	member	line:11	struct:text_engine
+ft_error	/home/stel/code/ogllx/src/engine/text/text_engine.h	/^	FT_Error ft_error;$/;"	member	line:12	struct:text_engine
+fonts	/home/stel/code/ogllx/src/engine/text/text_engine.h	/^	std::map<string, font> fonts;$/;"	member	line:13	struct:text_engine
+FONTS_H	/home/stel/code/ogllx/src/engine/text/fonts.h	/^#define FONTS_H$/;"	macro	line:2
+wh_size_t	/home/stel/code/ogllx/src/engine/text/fonts.h	/^typedef std::tuple<int, int> wh_size_t;$/;"	typedef	line:12
+font	/home/stel/code/ogllx/src/engine/text/fonts.h	/^struct font {$/;"	struct	line:14
+cairo_font	/home/stel/code/ogllx/src/engine/text/fonts.h	/^	cairo_font_face_t* 		cairo_font;$/;"	member	line:16	struct:font
+ft_face	/home/stel/code/ogllx/src/engine/text/fonts.h	/^	FT_Face					ft_face;$/;"	member	line:17	struct:font
+hb_font	/home/stel/code/ogllx/src/engine/text/fonts.h	/^	hb_font_t* 				hb_font;$/;"	member	line:18	struct:font
+cairo_surface	/home/stel/code/ogllx/src/engine/text/fonts.h	/^	cairo_surface_t*		cairo_surface;$/;"	member	line:21	struct:font
+cr	/home/stel/code/ogllx/src/engine/text/fonts.h	/^	cairo_t*				cr;$/;"	member	line:22	struct:font
+infos	/home/stel/code/ogllx/src/engine/text/fonts.h	/^	hb_glyph_info_t*		infos;$/;"	member	line:25	struct:font
+pos	/home/stel/code/ogllx/src/engine/text/fonts.h	/^	hb_glyph_position_t*	pos;$/;"	member	line:26	struct:font
+to_json	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^string font::to_json()$/;"	function	line:6	class:font	signature:()
+FONT_SIZE	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^#define FONT_SIZE /;"	macro	line:10	file:
+MARGIN	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^#define MARGIN /;"	macro	line:11	file:
+build_glyphs	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^cairo_glyph_t* font::build_glyphs(int len)$/;"	function	line:13	class:font	signature:(int len)
+calc_surface_area	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^font::calc_surface_area(hb_direction_t dir, hb_glyph_position_t* pos, unsigned int len)$/;"	function	line:30	class:font	signature:(hb_direction_t dir, hb_glyph_position_t* pos, unsigned int len)
+font	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^font::font()$/;"	function	line:47	class:font	signature:()
+font	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^font::font(FT_Face ft, hb_font_t* hb, cairo_font_face_t* cf)$/;"	function	line:52	class:font	signature:(FT_Face ft, hb_font_t* hb, cairo_font_face_t* cf)
+init_cairo_font	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^void font::init_cairo_font()$/;"	function	line:59	class:font	signature:()
+render	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^void font::render(string text)$/;"	function	line:74	class:font	signature:(string text)
+render_nowrap	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^void font::render_nowrap(string text)$/;"	function	line:94	class:font	signature:(string text)
+setup_baseline	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^double font::setup_baseline(hb_direction_t dir)$/;"	function	line:112	class:font	signature:(hb_direction_t dir)
+setup_cairo_surface	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^cairo_surface_t* font::setup_cairo_surface(int w, int h)$/;"	function	line:130	class:font	signature:(int w, int h)
+shape	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^hb_buffer_t* font::shape(string text)$/;"	function	line:145	class:font	signature:(string text)
+upload_texture	/home/stel/code/ogllx/src/engine/text/fonts.cpp	/^eng_texture font::upload_texture()$/;"	function	line:156	class:font	signature:()
+TEXTURE_ATLAS_H	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^#define TEXTURE_ATLAS_H$/;"	macro	line:2
+atlas_piece	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^struct atlas_piece : public eng_coord {$/;"	struct	line:12
+act	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^	string act, img, src;$/;"	member	line:13	struct:atlas_piece
+img	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^	string act, img, src;$/;"	member	line:13	struct:atlas_piece
+src	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^	string act, img, src;$/;"	member	line:13	struct:atlas_piece
+index	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^	int index, tile_id;$/;"	member	line:14	struct:atlas_piece
+tile_id	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^	int index, tile_id;$/;"	member	line:14	struct:atlas_piece
+texture_atlas	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^struct texture_atlas {$/;"	struct	line:17
+w	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^	int w, h;$/;"	member	line:19	struct:texture_atlas
+h	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^	int w, h;$/;"	member	line:19	struct:texture_atlas
+by_file	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^	std::map<string, atlas_piece* const> by_file;$/;"	member	line:20	struct:texture_atlas
+pieces	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^	vector<atlas_piece> pieces;$/;"	member	line:21	struct:texture_atlas
+seq_piece_t	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^typedef vector<atlas_piece> seq_piece_t;$/;"	typedef	line:25
+atlas_builder	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^struct atlas_builder {$/;"	struct	line:27
+input_pieces	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^	vector<atlas_piece> input_pieces;$/;"	member	line:28	struct:atlas_builder
+requests	/home/stel/code/ogllx/src/engine/texture_atlas.h	/^	map<string, map<string, seq_piece_t>> requests; \/\/ we store tile ids a string$/;"	member	line:31	struct:atlas_builder
+RGBA	/home/stel/code/ogllx/src/boilerplate.cpp	/^#define RGBA(/;"	macro	line:19	file:
+RGB	/home/stel/code/ogllx/src/boilerplate.cpp	/^#define RGB(/;"	macro	line:20	file:
+glXCreateContextAttribsARBProc	/home/stel/code/ogllx/src/boilerplate.cpp	/^typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);$/;"	typedef	line:22	file:
+glx	/home/stel/code/ogllx/src/boilerplate.cpp	/^namespace glx {$/;"	namespace	line:25	file:
+win	/home/stel/code/ogllx/src/boilerplate.cpp	/^	Window win;$/;"	member	line:26	namespace:glx	file:
+display	/home/stel/code/ogllx/src/boilerplate.cpp	/^	Display *display;$/;"	member	line:27	namespace:glx	file:
+ctx	/home/stel/code/ogllx/src/boilerplate.cpp	/^	GLXContext ctx = 0;$/;"	member	line:28	namespace:glx	file:
+swa	/home/stel/code/ogllx/src/boilerplate.cpp	/^	XSetWindowAttributes swa;$/;"	member	line:29	namespace:glx	file:
+cmap	/home/stel/code/ogllx/src/boilerplate.cpp	/^	Colormap cmap;$/;"	member	line:30	namespace:glx	file:
+done	/home/stel/code/ogllx/src/boilerplate.cpp	/^	bool done = false;$/;"	member	line:31	namespace:glx	file:
+poll	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void poll () {$/;"	function	line:32	namespace:glx	signature:()
+isExtensionSupported	/home/stel/code/ogllx/src/boilerplate.cpp	/^	bool isExtensionSupported(const char *extList, const char *extension) {$/;"	function	line:101	namespace:glx	signature:(const char *extList, const char *extension)
+ctxErrorOccurred	/home/stel/code/ogllx/src/boilerplate.cpp	/^	static bool ctxErrorOccurred = false;$/;"	member	line:131	namespace:glx	file:
+ctxErrorHandler	/home/stel/code/ogllx/src/boilerplate.cpp	/^	static int ctxErrorHandler(Display *dpy, XErrorEvent *ev) {$/;"	function	line:132	namespace:glx	signature:(Display *dpy, XErrorEvent *ev)
+set_title	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void set_title(const char* title)$/;"	function	line:137	namespace:glx	signature:(const char* title)
+setup_x	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void setup_x(int w, int h) {$/;"	function	line:142	namespace:glx	signature:(int w, int h)
+clean_x	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void clean_x() {$/;"	function	line:336	namespace:glx	signature:()
+swap	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void swap() {$/;"	function	line:343	namespace:glx	signature:()
+init_glew	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void init_glew() {$/;"	function	line:347	namespace:glx	signature:()
+clear_buffers	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void clear_buffers() {$/;"	function	line:356	namespace:glx	signature:()
+init_gl	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void init_gl(int w, int h) {$/;"	function	line:361	namespace:glx	signature:(int w, int h)
+ReplaceString	/home/stel/code/ogllx/src/loader/loader.cpp	/^std::string ReplaceString(std::string subject, const std::string& search,$/;"	function	line:8	signature:(std::string subject, const std::string& search, const std::string& replace)
+add_file	/home/stel/code/ogllx/src/loader/loader.cpp	/^void loader::add_file(string file, string loader_type, bool lazy = false) {$/;"	function	line:18	class:loader	signature:(string file, string loader_type, bool lazy = false)
+find_dir	/home/stel/code/ogllx/src/loader/loader.cpp	/^string loader::find_dir(string dir) {$/;"	function	line:22	class:loader	signature:(string dir)
+get_dir_opts	/home/stel/code/ogllx/src/loader/loader.cpp	/^fld_opts loader::get_dir_opts(string dir) {$/;"	function	line:31	class:loader	signature:(string dir)
+load	/home/stel/code/ogllx/src/loader/loader.cpp	/^void loader::load(string file, string type) {$/;"	function	line:35	class:loader	signature:(string file, string type)
+enum_files	/home/stel/code/ogllx/src/loader/loader.cpp	/^void loader::enum_files(string cur_dir)$/;"	function	line:58	class:loader	signature:(string cur_dir)
+add_dir	/home/stel/code/ogllx/src/loader/loader.cpp	/^void loader::add_dir(string dir, json data)$/;"	function	line:89	class:loader	signature:(string dir, json data)
+get_map	/home/stel/code/ogllx/src/loader/loader.cpp	/^game_map loader::get_map(string file) {$/;"	function	line:102	class:loader	signature:(string file)
+get_sprite	/home/stel/code/ogllx/src/loader/loader.cpp	/^game_sprite loader::get_sprite(string file) {$/;"	function	line:106	class:loader	signature:(string file)
+get_sprite_ptr	/home/stel/code/ogllx/src/loader/loader.cpp	/^game_sprite* loader::get_sprite_ptr(string file) {$/;"	function	line:110	class:loader	signature:(string file)
+get_texture	/home/stel/code/ogllx/src/loader/loader.cpp	/^eng_texture loader::get_texture(string file) {$/;"	function	line:118	class:loader	signature:(string file)
+get_texture_ptr	/home/stel/code/ogllx/src/loader/loader.cpp	/^eng_texture* loader::get_texture_ptr(string file) {$/;"	function	line:122	class:loader	signature:(string file)
+get_tileset	/home/stel/code/ogllx/src/loader/loader.cpp	/^game_tileset loader::get_tileset(string file)$/;"	function	line:126	class:loader	signature:(string file)
+get_tileset_ptr	/home/stel/code/ogllx/src/loader/loader.cpp	/^game_tileset* loader::get_tileset_ptr(string file)$/;"	function	line:131	class:loader	signature:(string file)
+get_shader	/home/stel/code/ogllx/src/loader/loader.cpp	/^string loader::get_shader(string file)$/;"	function	line:136	class:loader	signature:(string file)
+load_project	/home/stel/code/ogllx/src/loader/loader.cpp	/^void loader::load_project(string dirs_path)$/;"	function	line:143	class:loader	signature:(string dirs_path)
+process_dir	/home/stel/code/ogllx/src/loader/loader.cpp	/^void loader::process_dir(string dir, json::iterator data)$/;"	function	line:167	class:loader	signature:(string dir, json::iterator data)
+resolve_file	/home/stel/code/ogllx/src/loader/loader.cpp	/^string loader::resolve_file(string file, string type)$/;"	function	line:181	class:loader	signature:(string file, string type)
+resolve_type	/home/stel/code/ogllx/src/loader/loader.cpp	/^string loader::resolve_type(string file)$/;"	function	line:194	class:loader	signature:(string file)
+ASSETS_H	/home/stel/code/ogllx/src/loader/assets.h	/^#define ASSETS_H$/;"	macro	line:2
+asset_loader	/home/stel/code/ogllx/src/loader/assets.h	/^struct asset_loader {$/;"	struct	line:27
+loaded_asset	/home/stel/code/ogllx/src/loader/assets.h	/^	struct loaded_asset {$/;"	struct	line:31	struct:asset_loader
+data	/home/stel/code/ogllx/src/loader/assets.h	/^		void* data;$/;"	member	line:32	struct:asset_loader::loaded_asset
+size	/home/stel/code/ogllx/src/loader/assets.h	/^		int size;$/;"	member	line:33	struct:asset_loader::loaded_asset
+assets	/home/stel/code/ogllx/src/loader/assets.h	/^	path_map<loaded_asset> assets;$/;"	member	line:36	struct:asset_loader
+shader_lib	/home/stel/code/ogllx/src/loader/assets.h	/^	path_map<string> shader_lib;$/;"	member	line:37	struct:asset_loader
+loaded_tex	/home/stel/code/ogllx/src/loader/assets.h	/^	path_map<eng_texture> loaded_tex;$/;"	member	line:38	struct:asset_loader
+loaded_maps	/home/stel/code/ogllx/src/loader/assets.h	/^	path_map<game_map> loaded_maps;$/;"	member	line:39	struct:asset_loader
+loaded_sprites	/home/stel/code/ogllx/src/loader/assets.h	/^	path_map<game_sprite> loaded_sprites;$/;"	member	line:40	struct:asset_loader
+loaded_tilesets	/home/stel/code/ogllx/src/loader/assets.h	/^	path_map<game_tileset> loaded_tilesets;$/;"	member	line:41	struct:asset_loader
+texture	/home/stel/code/ogllx/src/loader/assets.cpp	/^GLuint texture(string filename) {$/;"	function	line:10	signature:(string filename)
+load_as_texture	/home/stel/code/ogllx/src/loader/assets.cpp	/^eng_texture asset_loader::load_as_texture(string filename) {$/;"	function	line:16	class:asset_loader	signature:(string filename)
+load_shader	/home/stel/code/ogllx/src/loader/assets.cpp	/^string asset_loader::load_shader(string filename) {$/;"	function	line:28	class:asset_loader	signature:(string filename)
+load_map	/home/stel/code/ogllx/src/loader/assets.cpp	/^game_map asset_loader::load_map(string filename) {$/;"	function	line:34	class:asset_loader	signature:(string filename)
+load_sprite	/home/stel/code/ogllx/src/loader/assets.cpp	/^game_sprite asset_loader::load_sprite(string filename) {$/;"	function	line:40	class:asset_loader	signature:(string filename)
+load_tileset	/home/stel/code/ogllx/src/loader/assets.cpp	/^game_tileset asset_loader::load_tileset(string filename) {$/;"	function	line:46	class:asset_loader	signature:(string filename)
+require	/home/stel/code/ogllx/src/loader/assets.cpp	/^void  asset_loader::require(string filepath)$/;"	function	line:52	class:asset_loader	signature:(string filepath)
+LOADER_H	/home/stel/code/ogllx/src/loader/loader.h	/^#define LOADER_H$/;"	macro	line:2
+fld_opts	/home/stel/code/ogllx/src/loader/loader.h	/^struct fld_opts {$/;"	struct	line:11
+exts	/home/stel/code/ogllx/src/loader/loader.h	/^	std::vector<string> exts;$/;"	member	line:12	struct:fld_opts
+lazy	/home/stel/code/ogllx/src/loader/loader.h	/^	bool lazy;$/;"	member	line:13	struct:fld_opts
+loader_type	/home/stel/code/ogllx/src/loader/loader.h	/^	string loader_type;$/;"	member	line:14	struct:fld_opts
+project_asset	/home/stel/code/ogllx/src/loader/loader.h	/^struct project_asset {$/;"	struct	line:16
+type	/home/stel/code/ogllx/src/loader/loader.h	/^	string type;$/;"	member	line:17	struct:project_asset
+lazy	/home/stel/code/ogllx/src/loader/loader.h	/^	bool lazy;$/;"	member	line:18	struct:project_asset
+loader	/home/stel/code/ogllx/src/loader/loader.h	/^struct loader {$/;"	struct	line:20
+a_loader	/home/stel/code/ogllx/src/loader/loader.h	/^	asset_loader a_loader;$/;"	member	line:21	struct:loader
+project_path	/home/stel/code/ogllx/src/loader/loader.h	/^	string project_path;$/;"	member	line:22	struct:loader
+dir_opts	/home/stel/code/ogllx/src/loader/loader.h	/^	std::map<string, fld_opts> dir_opts;$/;"	member	line:23	struct:loader
+project_files	/home/stel/code/ogllx/src/loader/loader.h	/^	std::map<string, project_asset> project_files;$/;"	member	line:24	struct:loader
+default_dirs	/home/stel/code/ogllx/src/loader/loader.h	/^	std::map<string, string> default_dirs;$/;"	member	line:25	struct:loader
+dir_types	/home/stel/code/ogllx/src/loader/loader.h	/^	std::map<string, string> dir_types;$/;"	member	line:26	struct:loader
+res_info	/home/stel/code/ogllx/src/loader/loader.h	/^template <typename GameType, typename EngType> struct res_info {$/;"	struct	line:51
+game_obj	/home/stel/code/ogllx/src/loader/loader.h	/^	GameType* game_obj;$/;"	member	line:52	struct:res_info
+eng_obj	/home/stel/code/ogllx/src/loader/loader.h	/^	EngType* eng_obj;$/;"	member	line:53	struct:res_info
 BOILERPLATE_H	/home/stel/code/ogllx/src/boilerplate.h	/^#define BOILERPLATE_H$/;"	macro	line:2
 GLX_CONTEXT_MAJOR_VERSION_ARB	/home/stel/code/ogllx/src/boilerplate.h	/^#define GLX_CONTEXT_MAJOR_VERSION_ARB /;"	macro	line:4
 GLX_CONTEXT_MINOR_VERSION_ARB	/home/stel/code/ogllx/src/boilerplate.h	/^#define GLX_CONTEXT_MINOR_VERSION_ARB /;"	macro	line:5
 glx	/home/stel/code/ogllx/src/boilerplate.h	/^namespace glx {$/;"	namespace	line:7
-to_json	/home/stel/code/ogllx/src/fonts.cpp	/^string font::to_json()$/;"	function	line:6	class:font	signature:()
-FONT_SIZE	/home/stel/code/ogllx/src/fonts.cpp	/^#define FONT_SIZE /;"	macro	line:10	file:
-MARGIN	/home/stel/code/ogllx/src/fonts.cpp	/^#define MARGIN /;"	macro	line:11	file:
-build_glyphs	/home/stel/code/ogllx/src/fonts.cpp	/^cairo_glyph_t* font::build_glyphs(int len)$/;"	function	line:13	class:font	signature:(int len)
-calc_surface_area	/home/stel/code/ogllx/src/fonts.cpp	/^font::calc_surface_area(hb_direction_t dir, hb_glyph_position_t* pos, unsigned int len)$/;"	function	line:30	class:font	signature:(hb_direction_t dir, hb_glyph_position_t* pos, unsigned int len)
-font	/home/stel/code/ogllx/src/fonts.cpp	/^font::font()$/;"	function	line:47	class:font	signature:()
-font	/home/stel/code/ogllx/src/fonts.cpp	/^font::font(FT_Face ft, hb_font_t* hb, cairo_font_face_t* cf)$/;"	function	line:52	class:font	signature:(FT_Face ft, hb_font_t* hb, cairo_font_face_t* cf)
-init_cairo_font	/home/stel/code/ogllx/src/fonts.cpp	/^void font::init_cairo_font()$/;"	function	line:59	class:font	signature:()
-render	/home/stel/code/ogllx/src/fonts.cpp	/^void font::render(string text)$/;"	function	line:74	class:font	signature:(string text)
-render_nowrap	/home/stel/code/ogllx/src/fonts.cpp	/^void font::render_nowrap(string text)$/;"	function	line:94	class:font	signature:(string text)
-setup_baseline	/home/stel/code/ogllx/src/fonts.cpp	/^double font::setup_baseline(hb_direction_t dir)$/;"	function	line:112	class:font	signature:(hb_direction_t dir)
-setup_cairo_surface	/home/stel/code/ogllx/src/fonts.cpp	/^cairo_surface_t* font::setup_cairo_surface(int w, int h)$/;"	function	line:130	class:font	signature:(int w, int h)
-shape	/home/stel/code/ogllx/src/fonts.cpp	/^hb_buffer_t* font::shape(string text)$/;"	function	line:145	class:font	signature:(string text)
-upload_texture	/home/stel/code/ogllx/src/fonts.cpp	/^eng_texture font::upload_texture()$/;"	function	line:156	class:font	signature:()
-game_map	/home/stel/code/ogllx/src/game_map.cpp	/^game_map::game_map()$/;"	function	line:11	class:game_map	signature:()
-game_map	/home/stel/code/ogllx/src/game_map.cpp	/^game_map::game_map(string name, int w, int h, int l) {$/;"	function	line:16	class:game_map	signature:(string name, int w, int h, int l)
-set_layers	/home/stel/code/ogllx/src/game_map.cpp	/^void game_map::set_layers(int l) {$/;"	function	line:22	class:game_map	signature:(int l)
-set_tile	/home/stel/code/ogllx/src/game_map.cpp	/^void game_map::set_tile(int layer, int x, int y, map_tile tile) {$/;"	function	line:26	class:game_map	signature:(int layer, int x, int y, map_tile tile)
-resize	/home/stel/code/ogllx/src/game_map.cpp	/^void game_map::resize(int w, int h) {$/;"	function	line:30	class:game_map	signature:(int w, int h)
-get_tile	/home/stel/code/ogllx/src/game_map.cpp	/^map_tile game_map::get_tile(int layer, int x, int y) {$/;"	function	line:38	class:game_map	signature:(int layer, int x, int y)
-from_json	/home/stel/code/ogllx/src/game_map.cpp	/^game_map game_map::from_json(string j) {$/;"	function	line:42	class:game_map	signature:(string j)
-ENG_SPRITE_H	/home/stel/code/ogllx/src/eng_sprite.h	/^#define ENG_SPRITE_H$/;"	macro	line:2
-eng_sprite	/home/stel/code/ogllx/src/eng_sprite.h	/^struct eng_sprite {$/;"	struct	line:11
-x	/home/stel/code/ogllx/src/eng_sprite.h	/^	int x,y,z;$/;"	member	line:12	struct:eng_sprite
-y	/home/stel/code/ogllx/src/eng_sprite.h	/^	int x,y,z;$/;"	member	line:12	struct:eng_sprite
-z	/home/stel/code/ogllx/src/eng_sprite.h	/^	int x,y,z;$/;"	member	line:12	struct:eng_sprite
-state	/home/stel/code/ogllx/src/eng_sprite.h	/^	string state;$/;"	member	line:13	struct:eng_sprite
-states	/home/stel/code/ogllx/src/eng_sprite.h	/^	std::map<string, std::vector<quad_coords>> states;$/;"	member	line:14	struct:eng_sprite
-frame	/home/stel/code/ogllx/src/eng_sprite.h	/^	int frame;$/;"	member	line:15	struct:eng_sprite
-cur_tick	/home/stel/code/ogllx/src/eng_sprite.h	/^	int cur_tick;$/;"	member	line:16	struct:eng_sprite
-tex	/home/stel/code/ogllx/src/eng_sprite.h	/^	eng_texture tex;$/;"	member	line:17	struct:eng_sprite
 CFG_H	/home/stel/code/ogllx/src/cfg.h	/^#define CFG_H$/;"	macro	line:2
 cfg	/home/stel/code/ogllx/src/cfg.h	/^namespace cfg {$/;"	namespace	line:6
-GAME_TILESET_H	/home/stel/code/ogllx/src/game_tileset.h	/^#define GAME_TILESET_H$/;"	macro	line:2
-tileid_t	/home/stel/code/ogllx/src/game_tileset.h	/^typedef int tileid_t;$/;"	typedef	line:9
-game_tile_frame	/home/stel/code/ogllx/src/game_tileset.h	/^struct game_tile_frame {$/;"	struct	line:11
-img	/home/stel/code/ogllx/src/game_tileset.h	/^	string img;$/;"	member	line:12	struct:game_tile_frame
-interval	/home/stel/code/ogllx/src/game_tileset.h	/^	int interval;$/;"	member	line:13	struct:game_tile_frame
-pass	/home/stel/code/ogllx/src/game_tileset.h	/^	string pass;$/;"	member	line:14	struct:game_tile_frame
-u	/home/stel/code/ogllx/src/game_tileset.h	/^	int u,v;$/;"	member	line:15	struct:game_tile_frame
-v	/home/stel/code/ogllx/src/game_tileset.h	/^	int u,v;$/;"	member	line:15	struct:game_tile_frame
-game_tileset	/home/stel/code/ogllx/src/game_tileset.h	/^struct game_tileset {$/;"	struct	line:18
-name	/home/stel/code/ogllx/src/game_tileset.h	/^	string name;$/;"	member	line:19	struct:game_tileset
-path	/home/stel/code/ogllx/src/game_tileset.h	/^	string path;$/;"	member	line:20	struct:game_tileset
-tiles	/home/stel/code/ogllx/src/game_tileset.h	/^	std::map<tileid_t, game_tile> tiles;$/;"	member	line:21	struct:game_tileset
-LOADER_H	/home/stel/code/ogllx/src/loader.h	/^#define LOADER_H$/;"	macro	line:2
-fld_opts	/home/stel/code/ogllx/src/loader.h	/^struct fld_opts {$/;"	struct	line:11
-exts	/home/stel/code/ogllx/src/loader.h	/^	std::vector<string> exts;$/;"	member	line:12	struct:fld_opts
-lazy	/home/stel/code/ogllx/src/loader.h	/^	bool lazy;$/;"	member	line:13	struct:fld_opts
-loader_type	/home/stel/code/ogllx/src/loader.h	/^	string loader_type;$/;"	member	line:14	struct:fld_opts
-project_asset	/home/stel/code/ogllx/src/loader.h	/^struct project_asset {$/;"	struct	line:16
-type	/home/stel/code/ogllx/src/loader.h	/^	string type;$/;"	member	line:17	struct:project_asset
-lazy	/home/stel/code/ogllx/src/loader.h	/^	bool lazy;$/;"	member	line:18	struct:project_asset
-loader	/home/stel/code/ogllx/src/loader.h	/^struct loader {$/;"	struct	line:20
-a_loader	/home/stel/code/ogllx/src/loader.h	/^	asset_loader a_loader;$/;"	member	line:21	struct:loader
-project_path	/home/stel/code/ogllx/src/loader.h	/^	string project_path;$/;"	member	line:22	struct:loader
-dir_opts	/home/stel/code/ogllx/src/loader.h	/^	std::map<string, fld_opts> dir_opts;$/;"	member	line:23	struct:loader
-project_files	/home/stel/code/ogllx/src/loader.h	/^	std::map<string, project_asset> project_files;$/;"	member	line:24	struct:loader
-default_dirs	/home/stel/code/ogllx/src/loader.h	/^	std::map<string, string> default_dirs;$/;"	member	line:25	struct:loader
-dir_types	/home/stel/code/ogllx/src/loader.h	/^	std::map<string, string> dir_types;$/;"	member	line:26	struct:loader
-res_info	/home/stel/code/ogllx/src/loader.h	/^template <typename GameType, typename EngType> struct res_info {$/;"	struct	line:51
-game_obj	/home/stel/code/ogllx/src/loader.h	/^	GameType* game_obj;$/;"	member	line:52	struct:res_info
-eng_obj	/home/stel/code/ogllx/src/loader.h	/^	EngType* eng_obj;$/;"	member	line:53	struct:res_info
+GENERATORS_H	/home/stel/code/ogllx/src/helpers/generators.h	/^#define GENERATORS_H$/;"	macro	line:2
+gen	/home/stel/code/ogllx/src/helpers/generators.h	/^namespace gen {$/;"	namespace	line:12
+intercalate	/home/stel/code/ogllx/src/helpers/generators.h	/^	template <int N, int M> coord_grid intercalate(coord_grid verts, coord_grid uvs)$/;"	function	line:21	namespace:gen	signature:(coord_grid verts, coord_grid uvs)
+sprite_vertex	/home/stel/code/ogllx/src/helpers/generators.cpp	/^coord_grid gen::sprite_vertex(std::vector<eng_sprite> sprs, int l)$/;"	function	line:13	class:gen	signature:(std::vector<eng_sprite> sprs, int l)
+sprite_texture_map	/home/stel/code/ogllx/src/helpers/generators.cpp	/^coord_grid gen::sprite_texture_map(std::vector<eng_sprite> sprs, tex_map& textures)$/;"	function	line:48	class:gen	signature:(std::vector<eng_sprite> sprs, tex_map& textures)
+vertex_grid	/home/stel/code/ogllx/src/helpers/generators.cpp	/^coord_grid gen::vertex_grid(int w, int h, int l)$/;"	function	line:80	class:gen	signature:(int w, int h, int l)
+flatten_tilemap	/home/stel/code/ogllx/src/helpers/generators.cpp	/^game_tilemap gen::flatten_tilemap(map_tilemap tiles,$/;"	function	line:107	class:gen	signature:(map_tilemap tiles, res_map<game_tileset> tilesets)
+texture_map	/home/stel/code/ogllx/src/helpers/generators.cpp	/^coord_grid gen::texture_map(game_tilemap tiles, loader* p_loader)$/;"	function	line:118	class:gen	signature:(game_tilemap tiles, loader* p_loader)
+texview	/home/stel/code/ogllx/src/helpers/generators.cpp	/^coord_grid gen::texview(eng_texture tex, int l)$/;"	function	line:142	class:gen	signature:(eng_texture tex, int l)
+flatten_tilesets	/home/stel/code/ogllx/src/helpers/generators.cpp	/^res_map<game_tileset> gen::flatten_tilesets($/;"	function	line:172	class:gen	signature:( std::vector<string> tsets, loader* p_loader)
+HELPERS_H	/home/stel/code/ogllx/src/helpers/helpers.h	/^#define HELPERS_H$/;"	macro	line:2
+read_file	/home/stel/code/ogllx/src/helpers/helpers.h	/^T read_file(std::string filename, size_t* read_bytes = NULL) {$/;"	function	line:12	signature:(std::string filename, size_t* read_bytes = NULL)
+ArrayDeleter	/home/stel/code/ogllx/src/helpers/helpers.h	/^template <typename T> class ArrayDeleter {$/;"	class	line:28
+operator ()	/home/stel/code/ogllx/src/helpers/helpers.h	/^    void operator () (T* d) const$/;"	function	line:30	class:ArrayDeleter	signature:(T* d) const
+helpers	/home/stel/code/ogllx/src/helpers/helpers.h	/^namespace helpers$/;"	namespace	line:39
+util	/home/stel/code/ogllx/src/helpers/util.cpp	/^namespace util {$/;"	namespace	line:5	file:
+dirname_s	/home/stel/code/ogllx/src/helpers/util.cpp	/^	string dirname_s(const char *path)$/;"	function	line:6	namespace:util	signature:(const char *path)
+dirname_s	/home/stel/code/ogllx/src/helpers/util.cpp	/^	string dirname_s(string path)$/;"	function	line:14	namespace:util	signature:(string path)
+basename_s	/home/stel/code/ogllx/src/helpers/util.cpp	/^	string basename_s(const char *path)$/;"	function	line:19	namespace:util	signature:(const char *path)
+basename_s	/home/stel/code/ogllx/src/helpers/util.cpp	/^	string basename_s(string path)$/;"	function	line:28	namespace:util	signature:(string path)
+endswith	/home/stel/code/ogllx/src/helpers/util.cpp	/^	bool endswith(string const & value, string const & ending)$/;"	function	line:33	namespace:util	signature:(string const & value, string const & ending)
+UTIL_H	/home/stel/code/ogllx/src/helpers/util.h	/^#define UTIL_H$/;"	macro	line:2
+util	/home/stel/code/ogllx/src/helpers/util.h	/^namespace util {$/;"	namespace	line:7
+list_files	/home/stel/code/ogllx/src/helpers/helpers.cpp	/^std::vector<string> list_files(std::string dir)$/;"	function	line:12	signature:(std::string dir)
+_s	/home/stel/code/ogllx/src/helpers/helpers.cpp	/^string operator "" _s (const char* p, size_t)$/;"	function	line:27	signature:(const char* p, size_t)
+trim_out	/home/stel/code/ogllx/src/helpers/helpers.cpp	/^size_t trim_out(char *out, size_t len, const char *str)$/;"	function	line:32	signature:(char *out, size_t len, const char *str)
+split	/home/stel/code/ogllx/src/helpers/helpers.cpp	/^std::vector<string> split(const string &s, char delim) {$/;"	function	line:64	signature:(const string &s, char delim)
+init_crt	/home/stel/code/ogllx/src/helpers/helpers.cpp	/^void init_crt() {$/;"	function	line:74	signature:()
+trim	/home/stel/code/ogllx/src/helpers/helpers.cpp	/^string trim(string const& str, string chars) {$/;"	function	line:80	signature:(string const& str, string chars)
+helpers	/home/stel/code/ogllx/src/helpers/helpers.cpp	/^namespace helpers$/;"	namespace	line:91	file:
+next_p2	/home/stel/code/ogllx/src/helpers/helpers.cpp	/^	unsigned long next_p2(unsigned long v)$/;"	function	line:93	namespace:helpers	signature:(unsigned long v)
+is_p2	/home/stel/code/ogllx/src/helpers/helpers.cpp	/^	bool is_p2(unsigned long v)$/;"	function	line:109	namespace:helpers	signature:(unsigned long v)
 ATILE	/home/stel/code/ogllx/src/cfg.cpp	/^float cfg::ATILE = 16.0f;$/;"	member	line:3	class:cfg	file:
 MAG	/home/stel/code/ogllx/src/cfg.cpp	/^int cfg::MAG = 2;$/;"	member	line:4	class:cfg	file:
 TILE_SIZE	/home/stel/code/ogllx/src/cfg.cpp	/^float cfg::TILE_SIZE = ATILE * MAG;$/;"	member	line:5	class:cfg	file:
 HORZ_RES	/home/stel/code/ogllx/src/cfg.cpp	/^int cfg::HORZ_RES = 800;$/;"	member	line:6	class:cfg	file:
 VERT_RES	/home/stel/code/ogllx/src/cfg.cpp	/^int cfg::VERT_RES = 600;/;"	member	line:7	class:cfg	file:
-list_files	/home/stel/code/ogllx/src/helpers.cpp	/^std::vector<string> list_files(std::string dir)$/;"	function	line:12	signature:(std::string dir)
-_s	/home/stel/code/ogllx/src/helpers.cpp	/^string operator "" _s (const char* p, size_t)$/;"	function	line:27	signature:(const char* p, size_t)
-trim_out	/home/stel/code/ogllx/src/helpers.cpp	/^size_t trim_out(char *out, size_t len, const char *str)$/;"	function	line:32	signature:(char *out, size_t len, const char *str)
-split	/home/stel/code/ogllx/src/helpers.cpp	/^std::vector<string> split(const string &s, char delim) {$/;"	function	line:64	signature:(const string &s, char delim)
-init_crt	/home/stel/code/ogllx/src/helpers.cpp	/^void init_crt() {$/;"	function	line:74	signature:()
-trim	/home/stel/code/ogllx/src/helpers.cpp	/^string trim(string const& str, string chars) {$/;"	function	line:80	signature:(string const& str, string chars)
-helpers	/home/stel/code/ogllx/src/helpers.cpp	/^namespace helpers$/;"	namespace	line:91	file:
-next_p2	/home/stel/code/ogllx/src/helpers.cpp	/^	unsigned long next_p2(unsigned long v)$/;"	function	line:93	namespace:helpers	signature:(unsigned long v)
-is_p2	/home/stel/code/ogllx/src/helpers.cpp	/^	bool is_p2(unsigned long v)$/;"	function	line:109	namespace:helpers	signature:(unsigned long v)
 data	/home/stel/code/ogllx/src/data_transform.cpp	/^namespace data {$/;"	namespace	line:9	file:
 flatten_layer	/home/stel/code/ogllx/src/data_transform.cpp	/^	game_tilemap flatten_layer(game_map map, int z) {$/;"	function	line:10	namespace:data	signature:(game_map map, int z)
-TEXTURE_ATLAS_H	/home/stel/code/ogllx/src/texture_atlas.h	/^#define TEXTURE_ATLAS_H$/;"	macro	line:2
-atlas_piece	/home/stel/code/ogllx/src/texture_atlas.h	/^struct atlas_piece : public eng_coord {$/;"	struct	line:12
-act	/home/stel/code/ogllx/src/texture_atlas.h	/^	string act, img, src;$/;"	member	line:13	struct:atlas_piece
-img	/home/stel/code/ogllx/src/texture_atlas.h	/^	string act, img, src;$/;"	member	line:13	struct:atlas_piece
-src	/home/stel/code/ogllx/src/texture_atlas.h	/^	string act, img, src;$/;"	member	line:13	struct:atlas_piece
-index	/home/stel/code/ogllx/src/texture_atlas.h	/^	int index, tile_id;$/;"	member	line:14	struct:atlas_piece
-tile_id	/home/stel/code/ogllx/src/texture_atlas.h	/^	int index, tile_id;$/;"	member	line:14	struct:atlas_piece
-texture_atlas	/home/stel/code/ogllx/src/texture_atlas.h	/^struct texture_atlas {$/;"	struct	line:17
-w	/home/stel/code/ogllx/src/texture_atlas.h	/^	int w, h;$/;"	member	line:19	struct:texture_atlas
-h	/home/stel/code/ogllx/src/texture_atlas.h	/^	int w, h;$/;"	member	line:19	struct:texture_atlas
-by_file	/home/stel/code/ogllx/src/texture_atlas.h	/^	std::map<string, atlas_piece* const> by_file;$/;"	member	line:20	struct:texture_atlas
-pieces	/home/stel/code/ogllx/src/texture_atlas.h	/^	vector<atlas_piece> pieces;$/;"	member	line:21	struct:texture_atlas
-seq_piece_t	/home/stel/code/ogllx/src/texture_atlas.h	/^typedef vector<atlas_piece> seq_piece_t;$/;"	typedef	line:25
-atlas_builder	/home/stel/code/ogllx/src/texture_atlas.h	/^struct atlas_builder {$/;"	struct	line:27
-input_pieces	/home/stel/code/ogllx/src/texture_atlas.h	/^	vector<atlas_piece> input_pieces;$/;"	member	line:28	struct:atlas_builder
-requests	/home/stel/code/ogllx/src/texture_atlas.h	/^	map<string, map<string, seq_piece_t>> requests; \/\/ we store tile ids a string$/;"	member	line:31	struct:atlas_builder
 fonts	/home/stel/code/ogllx/sample_project/dirs.json	/^	"fonts":$/;"	function	line:2
 exts	/home/stel/code/ogllx/sample_project/dirs.json	/^		"exts": [".ttf", ".otf"],$/;"	function	line:4
 type	/home/stel/code/ogllx/sample_project/dirs.json	/^		"type": "FNT"$/;"	function	line:5
@@ -2829,6 +2947,8 @@ y	/home/stel/code/ogllx/sample_project/maps/map.json	/^						"y": 8$/;"	function
 layer 2	/home/stel/code/ogllx/sample_project/maps/map.json	/^			"layer 2" :$/;"	function	line:46
 z	/home/stel/code/ogllx/sample_project/maps/map.json	/^				"z":7,$/;"	function	line:48
 tiles	/home/stel/code/ogllx/sample_project/maps/map.json	/^				"tiles":$/;"	function	line:49
+startupDirectory	/home/stel/code/ogllx/.atom-gdb.json	/^  "startupDirectory": "\/home\/stel\/code\/ogllx",$/;"	function	line:2
+executablePath	/home/stel/code/ogllx/.atom-gdb.json	/^  "executablePath": "\/home\/stel\/code\/ogllx\/bin\/gl3"$/;"	function	line:3
 ID_VOID_MAIN	/home/stel/code/ogllx/build/CMakeFiles/2.8.11/CompilerIdC/CMakeCCompilerId.c	/^# define ID_VOID_MAIN$/;"	macro	line:9	file:
 COMPILER_ID	/home/stel/code/ogllx/build/CMakeFiles/2.8.11/CompilerIdC/CMakeCCompilerId.c	/^# define COMPILER_ID /;"	macro	line:13	file:
 COMPILER_VERSION_MAJOR	/home/stel/code/ogllx/build/CMakeFiles/2.8.11/CompilerIdC/CMakeCCompilerId.c	/^# define COMPILER_VERSION_MAJOR /;"	macro	line:15	file:
@@ -3091,127 +3211,6 @@ EQUALS	/home/stel/code/ogllx/build/Makefile	/^EQUALS = =$/;"	macro	line:39
 CMAKE_EDIT_COMMAND	/home/stel/code/ogllx/build/Makefile	/^CMAKE_EDIT_COMMAND = \/usr\/bin\/ccmake$/;"	macro	line:42
 CMAKE_SOURCE_DIR	/home/stel/code/ogllx/build/Makefile	/^CMAKE_SOURCE_DIR = \/home\/stel\/code\/ogllx\/src$/;"	macro	line:45
 CMAKE_BINARY_DIR	/home/stel/code/ogllx/build/Makefile	/^CMAKE_BINARY_DIR = \/home\/stel\/code\/ogllx\/build$/;"	macro	line:48
-ENG_TYPES_H	/home/stel/code/ogllx/src/eng_types.h	/^#define ENG_TYPES_H$/;"	macro	line:2
-eng_coord	/home/stel/code/ogllx/src/eng_types.h	/^struct eng_coord {$/;"	struct	line:4
-x	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-y	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-w	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-h	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-quad_coords	/home/stel/code/ogllx/src/eng_types.h	/^struct quad_coords {$/;"	struct	line:7
-coords	/home/stel/code/ogllx/src/eng_types.h	/^	eng_coord coords;$/;"	member	line:8	struct:quad_coords
-interval	/home/stel/code/ogllx/src/eng_types.h	/^    int interval;$/;"	member	line:9	struct:quad_coords
-tex	/home/stel/code/ogllx/src/eng_types.h	/^    int tex;$/;"	member	line:10	struct:quad_coords
-ENG_TYPES_H	/home/stel/code/ogllx/src/eng_types.h	/^#define ENG_TYPES_H$/;"	macro	line:2
-eng_coord	/home/stel/code/ogllx/src/eng_types.h	/^struct eng_coord {$/;"	struct	line:4
-x	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-y	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-w	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-h	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-quad_coords	/home/stel/code/ogllx/src/eng_types.h	/^struct quad_coords {$/;"	struct	line:7
-coords	/home/stel/code/ogllx/src/eng_types.h	/^	eng_coord coords;$/;"	member	line:8	struct:quad_coords
-interval	/home/stel/code/ogllx/src/eng_types.h	/^    int interval;$/;"	member	line:9	struct:quad_coords
-tex	/home/stel/code/ogllx/src/eng_types.h	/^    int tex;$/;"	member	line:10	struct:quad_coords
-ENG_TYPES_H	/home/stel/code/ogllx/src/eng_types.h	/^#define ENG_TYPES_H$/;"	macro	line:2
-eng_coord	/home/stel/code/ogllx/src/eng_types.h	/^struct eng_coord {$/;"	struct	line:4
-x	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-y	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-w	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-h	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-quad_coords	/home/stel/code/ogllx/src/eng_types.h	/^struct quad_coords {$/;"	struct	line:7
-coords	/home/stel/code/ogllx/src/eng_types.h	/^	eng_coord coords;$/;"	member	line:8	struct:quad_coords
-interval	/home/stel/code/ogllx/src/eng_types.h	/^    int interval;$/;"	member	line:9	struct:quad_coords
-tex	/home/stel/code/ogllx/src/eng_types.h	/^    int tex;$/;"	member	line:10	struct:quad_coords
-ENG_TYPES_H	/home/stel/code/ogllx/src/eng_types.h	/^#define ENG_TYPES_H$/;"	macro	line:2
-eng_coord	/home/stel/code/ogllx/src/eng_types.h	/^struct eng_coord {$/;"	struct	line:4
-x	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-y	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-w	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-h	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-quad_coords	/home/stel/code/ogllx/src/eng_types.h	/^struct quad_coords {$/;"	struct	line:7
-coords	/home/stel/code/ogllx/src/eng_types.h	/^	eng_coord coords;$/;"	member	line:8	struct:quad_coords
-interval	/home/stel/code/ogllx/src/eng_types.h	/^    int interval;$/;"	member	line:9	struct:quad_coords
-tex	/home/stel/code/ogllx/src/eng_types.h	/^    int tex;$/;"	member	line:10	struct:quad_coords
-ENG_TYPES_H	/home/stel/code/ogllx/src/eng_types.h	/^#define ENG_TYPES_H$/;"	macro	line:2
-eng_coord	/home/stel/code/ogllx/src/eng_types.h	/^struct eng_coord {$/;"	struct	line:4
-x	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-y	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-w	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-h	/home/stel/code/ogllx/src/eng_types.h	/^	int x;int y;int w; int h;$/;"	member	line:5	struct:eng_coord
-quad_coords	/home/stel/code/ogllx/src/eng_types.h	/^struct quad_coords {$/;"	struct	line:7
-coords	/home/stel/code/ogllx/src/eng_types.h	/^	eng_coord coords;$/;"	member	line:8	struct:quad_coords
-interval	/home/stel/code/ogllx/src/eng_types.h	/^    int interval;$/;"	member	line:9	struct:quad_coords
-tex	/home/stel/code/ogllx/src/eng_types.h	/^    int tex;$/;"	member	line:10	struct:quad_coords
-RGBA	/home/stel/code/ogllx/src/boilerplate.cpp	/^#define RGBA(/;"	macro	line:19	file:
-RGB	/home/stel/code/ogllx/src/boilerplate.cpp	/^#define RGB(/;"	macro	line:20	file:
-glXCreateContextAttribsARBProc	/home/stel/code/ogllx/src/boilerplate.cpp	/^typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);$/;"	typedef	line:22	file:
-glx	/home/stel/code/ogllx/src/boilerplate.cpp	/^namespace glx {$/;"	namespace	line:25	file:
-win	/home/stel/code/ogllx/src/boilerplate.cpp	/^	Window win;$/;"	member	line:26	namespace:glx	file:
-display	/home/stel/code/ogllx/src/boilerplate.cpp	/^	Display *display;$/;"	member	line:27	namespace:glx	file:
-ctx	/home/stel/code/ogllx/src/boilerplate.cpp	/^	GLXContext ctx = 0;$/;"	member	line:28	namespace:glx	file:
-swa	/home/stel/code/ogllx/src/boilerplate.cpp	/^	XSetWindowAttributes swa;$/;"	member	line:29	namespace:glx	file:
-cmap	/home/stel/code/ogllx/src/boilerplate.cpp	/^	Colormap cmap;$/;"	member	line:30	namespace:glx	file:
-done	/home/stel/code/ogllx/src/boilerplate.cpp	/^	bool done = false;$/;"	member	line:31	namespace:glx	file:
-poll	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void poll () {$/;"	function	line:32	namespace:glx	signature:()
-isExtensionSupported	/home/stel/code/ogllx/src/boilerplate.cpp	/^	bool isExtensionSupported(const char *extList, const char *extension) {$/;"	function	line:101	namespace:glx	signature:(const char *extList, const char *extension)
-ctxErrorOccurred	/home/stel/code/ogllx/src/boilerplate.cpp	/^	static bool ctxErrorOccurred = false;$/;"	member	line:131	namespace:glx	file:
-ctxErrorHandler	/home/stel/code/ogllx/src/boilerplate.cpp	/^	static int ctxErrorHandler(Display *dpy, XErrorEvent *ev) {$/;"	function	line:132	namespace:glx	signature:(Display *dpy, XErrorEvent *ev)
-set_title	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void set_title(const char* title)$/;"	function	line:137	namespace:glx	signature:(const char* title)
-setup_x	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void setup_x(int w, int h) {$/;"	function	line:142	namespace:glx	signature:(int w, int h)
-clean_x	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void clean_x() {$/;"	function	line:336	namespace:glx	signature:()
-swap	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void swap() {$/;"	function	line:343	namespace:glx	signature:()
-init_glew	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void init_glew() {$/;"	function	line:347	namespace:glx	signature:()
-clear_buffers	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void clear_buffers() {$/;"	function	line:356	namespace:glx	signature:()
-init_gl	/home/stel/code/ogllx/src/boilerplate.cpp	/^	void init_gl(int w, int h) {$/;"	function	line:361	namespace:glx	signature:(int w, int h)
-stdout_bk	/home/stel/code/ogllx/src/logging.cpp	/^FILE* stdout_bk;$/;"	variable	line:8
-pipefd	/home/stel/code/ogllx/src/logging.cpp	/^int pipefd[2];$/;"	variable	line:9
-setup_stdout	/home/stel/code/ogllx/src/logging.cpp	/^void setup_stdout() {$/;"	function	line:11	signature:()
-poll_stdout	/home/stel/code/ogllx/src/logging.cpp	/^void *poll_stdout(void *ptr) {$/;"	function	line:23	signature:(void *ptr)
-setup_threads	/home/stel/code/ogllx/src/logging.cpp	/^void setup_threads() {$/;"	function	line:47	signature:()
-vbo	/home/stel/code/ogllx/src/vbo.cpp	/^vbo::vbo (std::vector<float> data) : usage(GL_INVALID_VALUE) {$/;"	function	line:5	class:vbo	signature:(std::vector<float> data)
-vbo	/home/stel/code/ogllx/src/vbo.cpp	/^vbo::vbo() : usage(GL_INVALID_VALUE)$/;"	function	line:11	class:vbo	signature:()
-init	/home/stel/code/ogllx/src/vbo.cpp	/^void vbo::init(GLenum usage) {$/;"	function	line:16	class:vbo	signature:(GLenum usage)
-setup_vao	/home/stel/code/ogllx/src/vbo.cpp	/^void vbo::setup_vao() {$/;"	function	line:22	class:vbo	signature:()
-buffer	/home/stel/code/ogllx/src/vbo.cpp	/^void vbo::buffer(std::vector<float> data) {$/;"	function	line:27	class:vbo	signature:(std::vector<float> data)
-buffer	/home/stel/code/ogllx/src/vbo.cpp	/^void vbo::buffer(std::vector<float> data, int offset) {$/;"	function	line:37	class:vbo	signature:(std::vector<float> data, int offset)
-add_pointer	/home/stel/code/ogllx/src/vbo.cpp	/^vao_pointer vao_pointer::add_pointer(string attrib, size_t num_elems, GLenum type) {$/;"	function	line:48	class:vao_pointer	signature:(string attrib, size_t num_elems, GLenum type)
-add_pointer	/home/stel/code/ogllx/src/vbo.cpp	/^vao_pointer vbo::add_pointer(string attrib, size_t num_elems, GLenum type) {$/;"	function	line:53	class:vbo	signature:(string attrib, size_t num_elems, GLenum type)
-get_size	/home/stel/code/ogllx/src/vbo.cpp	/^size_t vao_pointer::get_size(GLenum type) {$/;"	function	line:58	class:vao_pointer	signature:(GLenum type)
-attach	/home/stel/code/ogllx/src/vbo.cpp	/^void vao_pointer::attach(vbo targ) {$/;"	function	line:64	class:vao_pointer	signature:(vbo targ)
-draw	/home/stel/code/ogllx/src/vbo.cpp	/^void vbo::draw()$/;"	function	line:80	class:vbo	signature:()
-_XOPEN_SOURCE	/home/stel/code/ogllx/src/main.cpp	/^#define _XOPEN_SOURCE /;"	macro	line:1	file:
-FONT	/home/stel/code/ogllx/src/main.cpp	/^#define FONT /;"	macro	line:48	file:
-FONT_SIZE	/home/stel/code/ogllx/src/main.cpp	/^#define FONT_SIZE /;"	macro	line:49	file:
-MARGIN	/home/stel/code/ogllx/src/main.cpp	/^#define MARGIN /;"	macro	line:50	file:
-keys	/home/stel/code/ogllx/src/main.cpp	/^std::map<int, int> keys;$/;"	variable	line:56
-pan	/home/stel/code/ogllx/src/main.cpp	/^glm::mat4 pan;$/;"	variable	line:58
-panx	/home/stel/code/ogllx/src/main.cpp	/^float panx, pany;$/;"	variable	line:59
-pany	/home/stel/code/ogllx/src/main.cpp	/^float panx, pany;$/;"	variable	line:59
-pan_view	/home/stel/code/ogllx/src/main.cpp	/^void pan_view(float x, float y)$/;"	function	line:61	signature:(float x, float y)
-p_loader	/home/stel/code/ogllx/src/main.cpp	/^loader p_loader;$/;"	variable	line:65
-texture_viewer	/home/stel/code/ogllx/src/main.cpp	/^vbo texture_viewer;$/;"	variable	line:66
-eng	/home/stel/code/ogllx/src/main.cpp	/^game_engine* eng;$/;"	variable	line:67
-diff	/home/stel/code/ogllx/src/main.cpp	/^timespec diff(timespec start, timespec end)$/;"	function	line:69	signature:(timespec start, timespec end)
-tick_count	/home/stel/code/ogllx/src/main.cpp	/^int tick_count = 0;$/;"	variable	line:81
-main	/home/stel/code/ogllx/src/main.cpp	/^int main(int argc, char *argv[])$/;"	function	line:82	signature:(int argc, char *argv[])
-FONT	/home/stel/code/ogllx/src/engine.cpp	/^#define FONT /;"	macro	line:13	file:
-FONT_SIZE	/home/stel/code/ogllx/src/engine.cpp	/^#define FONT_SIZE /;"	macro	line:14	file:
-game_engine	/home/stel/code/ogllx/src/engine.cpp	/^game_engine::game_engine(int w, int h, loader* p_loader)$/;"	function	line:16	class:game_engine	signature:(int w, int h, loader* p_loader)
-add_sprite	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::add_sprite(game_sprite* spr, int x, int y, int layer)$/;"	function	line:27	class:game_engine	signature:(game_sprite* spr, int x, int y, int layer)
-init	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::init() {$/;"	function	line:41	class:game_engine	signature:()
-load_project	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::load_project(string base_dir)$/;"	function	line:50	class:game_engine	signature:(string base_dir)
-make_shader	/home/stel/code/ogllx/src/engine.cpp	/^shader_program game_engine::make_shader(std::vector<string> files) {$/;"	function	line:55	class:game_engine	signature:(std::vector<string> files)
-prepare_for	/home/stel/code/ogllx/src/engine.cpp	/^vbo game_engine::prepare_for(game_map mymap) {$/;"	function	line:71	class:game_engine	signature:(game_map mymap)
-build_sprites	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::build_sprites() {$/;"	function	line:90	class:game_engine	signature:()
-setup	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::setup(int w, int h)$/;"	function	line:106	class:game_engine	signature:(int w, int h)
-setup_linux	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::setup_linux()$/;"	function	line:112	class:game_engine	signature:()
-setup_gui	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::setup_gui(int w, int h)$/;"	function	line:119	class:game_engine	signature:(int w, int h)
-draw_text	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::draw_text(string text)$/;"	function	line:126	class:game_engine	signature:(string text)
-point_in_rect	/home/stel/code/ogllx/src/engine.cpp	/^bool point_in_rect(int x, int y, eng_coord r)$/;"	function	line:131	signature:(int x, int y, eng_coord r)
-eng_object	/home/stel/code/ogllx/src/engine.cpp	/^eng_object::eng_object(string name)$/;"	function	line:143	class:eng_object	signature:(string name)
-click_event	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::click_event(int x, int y)$/;"	function	line:148	class:game_engine	signature:(int x, int y)
-click_event	/home/stel/code/ogllx/src/engine.cpp	/^void eng_object::click_event(int x, int y)$/;"	function	line:173	class:eng_object	signature:(int x, int y)
-eng_object	/home/stel/code/ogllx/src/engine.cpp	/^eng_object::eng_object()$/;"	function	line:178	class:eng_object	signature:()
-texture_viewer	/home/stel/code/ogllx/src/engine.cpp	/^coord_grid game_engine::texture_viewer(eng_texture txt, string name, int x, int y, int z)$/;"	function	line:183	class:game_engine	signature:(eng_texture txt, string name, int x, int y, int z)
-tick	/home/stel/code/ogllx/src/engine.cpp	/^bool game_engine::tick(int val)$/;"	function	line:196	class:game_engine	signature:(int val)
-make_atlas	/home/stel/code/ogllx/src/engine.cpp	/^std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)$/;"	function	line:206	class:game_engine	signature:(std::vector<string> paths)
-blank_texture	/home/stel/code/ogllx/src/engine.cpp	/^eng_texture game_engine::blank_texture(int w, int h)$/;"	function	line:261	class:game_engine	signature:(int w, int h)
+gl3	/home/stel/code/ogllx/.atom-dbg.cson	/^gl3:$/;"	function	line:1
+path	/home/stel/code/ogllx/.atom-dbg.cson	/^	path: "\/home\/stel\/code\/ogllx\/bin\/gl3"$/;"	function	line:2
+cwd	/home/stel/code/ogllx/.atom-dbg.cson	/^	cwd: "\/home\/stel\/code\/ogllx"$/;"	function	line:3

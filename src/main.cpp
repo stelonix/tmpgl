@@ -43,7 +43,7 @@
 #include "helpers/util.h"
 #include "include/imgui/imgui.h"
 #include "loader/loader.h"
-#include "engine/texture_atlas.h"
+#include "engine/atlas/texture_atlas.h"
 
 #define FONT "./Sevastopol-Interface.ttf"
 #define FONT_SIZE 36
@@ -188,7 +188,7 @@ int main(int argc, char *argv[])
 			char buf[200];
 			sprintf(buf, "gl3 %.1f", fps);
 			tick_count = 0;
-			//glx::set_title(buf);
+			glx::set_title(buf);
 		}
 	}
 	glx::clean_x();
