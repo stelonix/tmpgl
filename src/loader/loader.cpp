@@ -1,9 +1,11 @@
 #include <dirent.h>
+#include <memory>
 #include "loader/assets.h"
 #include "engine/engine.h"
 #include "loader/loader.h"
 #include "helpers/helpers.h"
 #include "helpers/util.h"
+using namespace std;
 
 std::string ReplaceString(std::string subject, const std::string& search,
                           const std::string& replace) {

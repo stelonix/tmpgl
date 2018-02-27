@@ -4,25 +4,3 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-FONT	/home/stel/code/ogllx/src/engine.cpp	/^#define FONT /;"	macro	line:13	file:
-FONT_SIZE	/home/stel/code/ogllx/src/engine.cpp	/^#define FONT_SIZE /;"	macro	line:14	file:
-game_engine	/home/stel/code/ogllx/src/engine.cpp	/^game_engine::game_engine(int w, int h, loader* p_loader)$/;"	function	line:16	class:game_engine	signature:(int w, int h, loader* p_loader)
-add_sprite	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::add_sprite(game_sprite* spr, int x, int y, int layer)$/;"	function	line:27	class:game_engine	signature:(game_sprite* spr, int x, int y, int layer)
-init	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::init() {$/;"	function	line:41	class:game_engine	signature:()
-load_project	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::load_project(string base_dir)$/;"	function	line:50	class:game_engine	signature:(string base_dir)
-make_shader	/home/stel/code/ogllx/src/engine.cpp	/^shader_program game_engine::make_shader(std::vector<string> files) {$/;"	function	line:55	class:game_engine	signature:(std::vector<string> files)
-prepare_for	/home/stel/code/ogllx/src/engine.cpp	/^vbo game_engine::prepare_for(game_map mymap) {$/;"	function	line:71	class:game_engine	signature:(game_map mymap)
-build_sprites	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::build_sprites() {$/;"	function	line:90	class:game_engine	signature:()
-setup	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::setup(int w, int h)$/;"	function	line:106	class:game_engine	signature:(int w, int h)
-setup_linux	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::setup_linux()$/;"	function	line:112	class:game_engine	signature:()
-setup_gui	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::setup_gui(int w, int h)$/;"	function	line:119	class:game_engine	signature:(int w, int h)
-draw_text	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::draw_text(string text)$/;"	function	line:126	class:game_engine	signature:(string text)
-point_in_rect	/home/stel/code/ogllx/src/engine.cpp	/^bool point_in_rect(int x, int y, eng_coord r)$/;"	function	line:131	signature:(int x, int y, eng_coord r)
-eng_object	/home/stel/code/ogllx/src/engine.cpp	/^eng_object::eng_object(string name)$/;"	function	line:143	class:eng_object	signature:(string name)
-click_event	/home/stel/code/ogllx/src/engine.cpp	/^void game_engine::click_event(int x, int y)$/;"	function	line:148	class:game_engine	signature:(int x, int y)
-click_event	/home/stel/code/ogllx/src/engine.cpp	/^void eng_object::click_event(int x, int y)$/;"	function	line:173	class:eng_object	signature:(int x, int y)
-eng_object	/home/stel/code/ogllx/src/engine.cpp	/^eng_object::eng_object()$/;"	function	line:178	class:eng_object	signature:()
-texture_viewer	/home/stel/code/ogllx/src/engine.cpp	/^coord_grid game_engine::texture_viewer(eng_texture txt, string name, int x, int y, int z)$/;"	function	line:183	class:game_engine	signature:(eng_texture txt, string name, int x, int y, int z)
-tick	/home/stel/code/ogllx/src/engine.cpp	/^bool game_engine::tick(int val)$/;"	function	line:196	class:game_engine	signature:(int val)
-make_atlas	/home/stel/code/ogllx/src/engine.cpp	/^std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)$/;"	function	line:206	class:game_engine	signature:(std::vector<string> paths)
-blank_texture	/home/stel/code/ogllx/src/engine.cpp	/^eng_texture game_engine::blank_texture(int w, int h)$/;"	function	line:261	class:game_engine	signature:(int w, int h)

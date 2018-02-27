@@ -4,24 +4,13 @@
 #include "helpers/helpers.h"
 #include "helpers/util.h"
 
-extern GLuint png_texture_load(const char* file_name, int* width, int* height,
-								int* real_w=NULL, int* real_h=NULL);
-
-GLuint texture(string filename) {
-	int ww, hh;
-	auto retval = png_texture_load(filename.c_str(),&ww,&hh);
-	return retval;
-}
+// asset_loader::asset_loader(texture_manager* tex_man) {
+// 	this->tex_man = tex_man;
+// }
 
 eng_texture asset_loader::load_as_texture(string filename) {
-	int w, h, rw, rh;
-	auto tx = png_texture_load(filename.c_str(),&w,&h, &rw, &rh);
-	auto retval = eng_texture(tx, w, h, rw, rh);
+	auto retval = tex_man->load_as_texture(filename);
 	loaded_tex[filename] = retval;
-	printf("Texture id: %d\nw: %d (%d)\nh: %d (%d)\n",
-			retval.texture_id,retval.w, retval.internal_w,
-									retval.h, retval.internal_h);
-
 	return retval;
 }
 
@@ -53,4 +42,3 @@ void  asset_loader::require(string filepath)
 {
 	printf("%s\n", util::dirname_s(filepath).c_str());
 }
-

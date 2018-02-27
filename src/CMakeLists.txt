@@ -7,6 +7,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
 PROJECT(${PROJECTNAME})
 
 set(main_SRCS
+		engine/texture_manager.cpp
 		engine/atlas/texture_atlas.cpp
 		engine/atlas/atlas_builder.cpp
 		include/imgui/imgui_draw.cpp

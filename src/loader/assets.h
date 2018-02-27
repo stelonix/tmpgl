@@ -3,12 +3,14 @@
 
 #include <functional>
 #include <map>
+#include <memory>
 #include <tuple>
 #include <vector>
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include "aliases.hpp"
 #include "helpers/string"
+#include "engine/texture_manager.h"
 #include "engine/rt/eng_texture.h"
 #include "engine/datatypes/game_map.h"
 #include "engine/datatypes/game_sprite.h"
@@ -25,14 +27,14 @@ using ase_load_fn =
 	std::function<loaded_asset(string)>;
 
 struct asset_loader {
-	// Folder scraping options
-
 	// Pointer so we can have the same approach
 	struct loaded_asset {
 		void* data;
 		int size;
 		//ase_type type;
 	};
+	shared_ptr<texture_manager> tex_man;
+
 	path_map<loaded_asset> assets;
 	path_map<string> shader_lib;
 	path_map<eng_texture> loaded_tex;
@@ -40,7 +42,7 @@ struct asset_loader {
 	path_map<game_sprite> loaded_sprites;
 	path_map<game_tileset> loaded_tilesets;
 
-
+	//asset_loader();
 
 	eng_texture load_as_texture(string filename);
 

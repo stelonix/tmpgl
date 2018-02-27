@@ -26,7 +26,7 @@ struct atlas_builder {
 	vector<stbrp_rect > ap_to_stb(vector<atlas_piece>& piece_arr, int& _in_id);
 	quad_coords ap_to_qc(atlas_piece piece);
 	vector<atlas_piece> stb_to_ap(vector<stbrp_rect>& rects);
-	map<string, map<string, seq_piece_t>> compile(int max_w, int max_h);
+	path_map<map<string, seq_piece_t>> compile(int max_w, int max_h);
 	vector<stbrp_rect> remove_packed(vector<stbrp_rect> rects);
 };
 #endif

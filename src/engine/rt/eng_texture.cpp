@@ -10,7 +10,7 @@ eng_texture::eng_texture()
 
 }
 
-eng_texture::eng_texture(GLuint texture_id, int w, int h, int rw, int rh)
+eng_texture::eng_texture(GLuint texture_id, int w, int h, int rw, int rh, bool cache)
 {
 	this->w = w;
 	this->h = h;
@@ -19,7 +19,7 @@ eng_texture::eng_texture(GLuint texture_id, int w, int h, int rw, int rh)
 	this->texture_id = texture_id;
 	x_unit = 1.0f/rw;
 	y_unit = 1.0f/rh;
-	build_cache(cfg::ATILE);
+	if (cache) build_cache(cfg::ATILE);
 }
 
 float eng_texture::normalize_u(int u)
@@ -82,6 +82,11 @@ eng_texture eng_texture::blank_texture(int w, int h)
 		glBindTexture(GL_TEXTURE_2D, 0);
 	glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 	glDeleteBuffers(1, &pbo);
+}
+
+void eng_texture::blit(eng_texture dst, int src_x, int src_y, int src_w, int src_h, int dst_x, int dst_y)
+{
+	printf("[blt] src %d, %d -> dst %d, %d [w: %d, h: %d]\n", src_x, src_y, dst_x, dst_y, src_w, src_h);
 }
 
 namespace engine {

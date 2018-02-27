@@ -8,3 +8,7 @@ install_manifest.txt
 Fipps-Regular.otf
 *.ttf
 *.otf
+Doxygen
+.tags
+.tags1
+.gdb_history

@@ -17,6 +17,8 @@ void atlas_builder::add(sprite_frame frame, string act, string src)
 	p.src = src;
 	p.index = frame.index;
 	p.act = act;
+	p.ox = p.x;
+	p.oy = p.y;
 	//input_pieces.push_back(p);
 	printf("src: %s act: %s index: %d\n", src.c_str(), act.c_str(), frame.index);
 	requests[src][act].push_back(p);
@@ -34,6 +36,8 @@ void atlas_builder::add(string img, int u, int v, int w, int h, int tile_id, int
 	p.src = src;
 	p.index = index;
 	p.tile_id = tile_id;
+	p.ox = p.x;
+	p.oy = p.y;
 	//input_pieces.push_back(p);
 	requests[src][to_string(tile_id)][index] = p;
 }
@@ -113,12 +117,11 @@ vector<atlas_piece> atlas_builder::stb_to_ap(vector<stbrp_rect>& rects)
 	return retval;
 }
 
-map<string, map<string, seq_piece_t>> atlas_builder::compile(int max_w, int max_h)
+path_map<map<string, seq_piece_t>> atlas_builder::compile(int max_w, int max_h)
 {
 	stbrp_context context;
 	vector<stbrp_rect> tmp_rects;
 	auto num_nodes = max_w * 2;
-	//auto returns = requests;
 	struct stbrp_node* nodes = new stbrp_node[num_nodes];
 	stbrp_init_target(&context, max_w, max_h, nodes, num_nodes);
 	auto id = 0;
@@ -127,7 +130,6 @@ map<string, map<string, seq_piece_t>> atlas_builder::compile(int max_w, int max_
 			auto rects = ap_to_stb(pcs.second, id);
 			do
 			{
-				//printf("packing...\n");
 				stbrp_pack_rects(&context, rects.data(), rects.size());
 				tmp_rects.insert(tmp_rects.begin(), rects.begin(), rects.end());
 				auto old_sz = rects.size();
@@ -145,7 +147,7 @@ map<string, map<string, seq_piece_t>> atlas_builder::compile(int max_w, int max_
 
 	// sort so we have ids back
 
-	map<string, map<string, seq_piece_t>> retval = requests;
+	path_map<map<string, seq_piece_t>> retval = requests;
 	std::sort(tmp_rects.begin(), tmp_rects.end(),[&](const stbrp_rect & a, const stbrp_rect & b) -> bool
 	{
 		return a.id < b.id;

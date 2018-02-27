@@ -17,6 +17,8 @@ using namespace cfg;
 game_engine::game_engine(int w, int h, loader* p_loader)
 {
 	screen_w = w; screen_h = h;
+	tex_man = shared_ptr<texture_manager>(new texture_manager());
+	p_loader->a_loader.tex_man = tex_man;
 	game_loader = p_loader;
 	setup(w, h);
 	init();
@@ -204,6 +206,38 @@ bool game_engine::tick(int val)
 	return new_frame;
 }
 
+path_map<seq_piece_t> by_image(path_map<map<string, seq_piece_t>> input)
+{
+	path_map<seq_piece_t> retval;
+	for (auto at = input.begin(); at != input.end(); at++)
+		for (auto act = at->second.begin(); act != at->second.end(); act++)
+			for (auto fr = act->second.begin(); fr != act->second.end(); fr++)
+			{
+		 		if (retval.count((*fr).img) == 0)
+				{
+					retval[(*fr).img] = seq_piece_t();
+				}
+				retval[(*fr).img].push_back((*fr));
+			}
+	return retval;
+}
+
+void game_engine::blit_atlas(path_map<seq_piece_t> input)
+{
+	for (auto at = input.begin(); at != input.end(); at++)
+	{
+			printf("[atlas] selecting image %s for blitting", at->first.c_str());
+			auto src = tex_man->get_texture(at->first);
+			//auto dst = eng_texture::blank_texture(1024, 1024);
+
+			for (auto fr_iter = at->second.begin(); fr_iter != at->second.end(); fr_iter++) {
+				auto fr = *fr_iter;
+				src.blit(src, fr.ox, fr.oy, fr.w, fr.h, fr.x, fr.y);
+			}
+	}
+
+}
+
 std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
 {
 	// add all assets
@@ -230,28 +264,33 @@ std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
 	// needed to compose the added assets
 	printf("before pack\n");
 	//return vector<eng_texture>();
-	auto atlas = ab.compile(29, 1024);
+	auto a_def = ab.compile(29, 1024);
+	blit_atlas(by_image(a_def));
+
 	printf("packed\n");
 	/*
 	for (auto at = atlas.begin(); at != atlas.end(); at++)
 	{
-		for (auto pcs = (*at).pieces.begin(); pcs != (*at).pieces.end(); pcs++)
+		auto p_type = game_loader->resolve_type(at->first);
+		if (p_type == "SPR")
 		{
-			auto cur_tile = (*pcs);
-			auto path = cur_tile.src;
-			if ((*pcs).act == "")
+			for (auto act = at->second.begin(); act != at->second.end(); act++)
 			{
-				auto qc = ab.ap_to_qc(cur_tile);
-				// add to templates
-				//cur_tile.
-				//templates.tiles[path][cur_tile.tile_id].push_back(qc);
-				printf("tile packed\n");
-				//game_loader->get_sprite_ptr(path)->states[cur_tile.act]
-				//ab.add(game_loader->get_sprite_ptr(*path));
-			} else
-			{
-				printf("Piece %0d\nx: %d y: %d w: %d h: %d\n", cur_tile.tile_id,
-						cur_tile.x, cur_tile.y, cur_tile.w, cur_tile.h );
+				templates.sprites[at->first][act->first] = act->second;
+				if ((*pcs).act == "")
+				{
+					auto qc = ab.ap_to_qc(cur_tile);
+					// add to templates
+					//cur_tile.
+					//templates.tiles[path][cur_tile.tile_id].push_back(qc);
+					printf("tile packed\n");
+					//game_loader->get_sprite_ptr(path)->states[cur_tile.act]
+					//ab.add(game_loader->get_sprite_ptr(*path));
+				} else
+				{
+					printf("Piece %0d\nx: %d y: %d w: %d h: %d\n", cur_tile.tile_id,
+							cur_tile.x, cur_tile.y, cur_tile.w, cur_tile.h );
+				}
 			}
 		}
 	}*/

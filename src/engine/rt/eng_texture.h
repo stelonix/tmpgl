@@ -23,7 +23,7 @@ struct eng_texture {
 	float x_unit, y_unit;
 	GLuint texture_id;
 
-	eng_texture(GLuint texture_id, int w, int h, int rw, int rh);
+	eng_texture(GLuint texture_id, int w, int h, int rw, int rh, bool cache = true);
 	eng_texture();
 	float normalize_u(int u);
 	float normalize_v(int v);
@@ -31,6 +31,7 @@ struct eng_texture {
 	float normalize_t(int t);
 	void build_cache(int size);
 	void build_cache(std::vector<sprite_frame> frames);
+	void blit(eng_texture dst, int src_x, int src_y, int src_w, int src_h, int dst_x, int dst_y);
 	static eng_texture blank_texture(int w, int h);
 };
 

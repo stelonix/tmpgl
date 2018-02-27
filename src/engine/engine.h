@@ -1,6 +1,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include <memory>
 #include <vector>
 #include <glm/glm.hpp>
 #include "engine/rt/eng_sprite.h"
@@ -12,6 +13,7 @@
 #include "engine/shader.h"
 #include "engine/atlas/atlas_builder.h"
 #include "engine/text/text_engine.h"
+#include "engine/texture_manager.h"
 #include "engine/vbo.h"
 using shader_program = scene::shader_program;
 using namespace std;
@@ -32,6 +34,7 @@ struct game_engine {
 	map<int, eng_texture> textures;
 	map<string, GLint> mapped_textures;
 	loader* game_loader;
+	shared_ptr<texture_manager> tex_man;
 	vbo sprite_vbo;
 
 	string root_dir;
@@ -54,14 +57,16 @@ struct game_engine {
 	void* get_asset(string name);
 	font get_font(string name);
 
+	void blit_atlas(path_map<seq_piece_t> input);
+
 	// Setup
 	void init();
 	void load_project(string base_dir);
 
 	// Resources
 	eng_texture blank_texture(int w, int h);
-	std::vector<eng_texture> make_atlas(std::vector<string> paths);
-	shader_program make_shader(std::vector<string> files);
+	vector<eng_texture> make_atlas(vector<string> paths);
+	shader_program make_shader(vector<string> files);
 	vbo prepare_for(game_map mymap);
 	void setup(int w, int h);
 	void setup_linux();

@@ -7,7 +7,7 @@ using namespace std;
 
 struct atlas_piece : public eng_coord {
 	string act, img, src;
-	int index, tile_id;
+	int index, tile_id, ox, oy;
 };
 
 #endif
