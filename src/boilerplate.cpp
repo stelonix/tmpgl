@@ -23,6 +23,8 @@ typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXC
 extern std::map<int, int> keys;
 extern game_engine* eng;
 namespace glx {
+	bool mouse_pressed = false;
+	int moving_start_x = 0, moving_start_y = 0;
 	Window win;
 	Display *display;
 	GLXContext ctx = 0;
@@ -68,11 +70,27 @@ namespace glx {
 				}
 				case ButtonPress:
 				{
+					mouse_pressed = true;
+					auto old_sel = eng->selected;
+					eng->click_event(event.xbutton.x, event.xbutton.y);
+					if (eng->selected && eng->selected != old_sel) {
+						moving_start_x = eng->selected->x + (event.xbutton.x - eng->selected->x);
+						moving_start_y = eng->selected->y + (event.xbutton.y - eng->selected->y);
+						printf("clicked %d, %d\n", moving_start_x, moving_start_y);
+					}
 					break;
 				}
 				case ButtonRelease:
 				{
-					eng->click_event(event.xbutton.x, event.xbutton.y);
+					mouse_pressed = false;
+					break;
+				}
+				case MotionNotify: {
+					if (mouse_pressed && eng->selected) {
+						eng->selected->x = (event.xmotion.x-eng->selected->x) - moving_start_x;
+						eng->selected->y = (event.xmotion.y-eng->selected->y) - moving_start_y;
+						printf("moving  %d, %d\n", eng->selected->x, eng->selected->y);
+					}
 					break;
 				}
 				case ClientMessage:
@@ -245,7 +263,7 @@ namespace glx {
 		XMapWindow(display, win);
 		XSelectInput(display, win,
 			ExposureMask | KeyPressMask | KeyReleaseMask |
-			ButtonPressMask | ButtonReleaseMask);
+			ButtonPressMask | ButtonReleaseMask | PointerMotionMask);
 		// Get the default screen's GLX extension list
 		const char *glxExts =
 				glXQueryExtensionsString(display, DefaultScreen(display));
@@ -366,4 +384,3 @@ namespace glx {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 }
-

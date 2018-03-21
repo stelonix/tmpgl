@@ -1,5 +1,6 @@
 #include "helpers/string"
 #include "debug.h"
+#include "helpers/util.h"
 #include <cxxabi.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,18 +15,16 @@ void handler(int sig) {
 //std::map<string, string> dbg_notice_map;
 
 
-void real_dbgprint(int counter, const char* msg_type, const char* format, ...) {
-	char buf[16];
-	sprintf(buf, "[%s%03d] ", msg_type, counter);
-
+void real_dbgprint(const char* msg_type, const char* format, ...) {
+	char buf[512];
+	sprintf(buf, "%s", msg_type);
+	auto msg_loc = util::ReplaceString(buf, "std::", "");
+	//printf("%s\n", msg_loc.c_str());
 	va_list ap;
 	va_start(ap, format);
-
-	auto str = string(format);
-	str = string(buf) + str;
-
-	printf(str.c_str(), ap);
+		vsprintf(buf, format, ap);
 	va_end(ap);
+	printf("%s %s\n", buf, msg_loc.c_str());
 }
 
 int getFileAndLine (unw_word_t addr, char *file, size_t flen, int *line) {

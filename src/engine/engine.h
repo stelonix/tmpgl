@@ -29,7 +29,7 @@ struct game_engine {
 		path_map<tile_map> tiles;
 	} templates;
 
-	vector<eng_object> objects;
+	map<string, eng_object> objects;
 	vector<eng_sprite> sprites;
 	map<int, eng_texture> textures;
 	map<string, GLint> mapped_textures;

@@ -1,5 +1,5 @@
 #!/bin/bash
 cd build
 cmake -DCMAKE_BUILD_TYPE=Debug ../src
-make && cd ..
+make -j 8 && cd ..
 bin/gl3

@@ -1,4 +1,5 @@
 #include <string.h>
+#include "debug.h"
 #include "eng_texture.h"
 #include "cfg.h"
 
@@ -10,7 +11,7 @@ eng_texture::eng_texture()
 
 }
 
-eng_texture::eng_texture(GLuint texture_id, int w, int h, int rw, int rh, bool cache)
+eng_texture::eng_texture(GLuint texture_id, int w, int h, int rw, int rh)
 {
 	this->w = w;
 	this->h = h;
@@ -19,7 +20,7 @@ eng_texture::eng_texture(GLuint texture_id, int w, int h, int rw, int rh, bool c
 	this->texture_id = texture_id;
 	x_unit = 1.0f/rw;
 	y_unit = 1.0f/rh;
-	if (cache) build_cache(cfg::ATILE);
+	//if (cache) build_cache(cfg::ATILE);
 }
 
 float eng_texture::normalize_u(int u)
@@ -34,7 +35,7 @@ float eng_texture::normalize_v(int v)
 
 void eng_texture::build_cache(int size)
 {
-	printf("building cache tile\n");
+	dbgprint("building tile vertex cache");
 	normalized_x.clear(); normalized_y.clear();
 	for (int x = 0; x < (w / size * cfg::MAG) + 1; x++)
 	{
@@ -48,7 +49,7 @@ void eng_texture::build_cache(int size)
 
 void eng_texture::build_cache(std::vector<sprite_frame> frames)
 {
-	printf("building cache sprite\n");
+	dbgprint("building sprite vertex cache");
 	normalized_x.clear(); normalized_y.clear();
 	for (auto it = frames.begin(); it != frames.end(); it++)
 	{
@@ -86,7 +87,7 @@ eng_texture eng_texture::blank_texture(int w, int h)
 
 void eng_texture::blit(eng_texture dst, int src_x, int src_y, int src_w, int src_h, int dst_x, int dst_y)
 {
-	printf("[blt] src %d, %d -> dst %d, %d [w: %d, h: %d]\n", src_x, src_y, dst_x, dst_y, src_w, src_h);
+	dbgprint("src %d, %d -> dst %d, %d [w: %d, h: %d]", src_x, src_y, dst_x, dst_y, src_w, src_h);
 }
 
 namespace engine {

@@ -4,3 +4,27 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+RGBA	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^#define RGBA(/;"	macro	line:19	file:
+RGB	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^#define RGB(/;"	macro	line:20	file:
+glXCreateContextAttribsARBProc	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);$/;"	typedef	line:22	file:
+glx	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^namespace glx {$/;"	namespace	line:25	file:
+mouse_pressed	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	bool mouse_pressed = false;$/;"	member	line:26	namespace:glx	file:
+moving_start_x	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	int moving_start_x = 0, moving_start_y = 0;$/;"	member	line:27	namespace:glx	file:
+moving_start_y	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	int moving_start_x = 0, moving_start_y = 0;$/;"	member	line:27	namespace:glx	file:
+win	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	Window win;$/;"	member	line:28	namespace:glx	file:
+display	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	Display *display;$/;"	member	line:29	namespace:glx	file:
+ctx	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	GLXContext ctx = 0;$/;"	member	line:30	namespace:glx	file:
+swa	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	XSetWindowAttributes swa;$/;"	member	line:31	namespace:glx	file:
+cmap	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	Colormap cmap;$/;"	member	line:32	namespace:glx	file:
+done	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	bool done = false;$/;"	member	line:33	namespace:glx	file:
+poll	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	void poll () {$/;"	function	line:34	namespace:glx	signature:()
+isExtensionSupported	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	bool isExtensionSupported(const char *extList, const char *extension) {$/;"	function	line:119	namespace:glx	signature:(const char *extList, const char *extension)
+ctxErrorOccurred	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	static bool ctxErrorOccurred = false;$/;"	member	line:149	namespace:glx	file:
+ctxErrorHandler	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	static int ctxErrorHandler(Display *dpy, XErrorEvent *ev) {$/;"	function	line:150	namespace:glx	signature:(Display *dpy, XErrorEvent *ev)
+set_title	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	void set_title(const char* title)$/;"	function	line:155	namespace:glx	signature:(const char* title)
+setup_x	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	void setup_x(int w, int h) {$/;"	function	line:160	namespace:glx	signature:(int w, int h)
+clean_x	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	void clean_x() {$/;"	function	line:354	namespace:glx	signature:()
+swap	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	void swap() {$/;"	function	line:361	namespace:glx	signature:()
+init_glew	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	void init_glew() {$/;"	function	line:365	namespace:glx	signature:()
+clear_buffers	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	void clear_buffers() {$/;"	function	line:374	namespace:glx	signature:()
+init_gl	/mnt/data/home_centos/stel/code/ogllx/src/boilerplate.cpp	/^	void init_gl(int w, int h) {$/;"	function	line:379	namespace:glx	signature:(int w, int h)

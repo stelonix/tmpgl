@@ -23,7 +23,7 @@ struct eng_texture {
 	float x_unit, y_unit;
 	GLuint texture_id;
 
-	eng_texture(GLuint texture_id, int w, int h, int rw, int rh, bool cache = true);
+	eng_texture(GLuint texture_id, int w, int h, int rw, int rh);
 	eng_texture();
 	float normalize_u(int u);
 	float normalize_v(int v);

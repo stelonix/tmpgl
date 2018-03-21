@@ -35,4 +35,14 @@ namespace util {
 		if (ending.size() > value.size()) return false;
 		return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
 	}
+
+	string ReplaceString(string subject, const string& search,
+	                          const string& replace) {
+	    size_t pos = 0;
+	    while ((pos = subject.find(search, pos)) != string::npos) {
+	         subject.replace(pos, search.length(), replace);
+	         break;
+	    }
+	    return subject;
+	}
 }

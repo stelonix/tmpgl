@@ -85,8 +85,8 @@ int main(int argc, char *argv[])
 	eng = new game_engine(HORZ_RES, VERT_RES, &p_loader);
 	p_loader.load_project("./sample_project/dirs.json");
 	auto mymap = p_loader.get_map("maps/map.json");
-	auto t = p_loader.get_texture("tiles/img/indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
-
+	auto t = p_loader.get_texture_ptr("tiles/img/indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
+	t->build_cache(cfg::ATILE);
 	auto VP = eng->projection * eng->view;
 	auto sp = eng->make_shader({"basic.vertex", "frag.glsl"});
 		sp.use_shaders();
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 			.add_pointer("tex_coord", 2, GL_FLOAT)
 	.attach(texture_viewer);
 
-	eng->objects[0].click_function = [](eng_object* t, int x, int y)
+	eng->objects["texview1"].click_function = [](eng_object* t, int x, int y)
 	{
 		eng->selected = t;
 		//printf("%s\n", t->name.c_str());
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 	texture_atlas atlas;
 
 	eng->make_atlas({"sprites/sprite.json"});
-	printf("ffff\n");
+	//dbgprint("asdf %d", 1);
 	//glx::done = true;
 	auto tmps = p_loader.get_sprite_ptr("sprite.json");
 	//atlas.add(tmps->states["walking"][0]);
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 	auto mat_move = glm::vec3(300,200,0);
 	long frames = 0;
 	auto s = p_loader.get_texture_ptr("sprites/img/sprite_sheet___aege_by_destructionseries-d5dg2g2.png");
-	//s->build_cache(p_loader.get_sprite_ptr("sprite.json")->states["walking"]);
+	s->build_cache(p_loader.get_sprite_ptr("sprite.json")->states["walking"]);
 	//eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 1, 0, 9);
 	//eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 10, 20, 9);
 	while (1)
@@ -148,7 +148,7 @@ int main(int argc, char *argv[])
 		// draw tiles
 		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, t.texture_id);
+		glBindTexture(GL_TEXTURE_2D, t->texture_id);
 		sp.use_shaders();
 		{
 			sp.uniform("projection", VP);
@@ -157,6 +157,7 @@ int main(int argc, char *argv[])
 		sp.draw(tile_buffer);
 		glBindTexture(GL_TEXTURE_2D, s->texture_id);
 		sp.draw(eng->sprite_vbo);
+		mat_move = glm::vec3(eng->objects["texview1"].x, eng->objects["texview1"].y,0);
 		glBindTexture(GL_TEXTURE_2D, txt.texture_id);
 			sp.uniform("model", glm::mat4());
 			sp.uniform("v_trans", mat_move);

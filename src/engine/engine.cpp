@@ -2,6 +2,7 @@
 #include "loader/assets.h"
 #include "boilerplate.h"
 #include "data_transform.h"
+#include "debug.h"
 #include "engine/engine.h"
 #include "engine/atlas/atlas_builder.h"
 #include "helpers/generators.h"
@@ -152,11 +153,11 @@ void game_engine::click_event(int x, int y)
 {
 	if (objects.size() == 0) return;
 	std::vector<eng_object*> possible;
-	for (auto i = 0; i < objects.size(); i++)
+	for (auto it = objects.begin(); it != objects.end(); it++)
 	{
-		auto cur_obj = objects[i];
+		auto cur_obj = it->second;
 		if (point_in_rect(x,y, {cur_obj.x,cur_obj.y,cur_obj.w,cur_obj.h}))
-			possible.push_back(&(objects[i]));
+			possible.push_back(&(objects[it->first]));
 		//printf("object %d: %s\n", i, objects[i].name.c_str());
 	}
 	//printf("possibles %d\n", possible.size());
@@ -165,7 +166,7 @@ void game_engine::click_event(int x, int y)
 		selected = NULL;
 		return;
 	}
-	eng_object* o = &(objects[0]);
+	eng_object* o = &(objects.begin()->second);
 	for (auto i = 1; i < possible.size(); i++)
 	{
 		if (o->z < possible[i]->z) o = possible[i];
@@ -191,7 +192,7 @@ coord_grid game_engine::texture_viewer(eng_texture txt, string name, int x, int 
 	o.w = txt.w;
 	o.h = txt.h;
 	o.z = z/100.0f;
-	objects.push_back(o);
+	objects[name] = o;
 	//printf("object size %d\n", objects.size());
 	return gen::texview(txt,9);
 }
@@ -226,7 +227,7 @@ void game_engine::blit_atlas(path_map<seq_piece_t> input)
 {
 	for (auto at = input.begin(); at != input.end(); at++)
 	{
-			printf("[atlas] selecting image %s for blitting", at->first.c_str());
+			dbgprint("selecting image %s for blitting", at->first.c_str());
 			auto src = tex_man->get_texture(at->first);
 			//auto dst = eng_texture::blank_texture(1024, 1024);
 
@@ -244,16 +245,16 @@ std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
 	atlas_builder ab;
 	for (auto path = paths.begin(); path != paths.end(); path++)
 	{
-		printf("%s\n", (*path).c_str());
+		dbgprint("%s", (*path).c_str());
 		auto p_type = game_loader->resolve_type(*path);
 
 		if (p_type == "SPR")
 		{
-			printf("adding sprite %s\n", (*path).c_str());
+			dbgprint("adding sprite %s", (*path).c_str());
 			ab.add(game_loader->get_sprite_ptr(*path));
 		} else if (p_type == "TIL")
 		{
-			printf("adding tile   %s\n", (*path).c_str());
+			dbgprint("adding tile   %s", (*path).c_str());
 			ab.add(game_loader->get_tileset_ptr(*path));
 		} else {
 			// error
@@ -262,12 +263,12 @@ std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
 
 	// pack in N atlasses where N is the minimum possible number of rectangles
 	// needed to compose the added assets
-	printf("before pack\n");
+	dbgprint("before pack");
 	//return vector<eng_texture>();
 	auto a_def = ab.compile(29, 1024);
 	blit_atlas(by_image(a_def));
 
-	printf("packed\n");
+	dbgprint("packed");
 	/*
 	for (auto at = atlas.begin(); at != atlas.end(); at++)
 	{
@@ -294,7 +295,7 @@ std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
 			}
 		}
 	}*/
-	printf("done\n");
+	dbgprint("done","done");
 	return vector<eng_texture>();
 }
 

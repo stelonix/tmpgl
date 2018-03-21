@@ -7,16 +7,6 @@
 #include "helpers/util.h"
 using namespace std;
 
-std::string ReplaceString(std::string subject, const std::string& search,
-                          const std::string& replace) {
-    size_t pos = 0;
-    while ((pos = subject.find(search, pos)) != std::string::npos) {
-         subject.replace(pos, search.length(), replace);
-         break;
-    }
-    return subject;
-}
-
 void loader::add_file(string file, string loader_type, bool lazy = false) {
 	project_files[file] = { loader_type, lazy };
 }
@@ -25,7 +15,7 @@ string loader::find_dir(string dir) {
 	dir = trim(dir, "/");
 
 	while (dir_opts.find(dir) == dir_opts.end()) {
-		dir = trim(ReplaceString(dir, util::basename_s(dir), ""), "/");
+		dir = trim(util::ReplaceString(dir, util::basename_s(dir), ""), "/");
 	}
 	return dir;
 }
@@ -62,7 +52,7 @@ void loader::enum_files(string cur_dir)
 	struct dirent *dp;
 	std::vector<string> dirs_to_enter;
 
-	auto replaced = ReplaceString(cur_dir, project_path, "");
+	auto replaced = util::ReplaceString(cur_dir, project_path, "");
 
 	auto dir = opendir(cur_dir.c_str());
 	while ((dp = readdir(dir)) != NULL)
