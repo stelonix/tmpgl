@@ -1,4 +1,5 @@
 #include "aliases.hpp"
+#include "debug.h"
 #include "loader/assets.h"
 #include "helpers/generators.h"
 #include "engine/datatypes/game_map.h"
@@ -143,7 +144,7 @@ coord_grid gen::texview(eng_texture tex, int l)
 {
 	auto internal_w = (float)tex.internal_w;
 	auto internal_h = (float)tex.internal_h;
-	printf("Texture view for texture %d (%f, %f)\n", tex.texture_id, internal_w, internal_h);
+	dbgprint("Texture view for texture %d (%f, %f)\n", tex.texture_id, internal_w, internal_h);
 	auto z = l/100.0f;
 	coord_grid retval;
 	auto verts = std::vector<float>(

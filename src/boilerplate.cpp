@@ -73,10 +73,10 @@ namespace glx {
 					mouse_pressed = true;
 					auto old_sel = eng->selected;
 					eng->click_event(event.xbutton.x, event.xbutton.y);
-					if (eng->selected && eng->selected != old_sel) {
-						moving_start_x = eng->selected->x + (event.xbutton.x - eng->selected->x);
-						moving_start_y = eng->selected->y + (event.xbutton.y - eng->selected->y);
-						printf("clicked %d, %d\n", moving_start_x, moving_start_y);
+					if (eng->selected) {
+						moving_start_x = event.xbutton.x - eng->selected->x;
+						moving_start_y = event.xbutton.y - eng->selected->y;
+						//printf("clicked %d, %d\n", moving_start_x, moving_start_y);
 					}
 					break;
 				}
@@ -87,9 +87,9 @@ namespace glx {
 				}
 				case MotionNotify: {
 					if (mouse_pressed && eng->selected) {
-						eng->selected->x = (event.xmotion.x-eng->selected->x) - moving_start_x;
-						eng->selected->y = (event.xmotion.y-eng->selected->y) - moving_start_y;
-						printf("moving  %d, %d\n", eng->selected->x, eng->selected->y);
+						eng->selected->x = event.xmotion.x - moving_start_x;
+						eng->selected->y = event.xmotion.y - moving_start_y;
+						//printf("moving  %d, %d\n", eng->selected->x, eng->selected->y);
 					}
 					break;
 				}

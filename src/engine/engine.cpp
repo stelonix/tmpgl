@@ -295,7 +295,7 @@ std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
 			}
 		}
 	}*/
-	dbgprint("done","done");
+	//dbgprint("done","done");
 	return vector<eng_texture>();
 }
 
