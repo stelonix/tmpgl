@@ -86,6 +86,7 @@ void loader::add_dir(string dir, json data)
 		cur_opt.exts.push_back(*it);
 	}
 	cur_opt.loader_type = data["type"];
+	if (data.count("lazy") > 0) cur_opt.lazy = data["lazy"];
 	dir_opts[dir] = cur_opt;
 }
 

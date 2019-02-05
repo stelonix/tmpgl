@@ -16,8 +16,8 @@ coord_grid gen::sprite_vertex(std::vector<eng_sprite> sprs, int l)
 	const int PER_VERTEX = 3;
 	const int NUM_VERTEX = 6;
 	const int NUM_ELEMENTS = NUM_VERTEX*PER_VERTEX;
-	coord_grid retval; retval.resize(sprs.size()*NUM_ELEMENTS);
-	auto z = l/100.0f;
+	coord_grid retval; retval.resize(sprs.size() * NUM_ELEMENTS);
+	auto z = l / 100.0f;
 	int i = 0;
 	printf("fdfdsf\n");
 	for (auto it = sprs.begin(); it != sprs.end(); it ++)
@@ -30,12 +30,12 @@ coord_grid gen::sprite_vertex(std::vector<eng_sprite> sprs, int l)
 		#pragma GCC diagnostic ignored "-Wnarrowing"
 		float vertices[] =
 		{
-			spr.x,			spr.y,			z+i/100.0f,
-			spr.x + fr.w,	spr.y,			z+i/100.0f,
-			spr.x + fr.w,	spr.y + fr.h,	z+i/100.0f,
-			spr.x,			spr.y,			z+i/100.0f,
-			spr.x,			spr.y + fr.h,	z+i/100.0f,
-			spr.x + fr.w,	spr.y + fr.h,	z+i/100.0f,
+			spr.x,			spr.y,			z + i / 100.0f,
+			spr.x + fr.w,	spr.y,			z + i / 100.0f,
+			spr.x + fr.w,	spr.y + fr.h,	z + i / 100.0f,
+			spr.x,			spr.y,			z + i / 100.0f,
+			spr.x,			spr.y + fr.h,	z + i / 100.0f,
+			spr.x + fr.w,	spr.y + fr.h,	z + i / 100.0f,
 		};
 		#pragma GCC diagnostic pop
 		for (int i = 0; i < sizeof(vertices)/sizeof(float); i++) vertices[i] *= cfg::MAG;
@@ -82,23 +82,23 @@ coord_grid gen::vertex_grid(int w, int h, int l)
 {
 	const int PER_VERTEX = 3;
 	const int NUM_VERTEX = 6;
-	const int NUM_ELEMENTS = NUM_VERTEX*PER_VERTEX;
-	coord_grid retval; retval.resize(w*h*NUM_ELEMENTS);
-	auto z = l/100.0f;
+	const int NUM_ELEMENTS = NUM_VERTEX * PER_VERTEX;
+	coord_grid retval; retval.resize(w * h * NUM_ELEMENTS);
+	auto z = l / 100.0f;
 	for (int x = 0; x < w; x++)
 	{
 		for (int y = 0; y < h; y++)
 		{
 			float vertices[] =
 			{
-				x*TILE_SIZE,		y*TILE_SIZE,		z,
-				(x+1)*TILE_SIZE,	y*TILE_SIZE,		z,
-				(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,	z,
-				x*TILE_SIZE,		y*TILE_SIZE,		z,
-				x*TILE_SIZE,		(y+1)*TILE_SIZE,	z,
-				(x+1)*TILE_SIZE,	(y+1)*TILE_SIZE,	z,
+				x * TILE_SIZE,			y * TILE_SIZE,			z,
+				(x + 1) * TILE_SIZE,	y * TILE_SIZE,			z,
+				(x + 1) * TILE_SIZE,	(y + 1) * TILE_SIZE,	z,
+				x * TILE_SIZE,			y * TILE_SIZE,			z,
+				x * TILE_SIZE,			(y + 1) * TILE_SIZE,	z,
+				(x + 1) * TILE_SIZE,	(y + 1) * TILE_SIZE,	z,
 			};
-			memcpy(retval.data()+(y*w+x)*NUM_ELEMENTS,
+			memcpy(retval.data() + (y * w + x) * NUM_ELEMENTS,
 					vertices, sizeof(vertices));
 		}
 	}
@@ -128,11 +128,11 @@ coord_grid gen::texture_map(game_tilemap tiles, loader* p_loader)
 		auto values = std::array<float, 12>(
 		{
 			tex.normalized_x[frame.u],		tex.normalized_y[frame.v],
-			tex.normalized_x[frame.u+1],	tex.normalized_y[frame.v],
-			tex.normalized_x[frame.u+1],	tex.normalized_y[frame.v+1],
+			tex.normalized_x[frame.u + 1],	tex.normalized_y[frame.v],
+			tex.normalized_x[frame.u + 1],	tex.normalized_y[frame.v + 1],
 			tex.normalized_x[frame.u],		tex.normalized_y[frame.v],
-			tex.normalized_x[frame.u],		tex.normalized_y[frame.v+1],
-			tex.normalized_x[frame.u+1],	tex.normalized_y[frame.v+1],
+			tex.normalized_x[frame.u],		tex.normalized_y[frame.v + 	1],
+			tex.normalized_x[frame.u + 1],	tex.normalized_y[frame.v + 1],
 		});
 		retval.insert(retval.end(), values.begin(), values.end());
 		i++;

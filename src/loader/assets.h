@@ -6,7 +6,7 @@
 #include <memory>
 #include <tuple>
 #include <vector>
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <GL/gl.h>
 #include "aliases.hpp"
 #include "helpers/string"

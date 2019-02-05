@@ -60,7 +60,7 @@ struct game_engine {
 	void blit_atlas(path_map<seq_piece_t> input);
 
 	// Setup
-	void init();
+	void init_matrixes();
 	void load_project(string base_dir);
 
 	// Resources

@@ -1,4 +1,9 @@
 #include <glm/gtc/matrix_transform.hpp>
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+#include <GL/gl3w.h>
+#include <GLFW/glfw3.h>
 #include "loader/assets.h"
 #include "boilerplate.h"
 #include "data_transform.h"
@@ -11,18 +16,22 @@
 #include "helpers/util.h"
 #include "cfg.h"
 using namespace cfg;
-
+GLFWwindow* window;
 #define FONT "./Sevastopol-Interface.ttf"
 #define FONT_SIZE 36
-
+static void glfw_error_callback(int error, const char* description)
+{
+    fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+}
 game_engine::game_engine(int w, int h, loader* p_loader)
 {
+	setup_linux();
 	screen_w = w; screen_h = h;
 	tex_man = shared_ptr<texture_manager>(new texture_manager());
 	p_loader->a_loader.tex_man = tex_man;
 	game_loader = p_loader;
-	setup(w, h);
-	init();
+	setup_gui(w, h);
+	init_matrixes();
 	selected = NULL;
 	te.init();
 	te.load_font(FONT, FONT_SIZE);
@@ -42,7 +51,7 @@ void game_engine::add_sprite(game_sprite* spr, int x, int y, int layer)
 	build_sprites();
 }
 
-void game_engine::init() {
+void game_engine::init_matrixes() {
 	projection = glm::ortho( 0.f, float(screen_w), float(screen_h), 0.0f, 0.0f, 100.f );
 	view = glm::lookAt(
 		glm::vec3(0,0,1), // Camera is at (0,0,5), in World Space
@@ -60,7 +69,7 @@ shader_program game_engine::make_shader(std::vector<string> files) {
 	auto sp = shader_program();
 	for (int i = 0; i < files.size(); i++)
 	{
-		GLenum shader_type = util::endswith(files[i], ".vertex") ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER;
+		GLenum shader_type = util::endswith(files[i], ".vert") ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER;
 		sp.add_shader(game_loader->get_shader(files[i]).c_str(), files[i].c_str(), shader_type);
 	}
 	sp.link_shaders();
@@ -109,7 +118,7 @@ void game_engine::build_sprites() {
 
 void game_engine::setup(int w, int h)
 {
-	setup_linux();
+	//setup_linux();
 	setup_gui(w ,h);
 }
 
@@ -122,9 +131,21 @@ void game_engine::setup_linux()
 
 void game_engine::setup_gui(int w, int h)
 {
-	glx::setup_x(w, h);
+	/*glx::setup_x(w, h);
 	glx::init_glew();
-	glx::init_gl(w, h);
+	glx::init_gl(w, h);*/
+	glfwSetErrorCallback(glfw_error_callback);
+    if (!glfwInit())
+        return;
+	const char* glsl_version = "#version 130";
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	window = glfwCreateWindow(800, 600, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
+	if (window == NULL)
+		return;
+	glfwMakeContextCurrent(window);
+	glfwSwapInterval(1); // Enable vsync
+	bool err = gl3wInit() != 0;
 }
 
 void game_engine::draw_text(string text)
@@ -225,11 +246,12 @@ path_map<seq_piece_t> by_image(path_map<map<string, seq_piece_t>> input)
 
 void game_engine::blit_atlas(path_map<seq_piece_t> input)
 {
+	//auto dst = blank_texture(29, 2048);
 	for (auto at = input.begin(); at != input.end(); at++)
 	{
 			dbgprint("selecting image %s for blitting", at->first.c_str());
 			auto src = tex_man->get_texture(at->first);
-			//auto dst = eng_texture::blank_texture(1024, 1024);
+
 
 			for (auto fr_iter = at->second.begin(); fr_iter != at->second.end(); fr_iter++) {
 				auto fr = *fr_iter;

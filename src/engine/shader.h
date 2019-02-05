@@ -6,7 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <GL/gl.h>
 
 template <typename T>
@@ -20,7 +20,7 @@ namespace scene {
 	int get_attrib_loc(const char* attrib, int program);
 	int get_uniform_loc(const char* attrib, int program);
 	string get_shader_log(unsigned int shaderID);
-	
+
 	struct shader_program {
 		std::vector<GLuint> attached;
 		GLuint program_id;
@@ -40,7 +40,7 @@ namespace scene {
 		void uniform(string uni, std::vector<glm::mat4> values, GLenum transpose = GL_FALSE);
 		void uniform(string uni, glm::mat4 value, GLenum transpose = GL_FALSE);
 
-		
+
 	};
 
 }

@@ -16,7 +16,7 @@
 	},
 	"shaders":
 	{
-		"exts": [".glsl", ".vertex", ".frag"],
+		"exts": [".glsl", ".vert", ".frag"],
 		"type": "SHD"
 	},
 	"sprites":

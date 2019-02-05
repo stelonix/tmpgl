@@ -1,7 +1,7 @@
 #ifndef VBO_H
 #define VBO_H
 #include "helpers/string"
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <GL/gl.h>
 #include <vector>
 
@@ -29,7 +29,7 @@ struct vbo {
 	GLenum usage;
 	unsigned int vao_id;
 	unsigned int vbo_id;
-	
+
 	// Constructors
 	vbo (std::vector<float> data);
 	vbo ();
@@ -40,7 +40,7 @@ struct vbo {
 	void draw();
 	void init(GLenum usage = GL_STATIC_DRAW);
 	void setup_vao();
-	
+
 	// VAO handling
 	vao_pointer add_pointer(string attrib, size_t num_elems, GLenum type);
 };

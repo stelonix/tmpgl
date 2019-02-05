@@ -5,13 +5,20 @@ SET(CMAKE_C_COMPILER /usr/bin/gcc)
 SET(CMAKE_CXX_COMPILER /usr/bin/g++)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
 PROJECT(${PROJECTNAME})
-
+cmake_policy(SET CMP0072 NEW)
 set(main_SRCS
+		include/gl3w.c
+		include/imgui/imgui.cpp
+		include/imgui/imgui_draw.cpp
+		include/imgui/imgui_widgets.cpp
+		include/imgui/imgui_impl_glfw.cpp
+		include/imgui/imgui_impl_opengl3.cpp
+		include/imgui/imgui_demo.cpp
 		engine/texture_manager.cpp
 		engine/atlas/texture_atlas.cpp
 		engine/atlas/atlas_builder.cpp
-		include/imgui/imgui_draw.cpp
-		include/imgui/imgui.cpp
+		#include/imgui/imgui_draw.cpp
+		#include/imgui/imgui.cpp
 		loader/loader.cpp
 		engine/rt/eng_sprite.cpp
 		data_transform.cpp
@@ -31,7 +38,7 @@ set(main_SRCS
 		engine/datatypes/game_tileset.cpp
 		helpers/helpers.cpp
 		engine/shader.cpp
-		boilerplate.cpp
+		#boilerplate.cpp
 		main.cpp
 		debug.cpp
 
@@ -48,6 +55,8 @@ find_package(OpenGL REQUIRED)
 if(NOT OPENGL_FOUND)
     message(ERROR " OPENGL not found!")
 endif(NOT OPENGL_FOUND)
+find_package(GLFW3 REQUIRED)
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 find_package(Libunwind REQUIRED)
@@ -55,7 +64,9 @@ if ( LIBUNWIND_FOUND )
 	include_directories( ${LIBUNWIND_INCLUDE_DIRS} )
 endif(LIBUNWIND_FOUND)
 
-find_package(GLEW REQUIRED)
+include_directories( "${CMAKE_SOURCE_DIR}/include/" )
+
+#	find_package(GLEW REQUIRED)
 find_package(X11 REQUIRED)
 # Freetype
 find_package(Freetype REQUIRED)
@@ -71,16 +82,17 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../bin)
 SET(LIBRARIES ${LIBRARIES} ${FREETYPE_LIBRARIES}
 	${CAIRO_LIBRARIES}
 	${HARFBUZZ_LIBRARIES}
-	${OPENGL_LIBRARIES} ${GLEW_LIBRARY}
+	${GLFW3_LIBRARY}
+	${OPENGL_LIBRARIES}
 	${PNG_LIBRARIES}
 	${UNWIND_SHARED_LIB}
-	${X11_LIBRARIES}
+	${X11_LIBRARIES} ${CMAKE_DL_LIBS}
 	)
 
 INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR} )
 include_directories(${CMAKE_SOURCE_DIR})
 ADD_EXECUTABLE(${PROJECTNAME} ${main_SRCS})
 
-set(CMAKE_CXX_FLAGS "-std=c++11 -g -pthread")
+set(CMAKE_CXX_FLAGS "-std=c++14 -g -pthread")
 
 TARGET_LINK_LIBRARIES(${PROJECTNAME} ${LIBRARIES})

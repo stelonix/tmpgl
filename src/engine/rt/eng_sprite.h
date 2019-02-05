@@ -1,7 +1,7 @@
 #ifndef ENG_SPRITE_H
 #define ENG_SPRITE_H
 
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <GL/gl.h>
 #include "eng_texture.h"
 #include "eng_types.h"
