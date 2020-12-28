@@ -1,7 +1,7 @@
 #include <tuple>
 #include "loader/assets.h"
 #include "game_map.h"
-#include "include/json.hpp"
+#include <nlohmann/json.hpp>
 #include "helpers/generators.h"
 
 using json = nlohmann::json;

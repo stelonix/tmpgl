@@ -19,7 +19,7 @@
 #include <unistd.h>
 #include <X11/keysym.h>
 #include <X11/Xlib.h>
-#include "include/json.hpp"
+#include <nlohmann/json.hpp>
 #include "include/alphanum.hpp"
 #include "include/prettyprint.hpp"
 #include "loader/assets.h"

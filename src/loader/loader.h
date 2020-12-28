@@ -1,7 +1,7 @@
 #ifndef LOADER_H
 #define LOADER_H
 
-#include "include/json.hpp"
+#include <nlohmann/json.hpp>
 #include "aliases.hpp"
 #include "assets.h"
 #include "helpers/string"

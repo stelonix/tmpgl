@@ -1,4 +1,4 @@
-#include "include/json.hpp"
+#include <nlohmann/json.hpp>
 #include "game_sprite.h"
 
 using json = nlohmann::json;

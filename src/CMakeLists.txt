@@ -66,7 +66,7 @@ endif(LIBUNWIND_FOUND)
 
 include_directories( "${CMAKE_SOURCE_DIR}/include/" )
 
-#	find_package(GLEW REQUIRED)
+find_package(nlohmann_json REQUIRED)
 find_package(X11 REQUIRED)
 # Freetype
 find_package(Freetype REQUIRED)
