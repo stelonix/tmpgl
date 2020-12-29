@@ -37,11 +37,20 @@
 #   Modified to work with g++ 4.3 by Anders Elton
 #   Also added _member functions, that instead of printing the entire class in map, prints a member.
 
-
-
+set auto-load safe-path .
+skip -gfi /usr/include/c++/10.2.0/*
+skip -gfi /build/gcc/src/*
+skip -rfu ^std::
 #
 # std::vector<>
 #
+python
+import sys
+sys.path.insert(0, '/usr/share/gcc-10.2.0/python/')
+sys.path.insert(0, '/usr/share/gcc-10.2.0/python/libstdcxx/v6')
+from libstdcxx.v6.printers import register_libstdcxx_printers
+register_libstdcxx_printers (None)
+end
 
 define pvector
 	if $argc == 0
