@@ -12,3 +12,5 @@ Doxygen
 .tags
 .tags1
 .gdb_history
+.cache
+imgui.ini

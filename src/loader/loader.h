@@ -8,7 +8,7 @@
 #include <map>
 #include <vector>
 using json = nlohmann::json;
-struct fld_opts {
+struct folder_option {
 	std::vector<string> exts;
 	bool lazy;
 	string loader_type;
@@ -16,18 +16,19 @@ struct fld_opts {
 struct project_asset {
 	string type;
 	bool lazy;
+	project_asset* ref_by;
 };
 struct loader {
 	asset_loader a_loader;
 	string project_path;
-	std::map<string, fld_opts> dir_opts;
+	std::map<string, folder_option> dir_opts;
 	std::map<string, project_asset> project_files;
 	std::map<string, string> default_dirs;
 	std::map<string, string> dir_types;
 
 	void add_file(string file, string loader_type, bool lazy);
 	string find_dir(string dir);
-	fld_opts get_dir_opts(string dir);
+	folder_option get_dir_opts(string dir);
 	void enum_files(string cur_dir);
 
 	game_sprite get_sprite(string name);

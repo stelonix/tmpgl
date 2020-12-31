@@ -59,7 +59,13 @@ shader_program* current_program;
 std::map<int, int> keys;
 
 glm::mat4 pan;
-float panx, pany;
+float panx = 0, pany = 0;
+
+void clear_buffers() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(1.0, 0.3, 0.3, 0.0f);
+}
+
 
 void pan_view(float x, float y)
 {
@@ -81,6 +87,23 @@ timespec diff(timespec start, timespec end)
 	}
 	return temp;
 }
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	printf("const char *__restrict __format, ...");
+    if (action == GLFW_PRESS || action == GLFW_REPEAT)
+        keys[key] = true;
+	else
+		keys[key] = false;
+}
+
+void deal_input() {
+	if (keys[GLFW_KEY_UP])	pany += float(MAG);
+	if (keys[GLFW_KEY_DOWN])	pany -= float(MAG);
+	if (keys[GLFW_KEY_LEFT])	panx += float(MAG);
+	if (keys[GLFW_KEY_RIGHT])	panx -= float(MAG);
+	if (keys[GLFW_KEY_ESCAPE]) glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+
 int tick_count = 0;
 int main(int argc, char *argv[])
 {
@@ -89,7 +112,7 @@ int main(int argc, char *argv[])
 	eng = new game_engine(HORZ_RES, VERT_RES, &p_loader);
 
 	p_loader.load_project("./sample_project/dirs.json");
-
+	
 	auto mymap = p_loader.get_map("maps/map.json");
 	auto t = p_loader.get_texture_ptr("tiles/img/indoor_free_tileset__by_thegreatblaid-d5x95zt.png");
 
@@ -135,15 +158,19 @@ int main(int argc, char *argv[])
 	s->build_cache(p_loader.get_sprite_ptr("sprite.json")->states["walking"]);
 	//eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 1, 0, 9);
 	//eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 10, 20, 9);
+	glfwMakeContextCurrent(window);
+	glfwSetKeyCallback(window, key_callback);
 	IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
+
 	while (!glfwWindowShouldClose(window))
 	{
 		struct timespec start, end;
+		
 		glfwPollEvents();
 		ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -156,7 +183,7 @@ int main(int argc, char *argv[])
             static float f = 0.0f;
             static int counter = 0;
 
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+            ImGui::Begin("Hello é, world!");                          // Create a window called "Hello, world!" and append into it.
 
             ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
             ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
@@ -183,20 +210,12 @@ int main(int argc, char *argv[])
                 show_another_window = false;
             ImGui::End();
         }
-		/*if (glx::done) {
-			glx::clean_x();
-			return 0;
-		}*/
 		clock_gettime(CLOCK_MONOTONIC, &start);
 
-		if (keys[XK_Up])	pany += float(MAG);
-		if (keys[XK_Down])	pany -= float(MAG);
-		if (keys[XK_Left])	panx += float(MAG);
-		if (keys[XK_Right])	panx -= float(MAG);
-		if (keys[XK_Escape]) break;
-
+		
+		deal_input();
 		pan_view(panx,pany);
-		//glx::clear_buffers();
+		::clear_buffers();
 		// draw tiles
 		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 		glActiveTexture(GL_TEXTURE0);
@@ -210,10 +229,10 @@ int main(int argc, char *argv[])
 		glBindTexture(GL_TEXTURE_2D, s->texture_id);
 		sp.draw(eng->sprite_vbo);
 		mat_move = glm::vec3(eng->objects["texview1"].x, eng->objects["texview1"].y,0);
-		glBindTexture(GL_TEXTURE_2D, txt.texture_id);
+		/*glBindTexture(GL_TEXTURE_2D, txt.texture_id);
 			sp.uniform("model", glm::mat4());
 			sp.uniform("v_trans", mat_move);
-		sp.draw(texture_viewer);
+		sp.draw(texture_viewer);*/
 
 		if (eng->selected != NULL)
 		{
@@ -227,7 +246,7 @@ int main(int argc, char *argv[])
 		sp.use_shaders();
 		sp.uniform("v_trans", glm::vec3(0.,0.,0.));
 
-
+		
         // Rendering
         ImGui::Render();
 		glfwMakeContextCurrent(window);

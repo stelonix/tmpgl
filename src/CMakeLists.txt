@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.12)
 
 SET(PROJECTNAME gl3)
 SET(CMAKE_C_COMPILER /usr/bin/gcc)
@@ -6,6 +6,7 @@ SET(CMAKE_CXX_COMPILER /usr/bin/g++)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
 PROJECT(${PROJECTNAME})
 cmake_policy(SET CMP0072 NEW)
+
 set(main_SRCS
 		include/gl3w.c
 		include/imgui/imgui.cpp

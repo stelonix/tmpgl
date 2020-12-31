@@ -20,7 +20,7 @@ string loader::find_dir(string dir) {
 	return dir;
 }
 
-fld_opts loader::get_dir_opts(string dir) {
+folder_option loader::get_dir_opts(string dir) {
 	return dir_opts[dir];
 }
 
@@ -65,7 +65,7 @@ void loader::enum_files(string cur_dir)
 			}
 			else if (cur_dir != project_path)
 			{
-				fld_opts opts = get_dir_opts(find_dir(replaced));
+				folder_option opts = get_dir_opts(find_dir(replaced));
 				add_file(cur_dir + '/' + dp->d_name, opts.loader_type, opts.lazy);
 				printf("[%s] %s/%s\n", opts.loader_type.c_str(), cur_dir.c_str(), dp->d_name);
 			}
@@ -80,7 +80,7 @@ void loader::enum_files(string cur_dir)
 
 void loader::add_dir(string dir, json data)
 {
-	fld_opts cur_opt;
+	folder_option cur_opt;
 	for (auto it = data["exts"].begin(); it != data["exts"].end(); it++)
 	{
 		cur_opt.exts.push_back(*it);
