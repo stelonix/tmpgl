@@ -35,7 +35,7 @@ float eng_texture::normalize_v(int v)
 
 void eng_texture::build_cache(int size)
 {
-	dbgprint("building tile vertex cache");
+	//dbgprint("building tile vertex cache");
 	normalized_x.clear(); normalized_y.clear();
 	for (int x = 0; x < (w / size * cfg::MAG) + 1; x++)
 	{
@@ -49,7 +49,7 @@ void eng_texture::build_cache(int size)
 
 void eng_texture::build_cache(std::vector<sprite_frame> frames)
 {
-	dbgprint("building sprite vertex cache");
+	//dbgprint("building sprite vertex cache");
 	normalized_x.clear(); normalized_y.clear();
 	for (auto it = frames.begin(); it != frames.end(); it++)
 	{
@@ -83,11 +83,12 @@ eng_texture eng_texture::blank_texture(int w, int h)
 		glBindTexture(GL_TEXTURE_2D, 0);
 	glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 	glDeleteBuffers(1, &pbo);
+	return eng_texture();
 }
 
 void eng_texture::blit(eng_texture dst, int src_x, int src_y, int src_w, int src_h, int dst_x, int dst_y)
 {
-	dbgprint("src %d, %d -> dst %d, %d [w: %d, h: %d]", src_x, src_y, dst_x, dst_y, src_w, src_h);
+	//dbgprint("src %d, %d -> dst %d, %d [w: %d, h: %d]", src_x, src_y, dst_x, dst_y, src_w, src_h);
 }
 
 namespace engine {

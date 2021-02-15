@@ -3,15 +3,17 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}/src/**",
+                "/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/**",
+                "/usr/include/c++/10.2.0/**",
                 "/usr/include/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c17",
-            "cppStandard": "c++14",
-            "intelliSenseMode": "gcc-x64",
-            "configurationProvider": "ms-vscode.cmake-tools"
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gdb-x64"
+            //"compileCommands": "${workspaceFolder}/compile_commands.json"
         }
     ],
     "version": 4

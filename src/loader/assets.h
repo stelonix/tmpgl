@@ -6,10 +6,10 @@
 #include <memory>
 #include <tuple>
 #include <vector>
-#include <GL/gl3w.h>
+#include "include/GL/gl3w.h"
 #include <GL/gl.h>
-#include "aliases.hpp"
-#include "helpers/string"
+#include "aliases.h"
+#include "helpers/string_helper"
 #include "engine/texture_manager.h"
 #include "engine/rt/eng_texture.h"
 #include "engine/datatypes/game_map.h"

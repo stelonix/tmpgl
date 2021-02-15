@@ -9,7 +9,7 @@
 #include "engine/datatypes/game_map.h"
 #include "engine/datatypes/game_sprite.h"
 #include "loader/loader.h"
-#include "helpers/string"
+#include "helpers/string_helper"
 #include "engine/shader.h"
 #include "engine/atlas/atlas_builder.h"
 #include "engine/text/text_engine.h"

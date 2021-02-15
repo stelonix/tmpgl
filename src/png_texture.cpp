@@ -1,6 +1,6 @@
 // This one file (png_texture.cpp) is free and unencumbered software
 // released into the public domain.
-#include <GL/gl3w.h>
+#include "include/GL/gl3w.h"
 #include <GL/gl.h>
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
@@ -87,7 +87,7 @@ GLuint png_texture_load(const char *file_name, int *width, int *height,
 		*height = temp_height;
 	}
 
-	 printf("%s: %lux%lu %d\n", file_name, temp_width, temp_height, color_type);
+	//printf("%s: %ux%u %d\n", file_name, temp_width, temp_height, color_type);
 
 	if (bit_depth != 8) {
 		fprintf(stderr, "%s: Unsupported bit depth %d.	Must be 8.\n", file_name,

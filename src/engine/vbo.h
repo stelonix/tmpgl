@@ -1,7 +1,7 @@
 #ifndef VBO_H
 #define VBO_H
-#include "helpers/string"
-#include <GL/gl3w.h>
+#include "helpers/string_helper"
+#include "include/GL/gl3w.h"
 #include <GL/gl.h>
 #include <vector>
 

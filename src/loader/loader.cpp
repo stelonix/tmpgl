@@ -1,4 +1,5 @@
 #include <dirent.h>
+#include <string_view>
 #include <memory>
 #include "loader/assets.h"
 #include "engine/engine.h"
@@ -28,7 +29,6 @@ void loader::load(string file, string type) {
 	printf("Loading %s as %s\n", file.c_str(), type.c_str());
 	if (type == "FNT") {
 		//a_loader.
-	} else if (type == "IMG") {
 
 	} else if (type == "LUA") {
 
@@ -46,7 +46,11 @@ void loader::load(string file, string type) {
 
 	}
 }
-
+bool str_ends_with(const std::string &str, const std::string &suffix)
+{
+    return str.size() >= suffix.size() &&
+           str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
+}
 void loader::enum_files(string cur_dir)
 {
 	struct dirent *dp;
@@ -65,9 +69,14 @@ void loader::enum_files(string cur_dir)
 			}
 			else if (cur_dir != project_path)
 			{
+				auto fileName = cur_dir + '/' + dp->d_name;
 				folder_option opts = get_dir_opts(find_dir(replaced));
-				add_file(cur_dir + '/' + dp->d_name, opts.loader_type, opts.lazy);
-				printf("[%s] %s/%s\n", opts.loader_type.c_str(), cur_dir.c_str(), dp->d_name);
+				for (auto ext : opts.exts) {
+					if (str_ends_with(fileName, ext)) {
+						add_file(fileName, opts.loader_type, opts.lazy);
+						printf("[%s] %s/%s\n", opts.loader_type.c_str(), cur_dir.c_str(), dp->d_name);
+					}
+				}
 			}
 		}
 	}
@@ -106,6 +115,7 @@ game_sprite* loader::get_sprite_ptr(string file) {
    } catch (...) {
        printf("exception thrown\n");
    }
+   return NULL;
 }
 
 eng_texture loader::get_texture(string file) {

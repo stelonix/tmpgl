@@ -1,4 +1,55 @@
 {
-    "cmake.configureOnOpen": true,
-    "cmake.sourceDirectory": "${workspaceFolder}/src"
+    "cmake.configureOnOpen": false,
+    "cmake.sourceDirectory": "${workspaceFolder}/src",
+    "files.associations": {
+        "iostream": "cpp",
+        "vector": "cpp",
+        "memory": "cpp",
+        "tuple": "cpp",
+        "array": "cpp",
+        "stack": "cpp",
+        "hash_map": "cpp",
+        "deque": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "unordered_map": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "ranges": "cpp",
+        "valarray": "cpp",
+        "string_helper": "cpp",
+        "map": "cpp",
+        "string": "cpp",
+        "*.tcc": "cpp",
+        "atomic": "cpp",
+        "functional": "cpp"
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Enabled",
+    "C_Cpp.loggingLevel": "Debug",
+    "clangd.arguments": ["--query-driver", "/usr/bin/g++"],
+    "todohighlight.keywords": [
+        "REVIEW:", // as will this
+        // now for a more complex example
+        {
+            "text": "TODO:",
+            "color": "rgb(240,200,240)",
+            "border": "1px solid rgba(240, 200, 240, .1)",
+            "borderRadius": "2px", //NOTE: using borderRadius along with `border` or you will see nothing change
+            "backgroundColor": "rgba(245,0,245,.1)",
+            "isWholeLine": true,
+            "font-weight": "bold"
+        },
+    ],
+    "todohighlight.exclude": [
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/.vscode/**",
+        "**/.github/**",
+        "**/_output/**",
+        "**/*.min.*",
+        "**/*.map",
+        "**/.next/**"
+    ]
 }

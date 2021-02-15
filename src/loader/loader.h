@@ -2,9 +2,9 @@
 #define LOADER_H
 
 #include <nlohmann/json.hpp>
-#include "aliases.hpp"
+#include "aliases.h"
 #include "assets.h"
-#include "helpers/string"
+#include "helpers/string_helper"
 #include <map>
 #include <vector>
 using json = nlohmann::json;

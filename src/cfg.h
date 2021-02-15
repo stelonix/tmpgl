@@ -1,7 +1,7 @@
 #ifndef CFG_H
 #define CFG_H
 
-#include "helpers/string"
+#include "helpers/string_helper"
 
 namespace cfg {
 	extern float ATILE;

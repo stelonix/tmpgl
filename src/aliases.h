@@ -1,7 +1,7 @@
 #ifndef ALIASES_HPP
 #define ALIASES_HPP
 
-#include "helpers/string"
+#include "helpers/string_helper"
 #include <array>
 #include <map>
 #include <tuple>

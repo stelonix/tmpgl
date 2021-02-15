@@ -1,8 +1,8 @@
 #ifndef GAME_SPRITE_H
 #define GAME_SPRITE_H
 
-#include "aliases.hpp"
-#include "helpers/string"
+#include "aliases.h"
+#include <nlohmann/json.hpp>
 #include <map>
 #include <vector>
 
@@ -23,8 +23,8 @@ struct game_sprite {
 	string name;
 	string path;
 	std::map<string, std::vector<sprite_frame>> states;
-	
 	static game_sprite from_json(string j, string path);
+	static game_sprite from_json(nlohmann::json j, string path);
 	std::vector<sprite_frame> get_frame_array();
 };
 

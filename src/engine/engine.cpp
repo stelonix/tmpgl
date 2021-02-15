@@ -1,8 +1,8 @@
 #include <glm/gtc/matrix_transform.hpp>
-#include <imgui/imgui.h>
-#include <imgui/imgui_impl_glfw.h>
-#include <imgui/imgui_impl_opengl3.h>
-#include <GL/gl3w.h>
+#include "include/imgui/imgui.h"
+#include "include/imgui/imgui_impl_glfw.h"
+#include "include/imgui/imgui_impl_opengl3.h"
+#include "include/GL/gl3w.h"
 #include <GLFW/glfw3.h>
 #include "loader/assets.h"
 #include "boilerplate.h"
@@ -48,7 +48,7 @@ void game_engine::add_sprite(game_sprite* spr, int x, int y, int layer)
 	s.frame = 0;
 	s.tex = textures[mapped_textures[spr->path]];
 	sprites.push_back(s);
-	build_sprites();
+	//build_sprites();
 }
 
 void game_engine::init_matrixes() {
@@ -139,7 +139,9 @@ void game_engine::setup_gui(int w, int h)
         return;
 	const char* glsl_version = "#version 130";
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	window = glfwCreateWindow(800, 600, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
 	if (window == NULL)
 		return;
@@ -153,7 +155,7 @@ void game_engine::draw_text(string text)
 
 }
 
-bool point_in_rect(int x, int y, eng_coord r)
+bool point_in_rect(int x, int y, eng_rect r)
 {
 	// printf("rect: %d, %d, %d, %d | point: %d, %d\n",
 	// 	r.x,r.y,r.w,r.h,x,y);
@@ -249,7 +251,7 @@ void game_engine::blit_atlas(path_map<seq_piece_t> input)
 	//auto dst = blank_texture(29, 2048);
 	for (auto at = input.begin(); at != input.end(); at++)
 	{
-			dbgprint("selecting image %s for blitting", at->first.c_str());
+			//dbgprint("selecting image %s for blitting", at->first.c_str());
 			auto src = tex_man->get_texture(at->first);
 
 
@@ -267,16 +269,16 @@ std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
 	atlas_builder ab;
 	for (auto path = paths.begin(); path != paths.end(); path++)
 	{
-		dbgprint("%s", (*path).c_str());
+		//dbgprint("%s", (*path).c_str());
 		auto p_type = game_loader->resolve_type(*path);
 
 		if (p_type == "SPR")
 		{
-			dbgprint("adding sprite %s", (*path).c_str());
+			//dbgprint("adding sprite %s", (*path).c_str());
 			ab.add(game_loader->get_sprite_ptr(*path));
 		} else if (p_type == "TIL")
 		{
-			dbgprint("adding tile   %s", (*path).c_str());
+			//dbgprint("adding tile   %s", (*path).c_str());
 			ab.add(game_loader->get_tileset_ptr(*path));
 		} else {
 			// error
@@ -285,12 +287,12 @@ std::vector<eng_texture> game_engine::make_atlas(std::vector<string> paths)
 
 	// pack in N atlasses where N is the minimum possible number of rectangles
 	// needed to compose the added assets
-	dbgprint("before pack");
+	//dbgprint("before pack");
 	//return vector<eng_texture>();
 	auto a_def = ab.compile(29, 1024);
 	blit_atlas(by_image(a_def));
 
-	dbgprint("packed");
+	//dbgprint("packed");
 	/*
 	for (auto at = atlas.begin(); at != atlas.end(); at++)
 	{

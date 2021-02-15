@@ -20,9 +20,9 @@ void atlas_builder::add(sprite_frame frame, string act, string src)
 	p.ox = p.x;
 	p.oy = p.y;
 	//input_pieces.push_back(p);
-	printf("src: %s act: %s index: %d\n", src.c_str(), act.c_str(), frame.index);
+	//printf("src: %s act: %s index: %d\n", src.c_str(), act.c_str(), frame.index);
 	requests[src][act].push_back(p);
-	printf("added piece\n");
+	//printf("added piece\n");
 }
 
 void atlas_builder::add(string img, int u, int v, int w, int h, int tile_id, int index, string src)
@@ -44,11 +44,11 @@ void atlas_builder::add(string img, int u, int v, int w, int h, int tile_id, int
 
 void atlas_builder::add(game_sprite* spr)
 {
-	printf("adding sprite %s\n", spr->name.c_str());
+	//printf("adding sprite %s\n", spr->name.c_str());
 	if (requests.count(spr->path) == 0) requests[spr->path] = map<string, seq_piece_t>();
 	for (auto act = spr->states.begin(); act != spr->states.end(); act++)
 	{
-		printf("act: %s\n", act->first.c_str());
+		//printf("act: %s\n", act->first.c_str());
 		if (requests.count(spr->path) == 0) requests[spr->path][act->first] = seq_piece_t();
 		auto frames = act->second;
 		for (auto fr = frames.begin(); fr != frames.end(); fr++)
@@ -56,7 +56,7 @@ void atlas_builder::add(game_sprite* spr)
 			add(*fr, act->first, spr->path);
 		}
 	}
-	printf("done adding sprite\n");
+	//printf("done adding sprite\n");
 }
 
 void atlas_builder::add(game_tileset* ts)

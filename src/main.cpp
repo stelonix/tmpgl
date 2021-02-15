@@ -1,11 +1,13 @@
+#include "engine/datatypes/game_tileset.h"
 #define _XOPEN_SOURCE 500			/* Required under GLIBC for nftw() */
 //#define _XOPEN_SOURCE_EXTENDED 1	/* Same */
-#include <include/imgui/imgui.h>
-#include <include/imgui/imgui_impl_glfw.h>
-#include <include/imgui/imgui_impl_opengl3.h>
-#include <GL/gl3w.h>
+#include <unistd.h>
+#include "include/imgui/imgui.h"
+#include "include/imgui/imgui_impl_glfw.h"
+#include "include/imgui/imgui_impl_opengl3.h"
+#include "include/GL/gl3w.h"
 #include <GLFW/glfw3.h>
-#include "helpers/string"
+#include "helpers/string_helper"
 #include <iostream>
 #include <map>
 #include <stack>
@@ -90,12 +92,20 @@ timespec diff(timespec start, timespec end)
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	printf("const char *__restrict __format, ...");
-    if (action == GLFW_PRESS || action == GLFW_REPEAT)
+	if (action == GLFW_PRESS || action == GLFW_REPEAT)
         keys[key] = true;
 	else
 		keys[key] = false;
 }
-
+game_sprite* Sprites(string spr) {
+	return p_loader.get_sprite_ptr(spr);
+}
+game_tileset* Tilesets(string tset) {
+	return p_loader.get_tileset_ptr(tset);
+}
+eng_texture* Textures(string tset) {
+	return p_loader.get_texture_ptr(tset);
+}
 void deal_input() {
 	if (keys[GLFW_KEY_UP])	pany += float(MAG);
 	if (keys[GLFW_KEY_DOWN])	pany -= float(MAG);
@@ -107,7 +117,7 @@ void deal_input() {
 int tick_count = 0;
 int main(int argc, char *argv[])
 {
-
+	setvbuf(stdout, NULL, _IONBF, 0);
 	panx = 0.0f;pany = 0.0f;
 	eng = new game_engine(HORZ_RES, VERT_RES, &p_loader);
 
@@ -144,20 +154,19 @@ int main(int argc, char *argv[])
 	texture_atlas atlas;
 
 	eng->make_atlas({"sprites/sprite.json"});
-	//dbgprint("asdf %d", 1);
 	//glx::done = true;
-	auto tmps = p_loader.get_sprite_ptr("sprite.json");
+	auto placeholderSprite = Sprites("sprite.json");
 	//atlas.add(tmps->states["walking"][0]);
 	//atlas.add(tmps->states["walking"][1]);
-	auto tframe = p_loader.get_tileset_ptr("tileset.json")->tiles[0][0];
+	auto tframe = Tilesets("tileset.json")->tiles[0][0];
 	//atlas.add(tframe.img, tframe.u, tframe.v, cfg::ATILE, cfg::ATILE);
 	//atlas.pack(1024, 1024);
 	auto mat_move = glm::vec3(300,200,0);
 	long frames = 0;
-	auto s = p_loader.get_texture_ptr("sprites/img/sprite_sheet___aege_by_destructionseries-d5dg2g2.png");
-	s->build_cache(p_loader.get_sprite_ptr("sprite.json")->states["walking"]);
-	//eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 1, 0, 9);
-	//eng->add_sprite(p_loader.get_sprite_ptr("sprite.json"), 10, 20, 9);
+	auto sprTexture = Textures("sprites/img/sprite_sheet___aege_by_destructionseries-d5dg2g2.png");
+	sprTexture->build_cache(placeholderSprite->states["walking"]);
+	eng->add_sprite(placeholderSprite, 1, 0, 9);
+	eng->add_sprite(placeholderSprite, 10, 20, 9);
 	glfwMakeContextCurrent(window);
 	glfwSetKeyCallback(window, key_callback);
 	IMGUI_CHECKVERSION();
@@ -175,7 +184,7 @@ int main(int argc, char *argv[])
 		ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-		if (show_demo_window)
+		//if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
@@ -183,21 +192,89 @@ int main(int argc, char *argv[])
             static float f = 0.0f;
             static int counter = 0;
 
-            ImGui::Begin("Hello é, world!");                          // Create a window called "Hello, world!" and append into it.
+            ImGui::Begin("Sprites");                          // Create a window called "Hello, world!" and append into it.
+			ImGui::BeginGroup();
+			{
+				ImGui::BeginGroup();
+					ImGui::Columns(3, "statscols", true);
+						ImGui::Text("Charset");
+						if (ImGui::ListBoxHeader("##charset", 5))
+						{
+							ImVec2 size = ImGui::GetItemRectSize();
+							ImGui::Selectable("Selected", true);
+							ImGui::Selectable("Not Selected", false);
+							ImGui::ListBoxFooter();
+							// @TODO: use tables branch here
+							ImGui::Button("+##btn_add_sprite");
+							ImGui::SameLine();
+							ImGui::Button("-##btn_del_sprite");
+							ImGui::SameLine();
+							ImGui::Button("x2##btn_copy_sprite");
+						}
+						ImGui::NextColumn();
+						ImGui::Text("State");
+						if (ImGui::ListBoxHeader("##states", 5))
+						{
+							for (auto it = eng->sprites[0].states.begin(); it != eng->sprites[0].states.end(); it++) {
+								ImGui::Selectable(it->first.c_str(), false);
+							}
+							ImGui::ListBoxFooter();
+							// @TODO: use tables branch here
+							ImGui::Button("+##btn_add_state");
+							ImGui::SameLine();
+							ImGui::Button("-##btn_del_sprite");
+							ImGui::SameLine();
+							ImGui::Button("x2##btn_copy_sprite");
+						}
+						ImGui::NextColumn();
+						ImGui::Text("Frame");
+						if (ImGui::ListBoxHeader("##frames", 5))
+						{
+							ImGui::Selectable("Selected", true);
+							ImGui::Selectable("Not Selected", false);
+							ImGui::ListBoxFooter();
+							// @TODO: use tables branch here
+							ImGui::Button("+##btn_add_state");
+							ImGui::SameLine();
+							ImGui::Button("ins##btn_insert_state");
+							ImGui::SameLine();
+							ImGui::Button("-##btn_del_sprite");
+							ImGui::SameLine();
+							ImGui::Button("x2##btn_copy_sprite");
+							ImGui::Button("^");
+							ImGui::SameLine();
+							ImGui::Button("V");
+						}
+						ImGui::NextColumn();
+					ImGui::Columns(1);
+				ImGui::EndGroup();
+				// @TODO: add current frame view
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("First group hovered");
+      		}
+// Capture the group size and create widgets using the same size
+        ImVec2 size = ImGui::GetItemRectSize();
+		int i0;
+		ImGui::Text("Interval");
+		ImGui::SameLine();
+		ImGui::InputInt("##input_interval", &i0);
+		ImGui::Button("Change coords...");
+		ImGui::Button("Collision...");
+		ImGui::Button("Heightmap...");
+		ImGui::Button("Hitboxes...");
+		ImGui::Button("Offsets...");
 
-            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-            ImGui::Checkbox("Another Window", &show_another_window);
+		
+        const float values[5] = { 0.5f, 0.20f, 0.80f, 0.60f, 0.25f };
+        ImGui::PlotHistogram("##values", values, IM_ARRAYSIZE(values), 0, NULL, 0.0f, 1.0f, size);
 
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+        ImGui::Button("ACTION", ImVec2((size.x - ImGui::GetStyle().ItemSpacing.x)*0.5f, size.y));
+        ImGui::SameLine();
+        ImGui::Button("REACTION", ImVec2((size.x - ImGui::GetStyle().ItemSpacing.x)*0.5f, size.y));
+        ImGui::EndGroup();
+        ImGui::SameLine();
 
-            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+       
             ImGui::End();
         }
 
@@ -226,7 +303,7 @@ int main(int argc, char *argv[])
 			sp.uniform("model", pan);
 		}
 		sp.draw(tile_buffer);
-		glBindTexture(GL_TEXTURE_2D, s->texture_id);
+		glBindTexture(GL_TEXTURE_2D, sprTexture->texture_id);
 		sp.draw(eng->sprite_vbo);
 		mat_move = glm::vec3(eng->objects["texview1"].x, eng->objects["texview1"].y,0);
 		/*glBindTexture(GL_TEXTURE_2D, txt.texture_id);
@@ -258,7 +335,7 @@ int main(int argc, char *argv[])
 		auto msecs = int(diff(start, end).tv_nsec/1.0e6);
 		float fps;
 		frames++;
-		if (eng->tick(msecs)) eng->build_sprites();
+		//if (eng->tick(msecs)) eng->build_sprites();
 		tick_count += msecs;
 		if (tick_count >= 1000)
 		{

@@ -1,8 +1,8 @@
 #ifndef GAME_MAP_H
 #define GAME_MAP_H
 
-#include "aliases.hpp"
-#include "helpers/string"
+#include "aliases.h"
+#include "helpers/string_helper"
 #include <tuple>
 #include <vector>
 #include "game_tileset.h"

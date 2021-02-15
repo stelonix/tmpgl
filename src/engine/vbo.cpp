@@ -59,8 +59,10 @@ size_t vao_pointer::get_size(GLenum type) {
 	switch (type) {
 		case GL_FLOAT: return sizeof(float);
 	}
+	return 0;
 }
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
 void vao_pointer::attach(vbo targ) {
 	int offset = 0; int total_size = 0;
 	for (auto it = pointers.begin(); it != pointers.end(); it++)
@@ -76,6 +78,7 @@ void vao_pointer::attach(vbo targ) {
 	}
 	targ.pointers = *this;
 }
+#pragma GCC diagnostic pop
 
 void vbo::draw()
 {

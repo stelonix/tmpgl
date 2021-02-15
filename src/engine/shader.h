@@ -1,12 +1,12 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include "helpers/string"
+#include "helpers/string_helper"
 #include "vbo.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
-#include <GL/gl3w.h>
+#include "include/GL/gl3w.h"
 #include <GL/gl.h>
 
 template <typename T>

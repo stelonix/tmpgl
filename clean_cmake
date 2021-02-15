@@ -1,4 +1,4 @@
 #!/bin/bash
 cd build
 shopt -s extglob
-rm -rf !(.gitignore)
+rm -rf !(.gitignore|compile_commands.json)

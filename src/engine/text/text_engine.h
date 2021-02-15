@@ -1,7 +1,7 @@
 #ifndef TEXT_ENGINE_H
 #define TEXT_ENGINE_H
 
-#include "helpers/string"
+#include "helpers/string_helper"
 #include <vector>
 #include <ft2build.h>
 #include FT_FREETYPE_H

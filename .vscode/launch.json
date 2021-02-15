@@ -5,13 +5,22 @@
     "version": "0.2.0",
     "configurations": [
       {
-        "type": "gdb",
+        "type": "by-gdb",
         "request": "launch",
-        "name": "Launch Program",
-        "target": "./bin/gl3",
-        "cwd": "${workspaceRoot}",
-        "preLaunchTask": "build",
-        "valuesFormatting": "parseText"
+        "name": "Launch(gdb)",
+        "program": "./bin/gl3",
+        "cwd": "${workspaceRoot}"
       },
+ 
+      // {
+      //   "type": "gdb",
+      //   "request": "launch",
+      //   "name": "Launch Program",
+      //   "target": "./bin/gl3",
+      //   "cwd": "${workspaceRoot}",
+      //   "preLaunchTask": "build",
+      //   "valuesFormatting": "parseText",
+      //   "miDebuggerArgs": ["-x .skip_stl"]
+      // },
     ]
 }

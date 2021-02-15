@@ -1,7 +1,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include "helpers/string"
+#include "helpers/string_helper"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

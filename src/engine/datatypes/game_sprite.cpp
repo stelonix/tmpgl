@@ -5,6 +5,11 @@ using json = nlohmann::json;
 
 game_sprite game_sprite::from_json(string j, string path) {
 	auto json = json::parse(j);
+	return from_json(json, path);
+}
+
+game_sprite game_sprite::from_json(json j, string path) {
+	auto json = j;
 	auto retval = game_sprite();
 	retval.path = path;
 	retval.name = json["name"];

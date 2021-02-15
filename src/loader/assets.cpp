@@ -1,4 +1,6 @@
+#include <set>
 #include <libgen.h>
+#include <nlohmann/json.hpp>
 #include "loader/assets.h"
 #include "cfg.h"
 #include "helpers/helpers.h"
@@ -25,10 +27,30 @@ game_map asset_loader::load_map(string filename) {
 		read_file<string>(filename));
 	return loaded_maps[filename];
 }
+#define SET_INSERT(x, y) x.insert(y).second
+
+nlohmann::json load_json(string fileName) {
+	auto jsonString = read_file<string>(fileName);
+	return nlohmann::json::parse(jsonString);
+}
 
 game_sprite asset_loader::load_sprite(string filename) {
-	loaded_sprites[filename] = game_sprite::from_json(
-		read_file<string>(filename), filename);
+	auto currentSprite = game_sprite::from_json(load_json(filename), filename);
+	loaded_sprites[filename] = currentSprite;
+	//@TODO: reimplement using jsoncons. replace nlohmann's
+	set<string> foundFiles;
+
+	for (auto states = currentSprite.states.begin(); states != currentSprite.states.end(); states++)
+	{
+		for (auto frame = states->second.begin(); frame != states->second.end(); frame++)
+		{
+			auto fullPath = "frame.img"_s;
+			if (SET_INSERT(foundFiles, fullPath))
+				printf("Dependency: %s\n", fullPath.c_str());
+		}
+	}
+	
+	//printf(spriteJson["/foo/baz"_json_pointer].c_str());
 	return loaded_sprites[filename];
 }
 

@@ -1,4 +1,4 @@
-#include "helpers/string"
+#include "helpers/string_helper"
 #include <string.h>
 #include <libgen.h>
 

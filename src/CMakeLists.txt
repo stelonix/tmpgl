@@ -18,8 +18,6 @@ set(main_SRCS
 		engine/texture_manager.cpp
 		engine/atlas/texture_atlas.cpp
 		engine/atlas/atlas_builder.cpp
-		#include/imgui/imgui_draw.cpp
-		#include/imgui/imgui.cpp
 		loader/loader.cpp
 		engine/rt/eng_sprite.cpp
 		data_transform.cpp
@@ -40,12 +38,14 @@ set(main_SRCS
 		helpers/helpers.cpp
 		engine/shader.cpp
 		#boilerplate.cpp
+		#helpers/OrderedMap.hpp
 		main.cpp
 		debug.cpp
 
    )
 
 SET(LIBRARIES ${LIBRARIES})
+include_directories( "${CMAKE_SOURCE_DIR}/" )
 
 # libpng
 find_package(PNG REQUIRED)
@@ -65,7 +65,7 @@ if ( LIBUNWIND_FOUND )
 	include_directories( ${LIBUNWIND_INCLUDE_DIRS} )
 endif(LIBUNWIND_FOUND)
 
-include_directories( "${CMAKE_SOURCE_DIR}/include/" )
+
 
 find_package(nlohmann_json REQUIRED)
 find_package(X11 REQUIRED)
@@ -88,12 +88,13 @@ SET(LIBRARIES ${LIBRARIES} ${FREETYPE_LIBRARIES}
 	${PNG_LIBRARIES}
 	${UNWIND_SHARED_LIB}
 	${X11_LIBRARIES} ${CMAKE_DL_LIBS}
+	${GLEW_LIBRARIES}
 	)
 
 INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR} )
 include_directories(${CMAKE_SOURCE_DIR})
 ADD_EXECUTABLE(${PROJECTNAME} ${main_SRCS})
 
-set(CMAKE_CXX_FLAGS "-std=c++14 -g -pthread")
+set(CMAKE_CXX_FLAGS "-std=c++14 -g -pthread -O0")
 
 TARGET_LINK_LIBRARIES(${PROJECTNAME} ${LIBRARIES})

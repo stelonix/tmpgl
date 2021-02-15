@@ -1,9 +1,9 @@
 #ifndef ENG_TEXTURE_H
 #define ENG_TEXTURE_H
 
-#include <GL/gl3w.h>
+#include "include/GL/gl3w.h"
 #include <GL/gl.h>
-#include "aliases.hpp"
+#include "aliases.h"
 #include "engine/datatypes/game_sprite.h"
 #include <vector>
 

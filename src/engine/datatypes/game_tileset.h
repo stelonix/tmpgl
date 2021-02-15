@@ -1,8 +1,8 @@
 #ifndef GAME_TILESET_H
 #define GAME_TILESET_H
 
-#include "aliases.hpp"
-#include "helpers/string"
+#include "aliases.h"
+#include "helpers/string_helper"
 #include <map>
 #include <vector>
 

@@ -1,4 +1,4 @@
-#include "helpers/string"
+#include "helpers/string_helper"
 #include "debug.h"
 #include "helpers/util.h"
 #include <cxxabi.h>
@@ -71,6 +71,7 @@ int getFileAndLine (unw_word_t addr, char *file, size_t flen, int *line) {
 	}
 
 	pclose(f);
+	return 0;
 }
 void show_backtrace(void) {
 	char name[256];
